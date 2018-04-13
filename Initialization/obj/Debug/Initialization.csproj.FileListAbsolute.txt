@@ -1,0 +1,6 @@
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Initialization\bin\Debug\Initialization.exe.config
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Initialization\bin\Debug\Initialization.exe
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Initialization\bin\Debug\Initialization.pdb
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Initialization\obj\Debug\Initialization.csprojResolveAssemblyReference.cache
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Initialization\obj\Debug\Initialization.exe
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Initialization\obj\Debug\Initialization.pdb

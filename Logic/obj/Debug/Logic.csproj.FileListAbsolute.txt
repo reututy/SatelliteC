@@ -1,0 +1,6 @@
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Logic\bin\Debug\Logic.dll.config
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Logic\bin\Debug\Logic.dll
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Logic\bin\Debug\Logic.pdb
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Logic\obj\Debug\Logic.csprojResolveAssemblyReference.cache
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Logic\obj\Debug\Logic.dll
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Logic\obj\Debug\Logic.pdb

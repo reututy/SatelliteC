@@ -1,0 +1,6 @@
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Communication\bin\Debug\Communication.dll.config
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Communication\bin\Debug\Communication.dll
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Communication\bin\Debug\Communication.pdb
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Communication\obj\Debug\Communication.csprojResolveAssemblyReference.cache
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Communication\obj\Debug\Communication.dll
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Communication\obj\Debug\Communication.pdb

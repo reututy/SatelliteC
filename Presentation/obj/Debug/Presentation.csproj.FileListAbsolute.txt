@@ -1,0 +1,14 @@
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\bin\Debug\Presentation.exe.config
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\bin\Debug\Presentation.exe
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\bin\Debug\Presentation.pdb
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\Presentation.csprojResolveAssemblyReference.cache
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\MainWindow.g.cs
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\App.g.cs
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\Presentation_MarkupCompile.cache
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\Presentation_MarkupCompile.lref
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\MainWindow.baml
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\Presentation.g.resources
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\Presentation.Properties.Resources.resources
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\Presentation.csproj.GenerateResource.Cache
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\Presentation.exe
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Presentation\obj\Debug\Presentation.pdb
