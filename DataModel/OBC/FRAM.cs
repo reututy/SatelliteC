@@ -21,18 +21,18 @@ namespace DataModel.OBC
          * -1 If creating semaphores to control access to the FRAM fails.
          * 0 on success.
          */
-        public void Start()
+        /*public void Start()
         {
 
-        }
+        }*/
 
         /*!
          * De-initializes the FRAM driver.
          */
-        public void Stop()
+        /*public void Stop()
         {
 
-        }
+        }*/
 
         /*!
          * Writes data to the FRAM.

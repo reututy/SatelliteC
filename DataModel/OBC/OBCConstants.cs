@@ -8,6 +8,6 @@ namespace DataModel.OBC
 {
     class OBCConstants
     {
-        public const int 8K = 8192; //2^13 = 8*2^10
+        public const int SIZE_8K = 8192; //2^13 = 8*2^10
     }
 }
