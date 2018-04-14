@@ -9,21 +9,20 @@ namespace DataModel.EPS
 {
     public class EPS
     {
-        private Channel[] channels;
-	    private BoostConvertor[] boost_convertors;
-	    private Battery onboard_battery;
-	    private BatteryHeaters[] battery_heaters;
-	    private ushort photo_current; //Total photo current [mA]
-        private ushort system_current; //Total system current [mA]
-        private ushort reboot_count; //Number of EPS reboots
-        private ushort sw_errors; //Number of errors in the eps software
-        private byte last_reset_cause; //Cause of last EPS reset
-        private WDT[] wdts;
-	    eps_config_t config;
-        eps_config2_t config2;
-        private ushort[] curout; //! Current out (switchable outputs) [mA]
-        private byte kill_switch; //ON or OFF
-        private byte charging; //ON or OFF
+        public Channel[] channels { get; set; }
+        public BoostConvertor[] boost_convertors { get; set; }
+        public Battery onboard_battery { get; set; }
+        public BatteryHeaters[] battery_heaters { get; set; }
+        public ushort photo_current { get; set; } //Total photo current [mA]
+        public ushort system_current { get; set; } //Total system current [mA]
+        public ushort reboot_count { get; set; } //Number of EPS reboots
+        public ushort sw_errors { get; set; } //Number of errors in the eps software
+        public byte last_reset_cause { get; set; } //Cause of last EPS reset
+        public WDT[] wdts { get; set; }
+        public EPSConfiguration config { get; set; }
+        public ushort[] curout { get; set; } //! Current out (switchable outputs) [mA]
+        public byte kill_switch { get; set; } //ON or OFF
+        public byte charging { get; set; } //ON or OFF
 
         public EPS()
         {
@@ -32,7 +31,6 @@ namespace DataModel.EPS
 
         public struct hkparam_t
         {
-
             public ushort[] pv; //Photo-voltaic input voltage [mV]
             public ushort pc; //Total photo current [mA]
             public ushort bv; //Battery voltage [mV]
@@ -508,10 +506,10 @@ namespace DataModel.EPS
             }
 	        else if (cmd == 1)
             {
-		        config2.batt_safevoltage = EPSConstants.SAFE_VBAT;
-		        config2.batt_normalvoltage = EPSConstants.NORMAL_VBAT;
-		        config2.batt_maxvoltage = EPSConstants.MAX_VBAT;
-		        config2.batt_criticalvoltage = EPSConstants.CRITICAL_VBAT;
+		        config.batt_safevoltage = EPSConstants.SAFE_VBAT;
+		        config.batt_normalvoltage = EPSConstants.NORMAL_VBAT;
+		        config.batt_maxvoltage = EPSConstants.MAX_VBAT;
+		        config.batt_criticalvoltage = EPSConstants.CRITICAL_VBAT;
 	        }
             else //cmd == 2
             { 
@@ -523,20 +521,20 @@ namespace DataModel.EPS
         public eps_config2_t CONFIG2_GET()
         {
 	        eps_config2_t ans = new eps_config2_t();
-            ans.batt_safevoltage = config2.batt_safevoltage;
-	        ans.batt_normalvoltage = config2.batt_normalvoltage;
-	        ans.batt_maxvoltage = config2.batt_maxvoltage;
-	        ans.batt_criticalvoltage = config2.batt_criticalvoltage;
+            ans.batt_safevoltage = config.batt_safevoltage;
+	        ans.batt_normalvoltage = config.batt_normalvoltage;
+	        ans.batt_maxvoltage = config.batt_maxvoltage;
+	        ans.batt_criticalvoltage = config.batt_criticalvoltage;
 	        return ans;
         }
 
         /*Use this command to send config 2 to the NanoPower and save it (remember to also confirm it)*/
         public void CONFIG2_SET(eps_config2_t eps_config2)
         {
-	        config2.batt_safevoltage = eps_config2.batt_safevoltage;
-	        config2.batt_normalvoltage = eps_config2.batt_normalvoltage;
-	        config2.batt_maxvoltage = eps_config2.batt_maxvoltage;
-	        config2.batt_criticalvoltage = eps_config2.batt_criticalvoltage;
+	        config.batt_safevoltage = eps_config2.batt_safevoltage;
+	        config.batt_normalvoltage = eps_config2.batt_normalvoltage;
+	        config.batt_maxvoltage = eps_config2.batt_maxvoltage;
+	        config.batt_criticalvoltage = eps_config2.batt_criticalvoltage;
         }
 
         /*The NanoPower replies with the same value as in the ping request. */

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataModel.EPS
 {
-    class BoostConvertor
+    public class BoostConvertor
     {
         public short temperture { get; set; }
         public ushort volt { get; set; }
