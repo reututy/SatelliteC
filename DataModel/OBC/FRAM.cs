@@ -8,7 +8,7 @@ namespace DataModel.OBC
 {
     public class FRAM
     {
-        private byte[] memory; 
+        public byte[] memory { get; set; }
 
         public FRAM()
         {
