@@ -26,6 +26,134 @@ namespace DataModel.EPS
 
         public EPS()
         {
+            InitEps()
+        }
+
+        private InitEps()
+        {
+            int i = 0;
+            for (i = 0; i < 8; i++)
+            {
+                channels[i].status = EPSConstants.ON;
+                channels[i].latchup = 0;
+                switch (i)
+                {
+                    case (int)channel_type.T_5V1:
+                        channels[i].channel_type = channel_type.T_5V1;
+                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP;
+                        break;
+                    case (int)channel_type.T_5V2:
+                        channels[i].channel_type = channel_type.T_5V2;
+                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP;
+                        break;
+                    case (int)channel_type.T_5V3:
+                        channels[i].channel_type = channel_type.T_5V3;
+                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP;
+                        break;
+                    case (int)channel_type.T_3_3V1:
+                        channels[i].channel_type = channel_type.T_3_3V1;
+                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP;
+                        break;
+                    case (int)channel_type.T_3_3V2:
+                        channels[i].channel_type = channel_type.T_3_3V2;
+                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP;
+                        break;
+                    case (int)channel_type.T_3_3V3:
+                        channels[i].channel_type = channel_type.T_3_3V3;
+                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP;
+                        break;
+                    case (int)channel_type.T_QS:
+                        channels[i].channel_type = channel_type.T_QS;
+                        channels[i].volt = 0;
+                        break;
+                    case (int)channel_type.T_QH:
+                        channels[i].channel_type = channel_type.T_QH;
+                        channels[i].volt = 0;
+                        break;
+                }
+            }
+
+            for (i = 0; i < 3; i++)
+            {
+                boost_convertors[i].temperture = EPSConstants.DEFAULT_TEMP;
+                boost_convertors[i].volt = EPSConstants.SOFTWARE_PPT_DEFAULT_V;
+                boost_convertors[i].current_in = EPSConstants.PV_IN_I_CHARGE_MIN;
+            }
+
+            onboard_battery.onboard_external = EPSConstants.ONBOARD_BATT;
+            onboard_battery.temperture = EPSConstants.DEFAULT_TEMP;
+            onboard_battery.vbat = EPSConstants.BAT_CONNECT_V_TYP;
+            onboard_battery.current_in = 0;
+            onboard_battery.current_out = EPSConstants.V_BAT_I_OUT_TYP;
+            onboard_battery.batt_state = batt_state.INITIAL;
+
+            for (i = 0; i < 2; i++)
+            {
+                battery_heaters[i].mode = EPSConstants.MANUAL;
+                battery_heaters[i].type = EPSConstants.ONBOARD_HEATER;
+                battery_heaters[i].status = EPSConstants.OFF;
+                battery_heaters[i].battheater_low = EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW; //need to be changed
+                battery_heaters[i].battheater_high = EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH; ////need to be changed
+            }
+
+            photo_current = EPSConstants.BAT_CONNECT_I_CHARGE_MAX;
+            system_current = EPSConstants.V_BAT_I_OUT_TYP;
+            reboot_count = 0;
+            sw_errors = 0;
+            last_reset_cause = EPSConstants.UNKNOWN_RESET_R;
+
+            for (i = 0; i < 4; i++)
+            {
+                wdts[i].reboot_counter = 0;
+                switch (i)
+                {
+                    case (int)wdt_type.I2C:
+                        wdts[i].wdt_type = wdt_type.I2C;
+                        wdts[i].time_ping_left = EPSConstants.WDT_I2C_INIT_TIME; //need to be changed!!
+                        wdts[i].data = EPSConstants.I2C_WDT_RESET_0;
+                        break;
+                    case (int)wdt_type.GND:
+                        wdts[i].wdt_type = wdt_type.GND;
+                        wdts[i].time_ping_left = EPSConstants.WDT_GND_INIT_TIME; //need to be changed!!
+                        wdts[i].data = EPSConstants.WDT_GND_INIT_TIME;
+                        break;
+                    case (int)wdt_type.CSP0:
+                        wdts[i].wdt_type = wdt_type.CSP0;
+                        wdts[i].time_ping_left = EPSConstants.WDT_CSP_INIT_PING; //need to be changed!!
+                        wdts[i].data = (int)channel_type.T_5V1;
+                        break;
+                    case (int)wdt_type.CSP1:
+                        wdts[i].wdt_type = wdt_type.CSP1;
+                        wdts[i].time_ping_left = EPSConstants.WDT_CSP_INIT_PING; //need to be changed!!
+                        wdts[i].data = (int)channel_type.T_3_3V1;
+                        break;
+                }
+            }
+
+            config.ppt_mode = EPSConstants.DEFAULT_CONFIG_PPT_MODE;
+            config.battheater_mode = EPSConstants.DEFAULT_CONFIG_BATTHEAT_MODE;
+            config.battheater_high = EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH; //to change
+            config.battheater_low = EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW; //to change
+            for (i = 0; i < 3; i++)
+                config.vboost[i] = EPSConstants.DEFAULT_CONFIG_VBOOST;
+            for (i = 0; i < 8; i++)
+            {
+                config.output_initial_off_delay[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_ON_DELAY;
+                config.output_initial_on_delay[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_OFF_DELAY;
+                config.output_normal_value[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_NORMAL; //need to change
+                config.output_safe_value[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_SAFE; //need to change
+            }
+
+            config.batt_safevoltage = EPSConstants.SAFE_VBAT;
+            config.batt_normalvoltage = EPSConstants.NORMAL_VBAT;
+            config.batt_maxvoltage = EPSConstants.MAX_VBAT;
+            config.batt_criticalvoltage = EPSConstants.CRITICAL_VBAT;
+
+            for (i = 0; i < 6; i++)
+                curout[i] = EPSConstants.OUT_LATCHUP_PROTEC_I_MIN;
+
+            kill_switch = EPSConstants.ON;
+            charging = EPSConstants.ON;
 
         }
 
