@@ -26,10 +26,10 @@ namespace DataModel.EPS
 
         public EPS()
         {
-            InitEps()
+            InitEps();
         }
 
-        private InitEps()
+        private void InitEps()
         {
             int i = 0;
             for (i = 0; i < 8; i++)
