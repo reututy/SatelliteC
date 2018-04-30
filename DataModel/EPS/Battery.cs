@@ -31,5 +31,52 @@ namespace DataModel.EPS
             temperture = temp;
             batt_state = state;
         }
+
+
+        public void Run()
+        {
+            while (true)
+            {
+
+            }
+        }
+
+
+ 
+
+       /* private void CheckBatteryState()
+        {
+            switch (batt_state)
+            {
+                case batt_state.INITIAL:
+                    if (vbat < EPSConstants.CRITICAL_VBAT)
+                        batt_state = batt_state.CRITICAL;
+                    else if (vbat < EPSConstants.SAFE_VBAT)
+                        batt_state = batt_state.SAFE;
+                    else if (vbat < EPSConstants.MAX_VBAT)
+                        batt_state = batt_state.NORMAL;
+                    else
+                    {
+                        batt_state = batt_state.FULL;
+                        HardwareHighVoltProtection();
+                    }
+                    break;
+                case batt_state.CRITICAL:
+                    break;
+                case batt_state.SAFE:
+                    break;
+                case batt_state.NORMAL:
+                    break;
+                case batt_state.FULL:
+                    break;
+            }
+        }
+
+        public void ButteryDrop()
+        {
+            vbat -= 10; //need to be changed
+            current_out -= 10; //need to be changed
+            CheckBatteryState();
+        }*/
     }
 }

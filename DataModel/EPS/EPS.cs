@@ -22,12 +22,205 @@ namespace DataModel.EPS
         public EPSConfiguration config { get; set; }
         public ushort[] curout { get; set; } //! Current out (switchable outputs) [mA]
         public byte kill_switch { get; set; } //ON or OFF
-        public byte charging { get; set; } //ON or OFF
+        public bool IsCharging { get; set; } //ON or OFF
 
         public EPS()
         {
             InitEps();
         }
+
+       
+        /// ///////////////////////////
+
+        public void ChargingFlow()
+        {
+            if (IsCharging)
+            {
+                ushort totalCurrent = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    totalCurrent += boost_convertors[i].current_in;
+                    onboard_battery.current_in = totalCurrent;
+                }
+            }
+        }
+
+        private void HardwareHighVoltProtection()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                boost_convertors[i].volt = EPSConstants.PV_IN_V_MIN;
+                boost_convertors[i].current_in = EPSConstants.PV_IN_I_CHARGE_MIN;
+            }
+            IsCharging = false;
+        }
+
+        private void CheckBatteryState()
+        {
+            switch (onboard_battery.batt_state)
+            {
+                case batt_state.INITIAL:
+                    if (onboard_battery.vbat < EPSConstants.CRITICAL_VBAT)
+                    {
+                        onboard_battery.batt_state = batt_state.CRITICAL;
+                    }
+                    else if (onboard_battery.vbat < EPSConstants.SAFE_VBAT)
+                    {
+                        onboard_battery.batt_state = batt_state.SAFE;
+                    }
+                    else if (onboard_battery.vbat < EPSConstants.MAX_VBAT)
+                    {
+                        onboard_battery.batt_state = batt_state.NORMAL;
+                    }
+                    else
+                    {
+                        onboard_battery.batt_state = batt_state.FULL;
+                        HardwareHighVoltProtection();
+                    }
+                    break;
+                case batt_state.CRITICAL:
+                    //hardware LOW voltage protection will switch off the kill-switch
+                    if (onboard_battery.vbat <= EPSConstants.SWITCH_ON_V)
+                    {
+                        kill_switch = EPSConstants.OFF;
+                        SET_OUTPUT(0);
+                    }
+                    else
+                    {
+                        kill_switch = EPSConstants.ON;
+                        SET_OUTPUT(54);
+                    }
+                    if (onboard_battery.vbat > EPSConstants.SAFE_VBAT)
+                    {
+                        onboard_battery.batt_state = batt_state.SAFE;
+                    }
+                    break;
+                case batt_state.SAFE:
+                    if (onboard_battery.vbat < EPSConstants.CRITICAL_VBAT)
+                    {
+                        onboard_battery.batt_state = batt_state.CRITICAL;
+                    }
+                    else if (onboard_battery.vbat > EPSConstants.NORMAL_VBAT)
+                    {
+                        onboard_battery.batt_state = batt_state.NORMAL;
+                    }
+                    break;
+                case batt_state.NORMAL:
+                    if (onboard_battery.vbat < EPSConstants.SAFE_VBAT)
+                    {
+                        onboard_battery.batt_state = batt_state.SAFE;
+                    }
+                    else if (onboard_battery.vbat > EPSConstants.MAX_VBAT)
+                    {
+                        onboard_battery.batt_state = batt_state.FULL;
+                        HardwareHighVoltProtection();
+                    }
+                    break;
+                case batt_state.FULL:
+                    if (IsCharging)
+                        HardwareHighVoltProtection();
+                    if (onboard_battery.vbat < EPSConstants.MAX_VBAT)
+                    {
+                        onboard_battery.batt_state = batt_state.NORMAL;
+                        IsCharging = true;
+                    }
+                    break;
+            }
+        }
+
+        public void ButteryDrop()
+        {
+            onboard_battery.vbat -= 10; //need to be changed
+            onboard_battery.current_out -= 10; //need to be changed
+            CheckBatteryState();
+        }
+
+        private void i2c_wdt_timeout()
+        {
+	        //only cycle the 6 switchable outputs.
+	        if (wdts[(int)wdt_type.I2C].data == EPSConstants.I2C_WDT_RESET_0)
+            {
+                SET_OUTPUT(0);
+            }
+	        //do a hard-reset and thereby reset the NanoPower itself as well as all outputs including the permanent outputs
+	        else if (wdts[(int)wdt_type.I2C].data == EPSConstants.I2C_WDT_RESET_1)
+            {
+                HARD_RESET();
+            }
+        }
+
+        //Any valid I2C communication to the EPS will kick (reset) this WDT.
+        private void i2c_wdt_reset()
+        {
+	        wdts[(int)wdt_type.I2C].time_ping_left = EPSConstants.WDT_I2C_INIT_TIME;
+        }
+
+        public void i2c_wdt_work()
+        {
+	        //while (true)
+            //{
+	            //The I2C watchdog does not run when NanoPower is in critical power mode.
+		        if (onboard_battery.batt_state != batt_state.CRITICAL)
+                {
+			        //every 1 sec
+			        wdts[(int)wdt_type.I2C].time_ping_left -= 1;
+			        if (wdts[(int)wdt_type.I2C].time_ping_left == 0)
+
+                        i2c_wdt_timeout();
+		        }
+                //Thread.Sleep(30000); //30 sec
+	        //}
+        }
+
+        private void gnd_wdt_timeout()
+        {
+            // If no communication has been received for a long period of time (configurable by customer), NanoPower will switch off all outputs and do a reset
+            HARD_RESET();
+            //Note that if the dedicated WDT times out, the default config is restored on NanoPower
+            CONFIG_CMD(EPSConstants.RESTORE_DEFAULT_CONFIG);
+        }
+
+        public void gnd_wdt_work()
+        {
+	        //while (true)
+            //{
+		        wdts[(int)wdt_type.GND].time_ping_left -= 1;
+		        //every integer hour it stores its hour value in persistent storage
+		        if (wdts[(int)wdt_type.GND].time_ping_left % EPSConstants.WDT_GND_HOUR == 0)
+                {
+                    wdts[(int)wdt_type.GND].data = wdts[(int)wdt_type.GND].time_ping_left;
+                }
+                if (wdts[(int)wdt_type.GND].time_ping_left == 0)
+                {
+                    gnd_wdt_timeout();
+                }
+                //Thread.Sleep(1000); //1 sec
+	        //}
+        }
+
+        //num of csp is 0 or 1
+        public void csp_wdt_work(uint num_of_csp){
+	        //while (true)
+            //{
+		        int i;
+		        if (num_of_csp == 0)
+                {
+                    i = (int)wdt_type.CSP0;
+                }
+                else
+                {
+                    i = (int)wdt_type.CSP1;
+                }
+		        wdts[i].time_ping_left -= 1;
+                if (wdts[i].time_ping_left == 0)
+                {
+                    SET_SINGLE_OUTPUT((byte)wdts[i].data, EPSConstants.OFF, 5);
+                }
+                //Thread.Sleep(1000); //1 sec
+            //}
+        }
+        /// ///////////////////////////////
+
 
         private void InitEps()
         {
@@ -153,7 +346,7 @@ namespace DataModel.EPS
                 curout[i] = EPSConstants.OUT_LATCHUP_PROTEC_I_MIN;
 
             kill_switch = EPSConstants.ON;
-            charging = EPSConstants.ON;
+            IsCharging = true;
 
         }
 
@@ -689,10 +882,9 @@ namespace DataModel.EPS
                     wdts[(int)wdt_type.GND].data = 0;
                 }
 	        }
-}
+        }
 
 
 
-
-}
+    }
 }
