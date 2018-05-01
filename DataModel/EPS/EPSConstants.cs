@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataModel.EPS
 {
-    class EPSConstants
+    public class EPSConstants
     {
         /* battery software level set points */
         public const int MAX_VBAT = 8300;

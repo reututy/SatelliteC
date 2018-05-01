@@ -376,7 +376,7 @@ namespace DataModel.EPS
         /**
          * Union for storing the block of telemetry values coming from the EPS. HK version 2.
          */
-         public struct eps_hk_t
+        public struct eps_hk_t
         {
             public ushort commandReply; //!< reply of the last command
             public ushort[] vboost; //!< Voltage of boost converters [mV] [PV1, PV2, PV3]
@@ -616,7 +616,8 @@ namespace DataModel.EPS
          * controlled through this command) [NC NC 3.3V3 3.3V2 3.3V1 5V3 5V2 5V1] */
         public void SET_OUTPUT(byte output_byte) 
         {
-	        for (int i = 0; i< 8; i++)
+            //?? if less than 2 channels - invalid action
+            for (int i = 0; i< 8; i++)
             {
                 if ((output_byte & (1 << i)) != 0)
                     channels[i].status = EPSConstants.ON;
@@ -629,6 +630,7 @@ namespace DataModel.EPS
          * Channel (0-5), Quadbat  heater (6), Quadbat switch (7) Value 0 = Off, 1 = On Delay in seconds.*/
         public void SET_SINGLE_OUTPUT(byte channel, byte value, ushort delay)
         {
+            //?? if less than 2 channels - invalid action
             Task.Factory.StartNew(() => Thread.Sleep(delay * 1000))
             .ContinueWith((t) =>
             {
@@ -755,7 +757,7 @@ namespace DataModel.EPS
         }
 
         /*Use this command to request the NanoPower config*/
-        eps_config_t CONFIG_GET()
+        public eps_config_t CONFIG_GET()
         {
             eps_config_t ans = new eps_config_t();
             ans.ppt_mode = config.ppt_mode;
@@ -819,7 +821,7 @@ namespace DataModel.EPS
         /*Use this command to control the config 2 system.
          * cmd=1: Restore default config
          * cmd=2: Confirm current config */
-        void CONFIG2_CMD(byte cmd) 
+        public void CONFIG2_CMD(byte cmd) 
         {
 	        if (cmd != 1 && cmd != 2)
             {
