@@ -56,6 +56,7 @@
     <Compile Include="EPS\WDT.cs" />
     <Compile Include="OBC\FRAM.cs" />
     <Compile Include="OBC\I2C.cs" />
+    <Compile Include="OBC\OBCConstants.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OBC\TIme.cs" />
@@ -74,5 +75,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
