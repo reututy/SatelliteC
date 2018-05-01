@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GomEPS.cs" />
     <Compile Include="IsisTRXVU.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

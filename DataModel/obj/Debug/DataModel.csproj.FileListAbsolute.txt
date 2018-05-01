@@ -3,3 +3,4 @@ C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\Da
 C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\DataModel\bin\Debug\DataModel.pdb
 C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\DataModel\obj\Debug\DataModel.dll
 C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\DataModel\obj\Debug\DataModel.pdb
+C:\Users\Mor\Documents\visual studio 2017\Projects\U1SatelliteSimulatorServer\DataModel\obj\Debug\DataModel.csprojResolveAssemblyReference.cache
