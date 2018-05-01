@@ -59,8 +59,8 @@ namespace DataModel.TRX
      */
      public struct ISIStrxvuI2CAddress
     {
-        byte addressVu_rc; ///< I2C address of the VU_RC.
-        byte addressVu_tc; ///< I2C address of the VU_TC.
+        public byte addressVu_rc; ///< I2C address of the VU_RC.
+        public byte addressVu_tc; ///< I2C address of the VU_TC.
     }
 
     /**

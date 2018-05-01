@@ -148,5 +148,15 @@
   <ItemGroup>
     <Resource Include="button.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{0b3c2ea2-31e7-49e0-9393-e98aa584fb24}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logic\Logic.csproj">
+      <Project>{4de94e5a-9652-4598-bbc8-8a9fc4a9875b}</Project>
+      <Name>Logic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

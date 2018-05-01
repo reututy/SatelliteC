@@ -8,6 +8,7 @@ namespace DataModel.TRX
 {
     public class TRX
     {
+        public int trxId { get; set; }
         public ISIStrxvuI2CAddress address { get; set; }
         public ISIStrxvuFrameLengths maxFrameLengths { get; set; }
         public ISIStrxvuBitrate default_bitrates { get; set; }
@@ -27,8 +28,9 @@ namespace DataModel.TRX
 
         }
 
-        public TRX(ISIStrxvuI2CAddress address, ISIStrxvuFrameLengths maxFrameLengths, ISIStrxvuBitrate default_bitrates)
+        public TRX(int trxId, ISIStrxvuI2CAddress address, ISIStrxvuFrameLengths maxFrameLengths, ISIStrxvuBitrate default_bitrates)
         {
+            this.trxId = trxId;
             this.address = address;
             this.maxFrameLengths = maxFrameLengths;
             this.default_bitrates = default_bitrates;

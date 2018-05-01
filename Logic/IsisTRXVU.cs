@@ -8,10 +8,10 @@ using DataModel.TRX;
 
 namespace Logic
 {
-    class IsisTRXVU
+    public class IsisTRXVU
     {
 
-        private TRX[] tRXes;
+        public TRX[] tRXes;
         private List<int> errors;
 
         public IsisTRXVU()
@@ -35,7 +35,7 @@ namespace Logic
                 tRXes = new TRX[number];
                 for(int i=0; i<number; i++)
                 {
-                    TRX trx = new TRX(address[i], maxFrameLengths[i], default_bitrates);
+                    TRX trx = new TRX(i, address[i], maxFrameLengths[i], default_bitrates);
                     tRXes[i] = trx;
                 }
                 return Constants.E_NO_SS_ERR;

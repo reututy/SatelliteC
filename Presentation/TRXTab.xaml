@@ -20,5 +20,6 @@
                 </Image.OpacityMask>
             </Image>
         </DockPanel>
+        <DataGrid x:Name="trxes" HorizontalAlignment="Left" AutoGenerateColumns="True" Margin="20,20,0,0" VerticalAlignment="Top" Height="200" Width="400" ItemsSource="{Binding}" Loaded="trx_Loaded" IsReadOnly="true" SelectionChanged="trx_SelectionChanged" MouseDoubleClick="trx_MouseDoubleClick"/>
     </Grid>
 </UserControl>
