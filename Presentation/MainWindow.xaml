@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow">
+
     <Grid>
-        
+        <WrapPanel  x:Name="activePanel" HorizontalAlignment="Left" Height="600" Margin="-8,-31,0,0" VerticalAlignment="Top" Width="900"/>
     </Grid>
 </Window>

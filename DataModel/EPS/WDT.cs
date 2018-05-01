@@ -11,10 +11,10 @@ namespace DataModel.EPS
 
     public class WDT
     {
-        private wdt_type wdt_type { get; set; }
-        private uint reboot_counter { get; set; }
-        private uint time_ping_left { get; set; }
-        private uint data { get; set; } //I2C- type of reset, GND- last hour, CSP- channel connected
+        public wdt_type wdt_type { get; set; }
+        public uint reboot_counter { get; set; }
+        public uint time_ping_left { get; set; }
+        public uint data { get; set; } //I2C- type of reset, GND- last hour, CSP- channel connected
 
         public WDT(wdt_type type, uint reboot, uint left, uint dat)
         {
