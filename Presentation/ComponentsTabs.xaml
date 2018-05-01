@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Presentation.ComponentsTabs"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900">
+    <Grid>
+        <TabControl Margin="10,35,0,0">
+            <TabItem Header="EPS" Visibility="Visible">
+                <WrapPanel  x:Name="epspanel" HorizontalAlignment="Left" Height="539" Margin="0,-1" VerticalAlignment="Top" Width="894"/>
+            </TabItem>
+            <TabItem Header="TRX" Visibility="Visible">
+                <WrapPanel  x:Name="trxpanel" HorizontalAlignment="Left" Height="539" Margin="0,-1" VerticalAlignment="Top" Width="894"/>
+            </TabItem>
+            <TabItem Header="OBC" Visibility="Visible">
+                <WrapPanel  x:Name="obcpanel" HorizontalAlignment="Left" Height="539" Margin="0,-1" VerticalAlignment="Top" Width="894"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
