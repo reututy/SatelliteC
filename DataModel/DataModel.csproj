@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="EPS\EPS.cs" />
     <Compile Include="EPS\Battery.cs" />
     <Compile Include="EPS\BatteryHeaters.cs" />
@@ -55,9 +56,20 @@
     <Compile Include="EPS\WDT.cs" />
     <Compile Include="OBC\FRAM.cs" />
     <Compile Include="OBC\I2C.cs" />
+    <Compile Include="Output.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OBC\TIme.cs" />
+    <Compile Include="TRX\AX25Frame.cs" />
+    <Compile Include="TRX\AX25Header.cs" />
+    <Compile Include="TRX\AX25TeleCommandInfoFeild.cs" />
+    <Compile Include="TRX\AX25TelementryInfoFeild.cs" />
+    <Compile Include="TRX\AX25TransferFrameInfoField.cs" />
+    <Compile Include="TRX\FrameBuffer.cs" />
     <Compile Include="TRX\TRX.cs" />
+    <Compile Include="TRX\Frame.cs" />
+    <Compile Include="TRX\Receiver.cs" />
+    <Compile Include="TRX\Transmitter.cs" />
+    <Compile Include="TRX\TRXConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
