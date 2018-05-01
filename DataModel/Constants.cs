@@ -27,9 +27,11 @@ namespace DataModel
         public static int E_INPUT_POINTER_NULL = -34; ///< A pointer input to the function is NULL.
         public static int E_COMMAND_NACKED = -35; ///< A pointer input to the function is NULL.
 
-        /* our errors */
+        /** our errors **/
         public static int E_INVALID_INPUT = -36; ///< Invalid input.
         public static int E_INVALID_ACTION = -37; ///< Invalid action.
+
+        //public Dictionary<int, string> = {<0, "E_NO_SS_ERR">}
+
     }
 }
-
