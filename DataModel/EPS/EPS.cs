@@ -60,15 +60,15 @@ namespace DataModel.EPS
             switch (onboard_battery.batt_state)
             {
                 case batt_state.INITIAL:
-                    if (onboard_battery.vbat < EPSConstants.CRITICAL_VBAT)
+                    if (onboard_battery.Vbat < EPSConstants.CRITICAL_VBAT)
                     {
                         onboard_battery.batt_state = batt_state.CRITICAL;
                     }
-                    else if (onboard_battery.vbat < EPSConstants.SAFE_VBAT)
+                    else if (onboard_battery.Vbat < EPSConstants.SAFE_VBAT)
                     {
                         onboard_battery.batt_state = batt_state.SAFE;
                     }
-                    else if (onboard_battery.vbat < EPSConstants.MAX_VBAT)
+                    else if (onboard_battery.Vbat < EPSConstants.MAX_VBAT)
                     {
                         onboard_battery.batt_state = batt_state.NORMAL;
                     }
@@ -80,7 +80,7 @@ namespace DataModel.EPS
                     break;
                 case batt_state.CRITICAL:
                     //hardware LOW voltage protection will switch off the kill-switch
-                    if (onboard_battery.vbat <= EPSConstants.SWITCH_ON_V)
+                    if (onboard_battery.Vbat <= EPSConstants.SWITCH_ON_V)
                     {
                         kill_switch = EPSConstants.OFF;
                         SET_OUTPUT(0);
@@ -90,27 +90,27 @@ namespace DataModel.EPS
                         kill_switch = EPSConstants.ON;
                         SET_OUTPUT(54);
                     }
-                    if (onboard_battery.vbat > EPSConstants.SAFE_VBAT)
+                    if (onboard_battery.Vbat > EPSConstants.SAFE_VBAT)
                     {
                         onboard_battery.batt_state = batt_state.SAFE;
                     }
                     break;
                 case batt_state.SAFE:
-                    if (onboard_battery.vbat < EPSConstants.CRITICAL_VBAT)
+                    if (onboard_battery.Vbat < EPSConstants.CRITICAL_VBAT)
                     {
                         onboard_battery.batt_state = batt_state.CRITICAL;
                     }
-                    else if (onboard_battery.vbat > EPSConstants.NORMAL_VBAT)
+                    else if (onboard_battery.Vbat > EPSConstants.NORMAL_VBAT)
                     {
                         onboard_battery.batt_state = batt_state.NORMAL;
                     }
                     break;
                 case batt_state.NORMAL:
-                    if (onboard_battery.vbat < EPSConstants.SAFE_VBAT)
+                    if (onboard_battery.Vbat < EPSConstants.SAFE_VBAT)
                     {
                         onboard_battery.batt_state = batt_state.SAFE;
                     }
-                    else if (onboard_battery.vbat > EPSConstants.MAX_VBAT)
+                    else if (onboard_battery.Vbat > EPSConstants.MAX_VBAT)
                     {
                         onboard_battery.batt_state = batt_state.FULL;
                         HardwareHighVoltProtection();
@@ -119,7 +119,7 @@ namespace DataModel.EPS
                 case batt_state.FULL:
                     if (IsCharging)
                         HardwareHighVoltProtection();
-                    if (onboard_battery.vbat < EPSConstants.MAX_VBAT)
+                    if (onboard_battery.Vbat < EPSConstants.MAX_VBAT)
                     {
                         onboard_battery.batt_state = batt_state.NORMAL;
                         IsCharging = true;
@@ -128,9 +128,9 @@ namespace DataModel.EPS
             }
         }
 
-        public void ButteryDrop()
+        public void BatteryDrop()
         {
-            onboard_battery.vbat -= 10; //need to be changed
+            onboard_battery.Vbat -= 10; //need to be changed
             onboard_battery.current_out -= 10; //need to be changed
             CheckBatteryState();
         }
@@ -224,69 +224,50 @@ namespace DataModel.EPS
 
         private void InitEps()
         {
+            channels = new Channel[8];
             int i = 0;
             for (i = 0; i < 8; i++)
             {
-                channels[i].status = EPSConstants.ON;
-                channels[i].latchup = 0;
                 switch (i)
                 {
                     case (int)channel_type.T_5V1:
-                        channels[i].channel_type = channel_type.T_5V1;
-                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP;
+                        channels[i] = new Channel(EPSConstants.ON, channel_type.T_5V1, EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP, 0);
                         break;
                     case (int)channel_type.T_5V2:
-                        channels[i].channel_type = channel_type.T_5V2;
-                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP;
+                        channels[i] = new Channel(EPSConstants.ON, channel_type.T_5V2, EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP, 0);
                         break;
                     case (int)channel_type.T_5V3:
-                        channels[i].channel_type = channel_type.T_5V3;
-                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP;
+                        channels[i] = new Channel(EPSConstants.ON, channel_type.T_5V3, EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP, 0);
                         break;
                     case (int)channel_type.T_3_3V1:
-                        channels[i].channel_type = channel_type.T_3_3V1;
-                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP;
+                        channels[i] = new Channel(EPSConstants.ON, channel_type.T_3_3V1, EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP, 0);
                         break;
                     case (int)channel_type.T_3_3V2:
-                        channels[i].channel_type = channel_type.T_3_3V2;
-                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP;
+                        channels[i] = new Channel(EPSConstants.ON, channel_type.T_3_3V2, EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP, 0);
                         break;
                     case (int)channel_type.T_3_3V3:
-                        channels[i].channel_type = channel_type.T_3_3V3;
-                        channels[i].volt = EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP;
+                        channels[i] = new Channel(EPSConstants.ON, channel_type.T_3_3V3, EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP, 0);
                         break;
                     case (int)channel_type.T_QS:
-                        channels[i].channel_type = channel_type.T_QS;
-                        channels[i].volt = 0;
+                        channels[i] = new Channel(EPSConstants.ON, channel_type.T_QS, 0, 0);
                         break;
                     case (int)channel_type.T_QH:
-                        channels[i].channel_type = channel_type.T_QH;
-                        channels[i].volt = 0;
+                        channels[i] = new Channel(EPSConstants.ON, channel_type.T_QH, 0, 0);
                         break;
                 }
             }
-
+            boost_convertors = new BoostConvertor[3];
             for (i = 0; i < 3; i++)
             {
-                boost_convertors[i].temperture = EPSConstants.DEFAULT_TEMP;
-                boost_convertors[i].volt = EPSConstants.SOFTWARE_PPT_DEFAULT_V;
-                boost_convertors[i].current_in = EPSConstants.PV_IN_I_CHARGE_MIN;
+                boost_convertors[i] = new BoostConvertor(EPSConstants.DEFAULT_TEMP, EPSConstants.SOFTWARE_PPT_DEFAULT_V, EPSConstants.PV_IN_I_CHARGE_MIN);
             }
 
-            onboard_battery.onboard_external = EPSConstants.ONBOARD_BATT;
-            onboard_battery.temperture = EPSConstants.DEFAULT_TEMP;
-            onboard_battery.vbat = EPSConstants.BAT_CONNECT_V_TYP;
-            onboard_battery.current_in = 0;
-            onboard_battery.current_out = EPSConstants.V_BAT_I_OUT_TYP;
-            onboard_battery.batt_state = batt_state.INITIAL;
+            onboard_battery = new Battery(EPSConstants.ONBOARD_BATT, EPSConstants.BAT_CONNECT_V_TYP, 0, EPSConstants.V_BAT_I_OUT_TYP, EPSConstants.DEFAULT_TEMP, batt_state.INITIAL);
 
+            battery_heaters = new BatteryHeaters[2];
             for (i = 0; i < 2; i++)
             {
-                battery_heaters[i].mode = EPSConstants.MANUAL;
-                battery_heaters[i].type = EPSConstants.ONBOARD_HEATER;
-                battery_heaters[i].status = EPSConstants.OFF;
-                battery_heaters[i].battheater_low = EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW; //need to be changed
-                battery_heaters[i].battheater_high = EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH; ////need to be changed
+                battery_heaters[i] = new BatteryHeaters(EPSConstants.MANUAL, EPSConstants.ONBOARD_HEATER, EPSConstants.OFF, EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW, EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH);
             }
 
             photo_current = EPSConstants.BAT_CONNECT_I_CHARGE_MAX;
@@ -295,58 +276,59 @@ namespace DataModel.EPS
             sw_errors = 0;
             last_reset_cause = EPSConstants.UNKNOWN_RESET_R;
 
+            wdts = new WDT[4];
             for (i = 0; i < 4; i++)
             {
-                wdts[i].reboot_counter = 0;
                 switch (i)
                 {
                     case (int)wdt_type.I2C:
-                        wdts[i].wdt_type = wdt_type.I2C;
-                        wdts[i].time_ping_left = EPSConstants.WDT_I2C_INIT_TIME; //need to be changed!!
-                        wdts[i].data = EPSConstants.I2C_WDT_RESET_0;
+                        wdts[i] = new WDT(wdt_type.I2C,0, EPSConstants.WDT_I2C_INIT_TIME, EPSConstants.I2C_WDT_RESET_0);
                         break;
                     case (int)wdt_type.GND:
-                        wdts[i].wdt_type = wdt_type.GND;
-                        wdts[i].time_ping_left = EPSConstants.WDT_GND_INIT_TIME; //need to be changed!!
-                        wdts[i].data = EPSConstants.WDT_GND_INIT_TIME;
+                        wdts[i] = new WDT(wdt_type.GND, 0, EPSConstants.WDT_GND_INIT_TIME, EPSConstants.WDT_GND_INIT_TIME);
                         break;
                     case (int)wdt_type.CSP0:
-                        wdts[i].wdt_type = wdt_type.CSP0;
-                        wdts[i].time_ping_left = EPSConstants.WDT_CSP_INIT_PING; //need to be changed!!
-                        wdts[i].data = (int)channel_type.T_5V1;
+                        wdts[i] = new WDT(wdt_type.CSP0, 0, EPSConstants.WDT_CSP_INIT_PING, (int)channel_type.T_5V1);
                         break;
                     case (int)wdt_type.CSP1:
-                        wdts[i].wdt_type = wdt_type.CSP1;
-                        wdts[i].time_ping_left = EPSConstants.WDT_CSP_INIT_PING; //need to be changed!!
-                        wdts[i].data = (int)channel_type.T_3_3V1;
+                        wdts[i] = new WDT(wdt_type.CSP1, 0, EPSConstants.WDT_CSP_INIT_PING, (int)channel_type.T_3_3V1);
                         break;
                 }
             }
+            
 
-            config.ppt_mode = EPSConstants.DEFAULT_CONFIG_PPT_MODE;
-            config.battheater_mode = EPSConstants.DEFAULT_CONFIG_BATTHEAT_MODE;
-            config.battheater_high = EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH; //to change
-            config.battheater_low = EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW; //to change
+            ushort[] vboost = new ushort[3];
             for (i = 0; i < 3; i++)
-                config.vboost[i] = EPSConstants.DEFAULT_CONFIG_VBOOST;
+                vboost[i] = EPSConstants.DEFAULT_CONFIG_VBOOST;
+
+            ushort[] output_initial_off_delay = new ushort[8];
+            ushort[] output_initial_on_delay = new ushort[8];
+            byte[] output_normal_value = new byte[8];
+            byte[] output_safe_value = new byte[8];
+
             for (i = 0; i < 8; i++)
             {
-                config.output_initial_off_delay[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_ON_DELAY;
-                config.output_initial_on_delay[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_OFF_DELAY;
-                config.output_normal_value[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_NORMAL; //need to change
-                config.output_safe_value[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_SAFE; //need to change
+                output_initial_off_delay[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_ON_DELAY;
+                output_initial_on_delay[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_OFF_DELAY;
+                output_normal_value[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_NORMAL; //need to change
+                output_safe_value[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_SAFE; //need to change
             }
+
+            config = new EPSConfiguration(EPSConstants.DEFAULT_CONFIG_PPT_MODE, EPSConstants.DEFAULT_CONFIG_BATTHEAT_MODE,
+                EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW, EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH, output_normal_value, output_safe_value,
+                output_initial_on_delay, output_initial_off_delay, vboost);
 
             config.batt_safevoltage = EPSConstants.SAFE_VBAT;
             config.batt_normalvoltage = EPSConstants.NORMAL_VBAT;
             config.batt_maxvoltage = EPSConstants.MAX_VBAT;
             config.batt_criticalvoltage = EPSConstants.CRITICAL_VBAT;
 
+            curout = new ushort[6];
             for (i = 0; i < 6; i++)
                 curout[i] = EPSConstants.OUT_LATCHUP_PROTEC_I_MIN;
 
             kill_switch = EPSConstants.ON;
-            IsCharging = true;
+            IsCharging = false;
 
         }
 
@@ -499,7 +481,7 @@ namespace DataModel.EPS
             ans.batt_temp = new short[2];
             ans.latchup = new ushort[6];
             ans.pc = photo_current;
-            ans.bv = onboard_battery.vbat;
+            ans.bv = onboard_battery.Vbat;
             ans.sc = system_current;
             int i;
             for (i = 0; i < 3; i++)
@@ -547,7 +529,7 @@ namespace DataModel.EPS
                 ans.vboost[i] = boost_convertors[i].volt;
                 ans.curin[i] = boost_convertors[i].current_in;
             }
-            ans.vbatt = onboard_battery.vbat;
+            ans.vbatt = onboard_battery.Vbat;
             ans.cursys = system_current;
             ans.cursun = photo_current;
             return ans;
