@@ -20,5 +20,20 @@
                 </Image.OpacityMask>
             </Image>
         </DockPanel>
+        <Label Content="Battery" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="36,27,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
+        <Canvas HorizontalAlignment="Left" Background="White" Height="169" Margin="36,73,0,0" VerticalAlignment="Top" Width="181">
+
+            <Label Content="Current in:" FontSize="16" Canvas.Top="10"/>
+            <TextBlock x:Name="currInText" HorizontalAlignment="Left" FontSize="16" TextWrapping="Wrap" Text="{Binding Path=current_in, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Canvas.Left="108" Canvas.Top="14" />
+            <Label Content="Current out:" FontSize="16" Canvas.Top="40"/>
+            <TextBlock x:Name="currOutText" HorizontalAlignment="Left" FontSize="16" TextWrapping="Wrap" Text="{Binding Path=current_out, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Canvas.Left="108" Canvas.Top="45" />
+            <Label Content="Voltage:" FontSize="16" Canvas.Top="70"/>
+            <TextBlock x:Name="voltText" HorizontalAlignment="Left" FontSize="16" TextWrapping="Wrap" Text="{Binding Path=Vbat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Canvas.Left="108" Canvas.Top="75" />
+            <Label Content="Temperture:" FontSize="16" Canvas.Top="100"/>
+            <TextBlock x:Name="tempText" HorizontalAlignment="Left" FontSize="16" TextWrapping="Wrap" Text="{Binding Path=temperture, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Canvas.Left="108" Canvas.Top="105" />
+            <Label Content="Battery State:" FontSize="16" Canvas.Top="130"/>
+            <TextBlock x:Name="battStateText" HorizontalAlignment="Left" FontSize="16" TextWrapping="Wrap" Text="{Binding Path=batt_state, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Canvas.Left="108" Canvas.Top="134" />
+        </Canvas>
+        <Button x:Name="chargeDischargeButton" Content="Charge" Foreground="White" Background="Green" FontSize="18" HorizontalAlignment="Left" Margin="36,263,0,0" VerticalAlignment="Top" Width="122" Height="43" Click="Button_Click"/>
     </Grid>
 </UserControl>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +13,28 @@ namespace DataModel.EPS
     /* mode for battery[0 = normal, 1 = undervoltage, 2 = overvoltage] */
     public enum batt_mode { NORMAL, UNDERVOLTAGE, OVERVOLTAGE }
 
-    public class Battery
+    public class Battery : INotifyPropertyChanged
     {
         public byte onboard_external { get; set; } //whether the battery is onboard or external
-        public ushort vbat { get; set; }
+       
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private ushort _vbat;
+
+        public ushort Vbat {
+            get
+            {
+                return _vbat;
+            }
+            set
+            {
+                _vbat = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Vbat"));
+                }
+            }
+        }
         public ushort current_in { get; set; }
         public ushort current_out { get; set; }
         public short temperture { get; set; }
@@ -25,7 +44,7 @@ namespace DataModel.EPS
         public Battery(byte external, ushort vBat, ushort currIn, ushort currOut, short temp, batt_state state)
         {
             onboard_external = external;
-            vbat = vBat;
+            Vbat = vBat;
             current_in = currIn;
             current_out = currOut;
             temperture = temp;
@@ -49,11 +68,11 @@ namespace DataModel.EPS
             switch (batt_state)
             {
                 case batt_state.INITIAL:
-                    if (vbat < EPSConstants.CRITICAL_VBAT)
+                    if (Vbat < EPSConstants.CRITICAL_VBAT)
                         batt_state = batt_state.CRITICAL;
-                    else if (vbat < EPSConstants.SAFE_VBAT)
+                    else if (Vbat < EPSConstants.SAFE_VBAT)
                         batt_state = batt_state.SAFE;
-                    else if (vbat < EPSConstants.MAX_VBAT)
+                    else if (Vbat < EPSConstants.MAX_VBAT)
                         batt_state = batt_state.NORMAL;
                     else
                     {
@@ -72,9 +91,9 @@ namespace DataModel.EPS
             }
         }
 
-        public void ButteryDrop()
+        public void BatteryDrop()
         {
-            vbat -= 10; //need to be changed
+            Vbat -= 10; //need to be changed
             current_out -= 10; //need to be changed
             CheckBatteryState();
         }*/
