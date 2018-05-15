@@ -262,7 +262,7 @@ namespace DataModel.EPS
                 boost_convertors[i] = new BoostConvertor(EPSConstants.DEFAULT_TEMP, EPSConstants.SOFTWARE_PPT_DEFAULT_V, EPSConstants.PV_IN_I_CHARGE_MIN);
             }
 
-            onboard_battery = new Battery(EPSConstants.ONBOARD_BATT, EPSConstants.BAT_CONNECT_V_TYP, 0, EPSConstants.V_BAT_I_OUT_TYP, EPSConstants.DEFAULT_TEMP, batt_state.INITIAL);
+            onboard_battery = new Battery(EPSConstants.ONBOARD_BATT, EPSConstants.BAT_CONNECT_V_TYP, 0, EPSConstants.V_BAT_I_OUT_TYP, EPSConstants.DEFAULT_TEMP, batt_state.INITIAL, batt_mode.NORMAL);
 
             battery_heaters = new BatteryHeaters[2];
             for (i = 0; i < 2; i++)
@@ -513,7 +513,52 @@ namespace DataModel.EPS
         public eps_hk_t GET_HK_2(byte type)
         {
             eps_hk_t ans = new eps_hk_t();
-            //TODO
+            ans.vboost = new ushort[3];
+            ans.curin = new ushort[3];
+            ans.curout = new ushort[6];
+            ans.output = new byte[8];
+            ans.output_off_delta = new ushort[8];
+            ans.output_on_delta = new ushort[8];
+            ans.latchup = new ushort[6];
+            ans.wdt_csp_pings_left = new byte[2];
+            ans.counter_wdt_csp = new uint[2];
+            ans.temp = new short[6];
+            int i;
+            for (i = 0; i < 3; i++)
+            {
+                ans.vboost[i] = boost_convertors[i].volt;
+                ans.curin[i] = boost_convertors[i].current_in;
+            }
+            ans.vbatt = onboard_battery.Vbat;
+            ans.cursun = photo_current;
+            ans.cursys = system_current;
+            for (i = 0; i < 6; i++)
+                ans.curout[i] =  curout[i];
+            for (i = 0; i < 8; i++)
+            {
+                ans.output[i] =  channels[i].status;
+                ans.output_on_delta[i] =  config.output_initial_on_delay[i];
+                ans.output_off_delta[i] =  config.output_initial_off_delay[i];
+            }
+            for (i = 0; i < 6; i++)
+                ans.latchup[i] =  channels[i].latchup;
+            ans.wdt_csp_pings_left[0] =  (byte)wdts[(int)wdt_type.CSP0].time_ping_left;
+            ans.wdt_csp_pings_left[1] =  (byte)wdts[(int)wdt_type.CSP1].time_ping_left;
+            ans.wdt_gnd_time_left =  wdts[(int)wdt_type.GND].time_ping_left;
+            ans.wdt_i2c_time_left =  wdts[(int)wdt_type.I2C].time_ping_left;
+            ans.counter_boot =  reboot_count;
+            ans.counter_wdt_csp[0] =  wdts[(int)wdt_type.CSP0].reboot_counter;
+            ans.counter_wdt_csp[1] =  wdts[(int)wdt_type.CSP1].reboot_counter;
+            ans.counter_wdt_gnd =  wdts[(int)wdt_type.GND].reboot_counter;
+            ans.counter_wdt_i2c =  wdts[(int)wdt_type.I2C].reboot_counter;
+            for (i = 0; i < 3; i++)
+                ans.temp[i] =  boost_convertors[i].temperture;
+            ans.temp[3] =  onboard_battery.temperture;
+            ans.temp[4] =  onboard_battery.temperture; // external - need to change
+            ans.temp[5] =  onboard_battery.temperture; // external - need to change
+            ans.bootcause =  last_reset_cause;
+            ans.battmode =  (byte)onboard_battery.batt_mode;
+            ans.pptmode =  config.ppt_mode;
             return ans;
         }
 
@@ -563,6 +608,8 @@ namespace DataModel.EPS
         public eps_hk_wdt_t GET_HK_2_WDT(byte type)
         {
             eps_hk_wdt_t ans = new eps_hk_wdt_t();
+            ans.counter_wdt_csp = new uint[2];
+            ans.wdt_csp_pings_left = new byte[2];
             ans.counter_wdt_csp[0] = wdts[(int)wdt_type.CSP0].reboot_counter;
 	        ans.counter_wdt_csp[1] = wdts[(int)wdt_type.CSP1].reboot_counter;
 	        ans.counter_wdt_gnd = wdts[(int)wdt_type.GND].reboot_counter;
@@ -582,8 +629,9 @@ namespace DataModel.EPS
 	        ans.bootcause = last_reset_cause;
 	        ans.pptmode = config.ppt_mode;
 	        ans.battmode = (byte)onboard_battery.batt_mode;
+            ans.temp = new short[6];
 	        for (int i = 0; i< 3; i++)
-            {
+            {   
 		        ans.temp[i] = boost_convertors[i].temperture;
 	        }
             ans.temp[3] = onboard_battery.temperture;
@@ -613,11 +661,11 @@ namespace DataModel.EPS
         public void SET_SINGLE_OUTPUT(byte channel, byte value, ushort delay)
         {
             //?? if less than 2 channels - invalid action
-            Task.Factory.StartNew(() => Thread.Sleep(delay * 1000))
-            .ContinueWith((t) =>
-            {
+            //Task.Factory.StartNew(() => Thread.Sleep(delay * 1000))
+            //.ContinueWith((t) =>
+            //{
                 channels[channel].status = value;
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            //}, TaskScheduler.FromCurrentSynchronizationContext());
             
         }
 
@@ -745,7 +793,11 @@ namespace DataModel.EPS
             ans.ppt_mode = config.ppt_mode;
 	        ans.battheater_mode = config.battheater_mode;
 	        ans.battheater_low = config.battheater_low;
-	        ans.battheater_high = config.battheater_high;	        
+	        ans.battheater_high = config.battheater_high;
+            ans.output_initial_off_delay = new ushort[8];
+            ans.output_initial_on_delay = new ushort[8];
+            ans.output_normal_value = new byte[8];
+            ans.output_safe_value = new byte[8];
 	        for (int i = 0; i< 8; i++)
             {
 		        ans.output_initial_off_delay[i] = config.output_initial_off_delay[i];
@@ -753,6 +805,7 @@ namespace DataModel.EPS
 		        ans.output_normal_value[i] = config.output_normal_value[i];
 		        ans.output_safe_value[i] = config.output_safe_value[i];
 	        }
+            ans.vboost = new ushort[3];
 	        for (int i = 0; i< 3; i++)
             {
                 ans.vboost[i] = config.vboost[i];

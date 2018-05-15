@@ -41,7 +41,7 @@ namespace DataModel.EPS
         public batt_state batt_state { get; set; }
         public batt_mode batt_mode { get; set; }
 
-        public Battery(byte external, ushort vBat, ushort currIn, ushort currOut, short temp, batt_state state)
+        public Battery(byte external, ushort vBat, ushort currIn, ushort currOut, short temp, batt_state state, batt_mode mode)
         {
             onboard_external = external;
             Vbat = vBat;
@@ -49,6 +49,7 @@ namespace DataModel.EPS
             current_out = currOut;
             temperture = temp;
             batt_state = state;
+            batt_mode = mode;
         }
 
 
