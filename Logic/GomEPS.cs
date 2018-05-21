@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    class GomEPS
+    public class GomEPS
     {
         EPS[] eps_table;
         int eps_num;
