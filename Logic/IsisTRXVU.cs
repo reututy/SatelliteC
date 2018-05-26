@@ -292,7 +292,7 @@ namespace Logic
          *  @param[out]  telemetry Pointer to the union where the telemetry should be stored.
          *  @return      Error code according to <hal/errors.h>
          */
-        int IsisTrxvu_tcGetTelemetryAll(byte index, Output<ISIStrxvuTxTelemetry> telemetry)
+        public int IsisTrxvu_tcGetTelemetryAll(byte index, Output<ISIStrxvuTxTelemetry> telemetry)
         {
             return 0;
         }
@@ -303,7 +303,7 @@ namespace Logic
          *  @param[out]  last_telemetry Pointer to the union where the telemetry should be stored.
          *  @return      Error code according to <hal/errors.h>
          */
-        int IsisTrxvu_tcGetLastTxTelemetry(byte index, Output<ISIStrxvuTxTelemetry> last_telemetry)
+        public int IsisTrxvu_tcGetLastTxTelemetry(byte index, Output<ISIStrxvuTxTelemetry> last_telemetry)
         {
             return 0;
         }
@@ -359,7 +359,7 @@ namespace Logic
          *  @param[out]  telemetry Pointer to the union where the telemetry should be stored.
          *  @return      Error code according to <hal/errors.h>
          */
-        int IsisTrxvu_rcGetTelemetryAll(byte index, Output<ISIStrxvuRxTelemetry> telemetry)
+        public int IsisTrxvu_rcGetTelemetryAll(byte index, Output<ISIStrxvuRxTelemetry> telemetry)
         {
             return 0;
         }

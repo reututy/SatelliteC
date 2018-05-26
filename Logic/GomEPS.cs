@@ -329,7 +329,7 @@ namespace Logic
          *	@param[in] mode power point mode of the eps
          * 	@return Error code according to <hal/errors.h>
          */
-        int GomEpsSetPptMode(byte index, byte mode)
+        public int GomEpsSetPptMode(byte index, byte mode)
         {
             if (eps_table == null)
             {
