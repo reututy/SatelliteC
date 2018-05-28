@@ -58,7 +58,7 @@ namespace DemoService
         }
         public async void Run()
         {
-            TcpListener listener = new TcpListener(this.ipAddress, this.port);
+            TcpListener listener = new TcpListener(IPAddress.Loopback, this.port);
             listener.Start();
             Console.Write("Array Min and Avg service is now running");
           
@@ -97,9 +97,9 @@ namespace DemoService
                     if (request != null)
                     {
                         Console.WriteLine("Received service request: " + request);
-                        string response = Response(request);
+                        byte[] response = Response(request);
                         Console.WriteLine("Computed response is: " + response + "\n");
-                        await writer.WriteLineAsync(response);
+                        await writer.WriteAsync(Encoding.ASCII.GetChars(response));
                     }
                     else
                         break; // Client closed connection
@@ -113,15 +113,15 @@ namespace DemoService
                     tcpClient.Close();
             }
         }
-        private string Response(string request)
+        private byte[] Response(string request)
         {
-            string analyzedResponse = analyzeRequest(request);
+            byte[] analyzedResponse = analyzeRequest(request);
             return analyzedResponse;
         }
 
-        private string analyzeRequest(string request)
+        private byte[] analyzeRequest(string request)
         {
-            string response = "";
+            byte[] response = { 0 };
             string[] args = request.Split('&');
             string methodName = args[0];
             if (methodName.Contains("GomEps"))
@@ -131,9 +131,9 @@ namespace DemoService
             return response;
         }
 
-        private string analyzeIsisTrxvu(string request)
+        private byte[] analyzeIsisTrxvu(string request)
         {
-            string response = "";
+            byte[] response = { 0 };
             string[] args = request.Split('&');
             string methodName = args[0];
             byte index = Encoding.ASCII.GetBytes(args[1])[0];
@@ -149,23 +149,23 @@ namespace DemoService
                 case "IsisTrxvu_componentSoftReset":
                     {
                         ISIStrxvuComponent component = convertToSturctISIStrxvuComponent(args[2]);
-                        response = convertErrorToString(trx.IsisTrxvu_componentSoftReset(index, component));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_componentSoftReset(index, component));
                         break;
                     }
                 case "IsisTrxvu_componentHardReset":
                     {
                         ISIStrxvuComponent component = convertToSturctISIStrxvuComponent(args[2]);
-                        response = convertErrorToString(trx.IsisTrxvu_componentHardReset(index, component));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_componentHardReset(index, component));
                         break;
                     }
                 case "IsisTrxvu_softReset":
                     {
-                        response = convertErrorToString(trx.IsisTrxvu_softReset(index));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_softReset(index));
                         break;
                     }
                 case "IsisTrxvu_hardReset":
                     {
-                        response = convertErrorToString(trx.IsisTrxvu_hardReset(index));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_hardReset(index));
                         break;
                     }
                 case "IsisTrxvu_tcSendAX25DefClSign":
@@ -173,7 +173,9 @@ namespace DemoService
                         byte[] data = Encoding.ASCII.GetBytes(args[2]);
                         byte length = Encoding.ASCII.GetBytes(args[3])[0];
                         Output<Byte> avail = new Output<byte>();
-                        response = String.Concat(convertErrorToString(trx.IsisTrxvu_tcSendAX25DefClSign(index, data, length, avail)), avail.output); //Maybe need to be different
+                        byte[] err = convertErrorToByteArr(trx.IsisTrxvu_tcSendAX25DefClSign(index, data, length, avail));
+                        byte[] output = new byte[] { avail.output };
+                        response = concatBytesArr(err, output);
                         break;
                     }
                 case "IsisTrxvu_tcSendAX25OvrClSign":
@@ -182,7 +184,8 @@ namespace DemoService
                         byte[] data = Encoding.ASCII.GetBytes(args[2]);
                         byte length = Encoding.ASCII.GetBytes(args[3])[0];
                         Output<Byte> avail = new Output<byte>();
-                        response = String.Concat(convertErrorToString(trx.IsisTrxvu_tcSendAX25DefClSign(index, data, length, avail)), avail.output); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(trx.IsisTrxvu_tcSendAX25DefClSign(index, data, length, avail)), avail.output); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "IsisTrxvu_tcSetAx25BeaconDefClSign":
@@ -190,7 +193,7 @@ namespace DemoService
                         byte[] data = Encoding.ASCII.GetBytes(args[2]);
                         byte length = Encoding.ASCII.GetBytes(args[3])[0];
                         ushort interval = Convert.ToUInt16(args[4]);
-                        response = convertErrorToString(trx.IsisTrxvu_tcSetAx25BeaconDefClSign(index, data, length, interval));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_tcSetAx25BeaconDefClSign(index, data, length, interval));
                         break;
                     }
                 case "IsisTrxvu_tcSetAx25BeaconOvrClSign":
@@ -200,99 +203,115 @@ namespace DemoService
                         byte[] data = Encoding.ASCII.GetBytes(args[4]);
                         byte length = Encoding.ASCII.GetBytes(args[5])[0];
                         ushort interval = Convert.ToUInt16(args[6]);
-                        response = convertErrorToString(trx.IsisTrxvu_tcSetAx25BeaconOvrClSign(index, fromCallsign, toCallsign, data, length, interval));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_tcSetAx25BeaconOvrClSign(index, fromCallsign, toCallsign, data, length, interval));
                         break;
                     }
                 case "IsisTrxvu_tcClearBeacon":
                     {
-                        response = convertErrorToString(trx.IsisTrxvu_tcClearBeacon(index));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_tcClearBeacon(index));
                         break;
                     }
                 case "IsisTrxvu_tcSetDefToClSign":
                     {
                         string toCallsign = args[2];
-                        response = convertErrorToString(trx.IsisTrxvu_tcSetDefToClSign(index, toCallsign));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_tcSetDefToClSign(index, toCallsign));
                         break;
                     }
                 case "IsisTrxvu_tcSetDefFromClSign":
                     {
                         string toCallsign = args[2];
-                        response = convertErrorToString(trx.IsisTrxvu_tcSetDefFromClSign(index, toCallsign));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_tcSetDefFromClSign(index, toCallsign));
                         break;
                     }
                 case "IsisTrxvu_tcSetIdlestate":
                     {
                         ISIStrxvuIdleState state = (ISIStrxvuIdleState)Encoding.ASCII.GetBytes(args[2])[0];
-                        response = convertErrorToString(trx.IsisTrxvu_tcSetIdlestate(index, state));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_tcSetIdlestate(index, state));
                         break;
                     }
                 case "IsisTrxvu_tcSetAx25Bitrate":
                     {
                         ISIStrxvuBitrate bitrate = (ISIStrxvuBitrate)Encoding.ASCII.GetBytes(args[2])[0];
-                        response = convertErrorToString(trx.IsisTrxvu_tcSetAx25Bitrate(index, bitrate));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_tcSetAx25Bitrate(index, bitrate));
                         break;
                     }
                 case "IsisTrxvu_tcGetUptime":
                     {
                         Output<Byte> uptime = new Output<byte>();
-                        response = String.Concat(convertErrorToString(trx.IsisTrxvu_tcGetUptime(index, uptime)), uptime.output); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(trx.IsisTrxvu_tcGetUptime(index, uptime)), uptime.output); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "IsisTrxvu_tcGetState":
                     {
                         Output<ISIStrxvuTransmitterState> currentvutcState = new Output<ISIStrxvuTransmitterState>();
-                        response = String.Concat(convertErrorToString(trx.IsisTrxvu_tcGetState(index, currentvutcState)), currentvutcState.output); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(trx.IsisTrxvu_tcGetState(index, currentvutcState)), currentvutcState.output); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "IsisTrxvu_tcGetTelemetryAll":
                     {
                         Output<ISIStrxvuTxTelemetry> telemetry = new Output<ISIStrxvuTxTelemetry>();
-                        response = String.Concat(convertErrorToString(trx.IsisTrxvu_tcGetTelemetryAll(index, telemetry)), telemetry.output); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(trx.IsisTrxvu_tcGetTelemetryAll(index, telemetry)), telemetry.output); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "IsisTrxvu_tcGetLastTxTelemetry":
                     {
                         Output<ISIStrxvuTxTelemetry> last_telemetry = new Output<ISIStrxvuTxTelemetry>();
-                        response = String.Concat(convertErrorToString(trx.IsisTrxvu_tcGetLastTxTelemetry(index, last_telemetry)), last_telemetry.output); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(trx.IsisTrxvu_tcGetLastTxTelemetry(index, last_telemetry)), last_telemetry.output); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "IsisTrxvu_tcEstimateTransmissionTime":
                     {
                         byte length = Encoding.ASCII.GetBytes(args[2])[0];
-                        response = convertErrorToString(trx.IsisTrxvu_tcEstimateTransmissionTime(index, length));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_tcEstimateTransmissionTime(index, length));
                         break;
                     }
                 case "IsisTrxvu_rcGetFrameCount":
                     {
                         Output<ushort> frameCount = new Output<ushort>();
-                        response = String.Concat(convertErrorToString(trx.IsisTrxvu_rcGetFrameCount(index, frameCount)), frameCount.output); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(trx.IsisTrxvu_rcGetFrameCount(index, frameCount)), frameCount.output); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "IsisTrxvu_rcGetCommandFrame":
                     {
                         Output<ISIStrxvuRxFrame> rx_frame = new Output<ISIStrxvuRxFrame>();
-                        response = String.Concat(convertErrorToString(trx.IsisTrxvu_rcGetCommandFrame(index, rx_frame)), rx_frame.output); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(trx.IsisTrxvu_rcGetCommandFrame(index, rx_frame)), rx_frame.output); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "IsisTrxvu_rcGetTelemetryAll":
                     {
                         Output<ISIStrxvuRxTelemetry> telemetry = new Output<ISIStrxvuRxTelemetry>();
-                        response = String.Concat(convertErrorToString(trx.IsisTrxvu_rcGetTelemetryAll(index, telemetry)), telemetry.output); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(trx.IsisTrxvu_rcGetTelemetryAll(index, telemetry)), telemetry.output); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "IsisTrxvu_rcGetUptime":
                     {
                         Output<Byte> uptime = new Output<byte>();
-                        response = String.Concat(convertErrorToString(trx.IsisTrxvu_rcGetUptime(index, uptime)), uptime.output); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(trx.IsisTrxvu_rcGetUptime(index, uptime)), uptime.output); //Maybe need to be different
+                        response = null;
                         break;
                     }
             }
             return response;
         }
 
-        private string analyzeGomEps(string request)
+        private byte[] concatBytesArr(byte[] a1, byte[] a2)
         {
-            string response = "";
+            byte[] rv = new byte[a1.Length + a2.Length];
+            System.Buffer.BlockCopy(a1, 0, rv, 0, a1.Length);
+            System.Buffer.BlockCopy(a2, 0, rv, a1.Length, a2.Length);
+            return rv;
+        }
+
+        private byte[] analyzeGomEps(string request)
+        {
+            byte[] response = { 0 };
             string[] args = request.Split('&');
             string methodName = args[0];
             byte index = Encoding.ASCII.GetBytes(args[1])[0];
@@ -302,24 +321,26 @@ namespace DemoService
                     {
                         byte i2c_address = Encoding.ASCII.GetBytes(args[1])[0];
                         byte number = Encoding.ASCII.GetBytes(args[2])[0];
-                        response = convertErrorToString(eps.GomEpsInitialize(i2c_address, number));
+                        response = convertErrorToByteArr(eps.GomEpsInitialize(i2c_address, number));
                         break;
                     }
                 case "GomEpsPing":
                     {
                         byte pingByte = Encoding.ASCII.GetBytes(args[2])[0];
                         Output<Byte> byteOut = new Output<byte>(); // How to use it??
-                        response = String.Concat(convertErrorToString(eps.GomEpsPing(index, pingByte, byteOut)), byteOut.output); //Maybe need to be different
+                        byte[] err = convertErrorToByteArr(eps.GomEpsPing(index, pingByte, byteOut));
+                        byte[] output = new byte[] { byteOut.output };
+                        response = concatBytesArr(err, output);
                         break;
                     }
                 case "GomEpsSoftReset":
                     {
-                        response = convertErrorToString(eps.GomEpsSoftReset(index));
+                        response = convertErrorToByteArr(eps.GomEpsSoftReset(index));
                         break;
                     }
                 case "GomEpsHardReset":
                     {
-                        response = convertErrorToString(eps.GomEpsHardReset(index));
+                        response = convertErrorToByteArr(eps.GomEpsHardReset(index));
                         break;
                     }
                 case "GomEpsGetHkData_param":
@@ -330,37 +351,44 @@ namespace DemoService
                 case "GomEpsGetHkData_general":
                     {
                         Output<EPS.eps_hk_t> dataOut = new Output<EPS.eps_hk_t>();
-                        response = String.Concat(convertErrorToString(eps.GomEpsGetHkData_general(index, dataOut)), Encoding.UTF8.GetString(getBytes(dataOut.output))); //Maybe need to be different
+                        byte[] err = convertErrorToByteArr(eps.GomEpsGetHkData_general(index, dataOut));
+                        byte[] output = getBytes(dataOut.output);
+                        response = concatBytesArr(err, output);
                         break;
                     }
                 case "GomEpsGetHkData_vi":
                     {
                         Output<EPS.eps_hk_vi_t> dataOut = new Output<EPS.eps_hk_vi_t>();
-                        response = String.Concat(convertErrorToString(eps.GomEpsGetHkData_vi(index, dataOut)), Encoding.UTF8.GetString(getBytes(dataOut.output))); //Maybe need to be different
+                        byte[] err = convertErrorToByteArr(eps.GomEpsGetHkData_vi(index, dataOut));
+                        byte[] output = getBytes(dataOut.output);
+                        response = concatBytesArr(err, output);
                         break;
                     }
                 case "GomEpsGetHkData_out":
                     {
                         Output<EPS.eps_hk_out_t> dataOut = new Output<EPS.eps_hk_out_t>();
-                        response = String.Concat(convertErrorToString(eps.GomEpsGetHkData_out(index, dataOut)), Encoding.UTF8.GetString(getBytes(dataOut.output))); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(eps.GomEpsGetHkData_out(index, dataOut)), Encoding.UTF8.GetString(getBytes(dataOut.output))); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "GomEpsGetHkData_wdt":
                     {
                         Output<EPS.eps_hk_wdt_t> dataOut = new Output<EPS.eps_hk_wdt_t>();
-                        response = String.Concat(convertErrorToString(eps.GomEpsGetHkData_wdt(index, dataOut)), Encoding.UTF8.GetString(getBytes(dataOut.output))); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(eps.GomEpsGetHkData_wdt(index, dataOut)), Encoding.UTF8.GetString(getBytes(dataOut.output))); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "GomEpsGetHkData_basic":
                     {
                         Output<EPS.eps_hk_basic_t> dataOut = new Output<EPS.eps_hk_basic_t>();
-                        response = String.Concat(convertErrorToString(eps.GomEpsGetHkData_basic(index, dataOut)), Encoding.UTF8.GetString(getBytes(dataOut.output))); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(eps.GomEpsGetHkData_basic(index, dataOut)), Encoding.UTF8.GetString(getBytes(dataOut.output))); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "GomEpsSetOutput":
                     {
                         byte output = Encoding.ASCII.GetBytes(args[2])[0];
-                        response = convertErrorToString(eps.GomEpsSetOutput(index, output));
+                        response = convertErrorToByteArr(eps.GomEpsSetOutput(index, output));
                         break;
                     }
                 case "GomEpsSetSingleOutput":
@@ -368,7 +396,7 @@ namespace DemoService
                         byte channel_id = Encoding.ASCII.GetBytes(args[2])[0];
                         byte value = Encoding.ASCII.GetBytes(args[3])[0];
                         ushort delay = Convert.ToUInt16(args[4]);
-                        response = convertErrorToString(eps.GomEpsSetSingleOutput(index, channel_id, value, delay));
+                        response = convertErrorToByteArr(eps.GomEpsSetSingleOutput(index, channel_id, value, delay));
                         break;
                     }
                 case "GomEpsSetPhotovoltaicInputs":
@@ -376,68 +404,71 @@ namespace DemoService
                         ushort voltage1 = Convert.ToUInt16(args[2]);
                         ushort voltage2 = Convert.ToUInt16(args[3]);
                         ushort voltage3 = Convert.ToUInt16(args[4]);
-                        response = convertErrorToString(eps.GomEpsSetPhotovoltaicInputs(index, voltage1, voltage2, voltage3));
+                        response = convertErrorToByteArr(eps.GomEpsSetPhotovoltaicInputs(index, voltage1, voltage2, voltage3));
                         break;
                     }
                 case "GomEpsSetPptMode":
                     {
                         byte mode = Encoding.ASCII.GetBytes(args[2])[0];
-                        response = convertErrorToString(eps.GomEpsSetPptMode(index, mode));
+                        response = convertErrorToByteArr(eps.GomEpsSetPptMode(index, mode));
                         break;
                     }
                 case "GomEpsSetHeaterAutoMode":
                     {
                         byte auto_mode = Encoding.ASCII.GetBytes(args[2])[0];
                         Output<ushort> auto_mode_return = new Output<ushort>();
-                        response = String.Concat(convertErrorToString(eps.GomEpsSetHeaterAutoMode(index, auto_mode, auto_mode_return)), Encoding.UTF8.GetString(getBytes(auto_mode_return.output))); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(eps.GomEpsSetHeaterAutoMode(index, auto_mode, auto_mode_return)), Encoding.UTF8.GetString(getBytes(auto_mode_return.output))); //Maybe need to be different
+                        response = null;
                         break;
                     }    
                 case "GomEpsResetCounters":
                     {
-                        response = convertErrorToString(eps.GomEpsResetCounters(index));
+                        response = convertErrorToByteArr(eps.GomEpsResetCounters(index));
                         break;
                     }
                 case "GomEpsResetWDT":
                     {
-                        response = convertErrorToString(eps.GomEpsResetWDT(index));
+                        response = convertErrorToByteArr(eps.GomEpsResetWDT(index));
                         break;
                     }
                 case "GomEpsConfigCMD":
                     {
                         byte cmd = Encoding.ASCII.GetBytes(args[2])[0];
-                        response = convertErrorToString(eps.GomEpsConfigCMD(index, cmd));
+                        response = convertErrorToByteArr(eps.GomEpsConfigCMD(index, cmd));
                         break;
                     }
                 case "GomEpsConfigGet":
                     {
                         Output<EPS.eps_config_t> config_data = new Output<EPS.eps_config_t>();
-                        response = String.Concat(convertErrorToString(eps.GomEpsConfigGet(index, config_data)), Encoding.UTF8.GetString(getBytes(config_data.output))); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(eps.GomEpsConfigGet(index, config_data)), Encoding.UTF8.GetString(getBytes(config_data.output))); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "GomEpsConfigSet":
                     {
                         Output<EPS.eps_config_t> config_data = new Output<EPS.eps_config_t>();
                         config_data.output = convertToSturcteps_config_t(args[2]);
-                        response = convertErrorToString(eps.GomEpsConfigSet(index, config_data));
+                        response = convertErrorToByteArr(eps.GomEpsConfigSet(index, config_data));
                         break;
                     }
                 case "GomEpsConfig2CMD":
                     {
                         byte cmd = Encoding.ASCII.GetBytes(args[2])[0];
-                        response = convertErrorToString(eps.GomEpsConfig2CMD(index, cmd));
+                        response = convertErrorToByteArr(eps.GomEpsConfig2CMD(index, cmd));
                         break;
                     }
                 case "GomEpsConfig2Get":
                     {
                         Output<EPS.eps_config2_t> config_data = new Output<EPS.eps_config2_t>();
-                        response = String.Concat(convertErrorToString(eps.GomEpsConfig2Get(index, config_data)), Encoding.UTF8.GetString(getBytes(config_data.output))); //Maybe need to be different
+                        //response = String.Concat(convertErrorToByteArr(eps.GomEpsConfig2Get(index, config_data)), Encoding.UTF8.GetString(getBytes(config_data.output))); //Maybe need to be different
+                        response = null;
                         break;
                     }
                 case "GomEpsConfig2Set":
                     {
                         Output<EPS.eps_config2_t> config_data = new Output<EPS.eps_config2_t>();
                         config_data.output = convertToSturcteps_config2_t(args[2]);
-                        response = convertErrorToString(eps.GomEpsConfig2Set(index, config_data));
+                        response = convertErrorToByteArr(eps.GomEpsConfig2Set(index, config_data));
                         break;
                     }
             }
@@ -474,11 +505,11 @@ namespace DemoService
             return strct;
         }
 
-        string convertErrorToString(int err)
+        byte[] convertErrorToByteArr(int err)
         {
-            byte[] errByteArr = new byte[1];
-            errByteArr[0] = Convert.ToByte(err);
-            return Encoding.UTF8.GetString(errByteArr);
+            ASCIIEncoding ascii = new ASCIIEncoding();
+            byte[] errByteArr = BitConverter.GetBytes(0-err);
+            return errByteArr;
         }
 
         byte[] getBytes(EPS.eps_config2_t str)
@@ -487,7 +518,7 @@ namespace DemoService
             byte[] arr = new byte[size];
 
             IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(str, ptr, true);
+            Marshal.StructureToPtr(str, ptr, false);
             Marshal.Copy(ptr, arr, 0, size);
             Marshal.FreeHGlobal(ptr);
             return arr;
@@ -499,7 +530,7 @@ namespace DemoService
             byte[] arr = new byte[size];
 
             IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(str, ptr, true);
+            Marshal.StructureToPtr(str, ptr, false);
             Marshal.Copy(ptr, arr, 0, size);
             Marshal.FreeHGlobal(ptr);
             return arr;
@@ -511,7 +542,7 @@ namespace DemoService
             byte[] arr = new byte[size];
 
             IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(str, ptr, true);
+            Marshal.StructureToPtr(str, ptr, false);
             Marshal.Copy(ptr, arr, 0, size);
             Marshal.FreeHGlobal(ptr);
             return arr;
@@ -523,7 +554,7 @@ namespace DemoService
             byte[] arr = new byte[size];
 
             IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(str, ptr, true);
+            Marshal.StructureToPtr(str, ptr, false);
             Marshal.Copy(ptr, arr, 0, size);
             Marshal.FreeHGlobal(ptr);
             return arr;
@@ -535,7 +566,7 @@ namespace DemoService
             byte[] arr = new byte[size];
 
             IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(str, ptr, true);
+            Marshal.StructureToPtr(str, ptr, false);
             Marshal.Copy(ptr, arr, 0, size);
             Marshal.FreeHGlobal(ptr);
             return arr;
@@ -547,7 +578,7 @@ namespace DemoService
             byte[] arr = new byte[size];
 
             IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(str, ptr, true);
+            Marshal.StructureToPtr(str, ptr, false);
             Marshal.Copy(ptr, arr, 0, size);
             Marshal.FreeHGlobal(ptr);
             return arr;
@@ -559,7 +590,7 @@ namespace DemoService
             byte[] arr = new byte[size];
 
             IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(str, ptr, true);
+            Marshal.StructureToPtr(str, ptr, false);
             Marshal.Copy(ptr, arr, 0, size);
             Marshal.FreeHGlobal(ptr);
             return arr;
@@ -571,7 +602,7 @@ namespace DemoService
             byte[] arr = new byte[size];
 
             IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(str, ptr, true);
+            Marshal.StructureToPtr(str, ptr, false);
             Marshal.Copy(ptr, arr, 0, size);
             Marshal.FreeHGlobal(ptr);
             return arr;
