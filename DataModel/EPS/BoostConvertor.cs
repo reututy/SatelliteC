@@ -6,32 +6,34 @@ using System.Threading;
 
 namespace DataModel.EPS
 {
-    public class BoostConvertor
+    public class BoostConverter
     {
-        public short temperture { get; set; }
-        public ushort volt { get; set; }
-        public ushort current_in { get; set; }
-        public bool IsSunny { get; set; }
+        public short Temperture { get; set; }
+        public ushort Volt { get; set; }
+        public ushort CurrentIn { get; set; }
+        public ushort CurrentOut { get; set; }
+        public short FixedPPTPoint { get; set; }
+        //public bool IsSunny { get; set; }
 
-        public BoostConvertor(short temp, ushort vol, ushort currIn)
+        public BoostConverter(short temp, ushort vol, ushort currIn)
         {
-            temperture = temp;
-            volt = vol;
-            current_in = currIn;
+            Temperture = temp;
+            Volt = vol;
+            CurrentIn = currIn;
         }
 
-        public void run()
+        /*public void run()
         {
             while (true)
             {
                 if (IsSunny)
                 {
-                    current_in += 10;//?????? change to constant
-                    volt += 10;//????????? change to constant
-                    temperture += 10;//???????? change to constant
+                    CurrentIn += 10;//?????? change to constant
+                    Volt += 10;//????????? change to constant
+                    Temperture += 10;//???????? change to constant
                 }
                 Thread.Sleep(5000); //change to constant
             }
-        }
+        }*/
     }
 }

@@ -27,7 +27,7 @@ namespace Presentation
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.changePanel(new ComponentsTabs());
+            MainWindow.ChangePanel(new ComponentsTabs());
         }
     }
 }

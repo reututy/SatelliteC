@@ -29,11 +29,11 @@ namespace Presentation
         {
             InitializeComponent();
             eps = new EPS();
-            currInText.DataContext = eps.onboard_battery;
-            currOutText.DataContext = eps.onboard_battery;
-            voltText.DataContext = eps.onboard_battery;
-            tempText.DataContext = eps.onboard_battery;
-            battStateText.DataContext = eps.onboard_battery;
+            currInText.DataContext = eps.OnboardBattery;
+            currOutText.DataContext = eps.OnboardBattery;
+            voltText.DataContext = eps.OnboardBattery;
+            tempText.DataContext = eps.OnboardBattery;
+            battStateText.DataContext = eps.OnboardBattery;
             /*Task.Factory.StartNew(() => Thread.Sleep(1000))
             .ContinueWith((t) =>
             {

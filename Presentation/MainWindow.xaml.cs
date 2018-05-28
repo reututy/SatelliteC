@@ -27,15 +27,22 @@ namespace Presentation
         public MainWindow()
         {
             InitializeComponent();
+            //this.Left = 0;
+            //this.Top = 0;
+            //this.Width = SystemParameters.VirtualScreenWidth;
+            //this.Height = SystemParameters.VirtualScreenHeight;
+            this.WindowState = WindowState.Maximized;
             panel = activePanel;
             activePanel.Visibility = Visibility.Visible;
-            changePanel(new StartPage());
-            this.SizeToContent = SizeToContent.WidthAndHeight;
+            ChangePanel(new StartPage());
+
+            
+            //this.Topmost = true;
         }
 
         public static Panel Panel { get => panel; set => panel = value; }
 
-        public static void changePanel(UserControl u)
+        public static void ChangePanel(UserControl u)
         {
             panel.Children.Clear();
             panel.Children.Add(u);

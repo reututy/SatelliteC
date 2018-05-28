@@ -17,7 +17,7 @@ namespace DataModel.EPS
         public ushort[] output_initial_on_delay { get; set; } //!< Output switches: init with these on delays [s]
         public ushort[] output_initial_off_delay { get; set; }//!< Output switches: init with these off delays [s]
         public ushort[] vboost { get; set; } //!< Fixed PPT point for boost converters [mV]
-        public ushort commandReply { get; set; } //!< reply of the last command
+        //public ushort commandReply { get; set; } //!< reply of the last command
         public ushort batt_maxvoltage { get; set; } //!< Maximum battery voltage
         public ushort batt_safevoltage { get; set; } //!< Battery voltage for safe mode
         public ushort batt_criticalvoltage { get; set; } //!< Battery voltage for critical mode

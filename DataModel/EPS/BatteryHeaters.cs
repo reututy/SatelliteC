@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace DataModel.EPS
 {
-    public class BatteryHeaters
+    public class BatteryHeater
     {
-        public byte mode { get; set; } //0 = Manual, 1 = Auto]
-        public byte type { get; set; } //0 = BP4, 1= Onboard
-        public byte status { get; set; } //0 = OFF 1 = ON
-        public sbyte battheater_low { get; set; }   //! Turn heater on at [degC]
-        public sbyte battheater_high { get; set; }  //! Turn heater off at [degC]
+        public byte Mode { get; set; } //0 = Manual, 1 = Auto]
+        public byte Type { get; set; } //0 = BP4, 1= Onboard
+        public byte Status { get; set; } //0 = OFF 1 = ON
+        public sbyte BattHeaterLow { get; set; }   //! Turn heater on at [degC]
+        public sbyte BattHeaterHigh { get; set; }  //! Turn heater off at [degC]
 
-        public BatteryHeaters(byte mod, byte typ, byte stat, sbyte low, sbyte high)
+        public BatteryHeater(byte mod, byte typ, byte stat, sbyte low, sbyte high)
         {
-            mode = mod;
-            type = typ;
-            status = stat;
-            battheater_low = low;
-            battheater_high = high;
+            Mode = mod;
+            Type = typ;
+            Status = stat;
+            BattHeaterLow = low;
+            BattHeaterHigh = high;
         }
     }
 }

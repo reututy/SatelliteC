@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="GomEPS.cs" />
     <Compile Include="IsisTRXVU.cs" />
+    <Compile Include="LogicMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

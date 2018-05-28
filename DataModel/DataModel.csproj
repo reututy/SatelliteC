@@ -54,6 +54,8 @@
     <Compile Include="EPS\Channel.cs" />
     <Compile Include="EPS\EPSConfiguration.cs" />
     <Compile Include="EPS\EPSConstants.cs" />
+    <Compile Include="EPS\EPSStartValues.cs" />
+    <Compile Include="EPS\Output.cs" />
     <Compile Include="EPS\WDT.cs" />
     <Compile Include="OBC\FRAM.cs" />
     <Compile Include="OBC\I2C.cs" />
