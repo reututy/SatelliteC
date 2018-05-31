@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +12,41 @@ namespace DataModel.EPS
 
     public class Channel : Output
     {
-        
-        public ushort CurrentOut { get; set; }
-        public ushort LatchupNum { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private ushort _currentOut;
+        public ushort CurrentOut
+        {
+            get
+            {
+                return _currentOut;
+            }
+            set
+            {
+                _currentOut = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("CurrentOut"));
+                }
+            }
+        }
+
+        private ushort _latchupNum;
+        public ushort LatchupNum
+        {
+            get
+            {
+                return _latchupNum;
+            }
+            set
+            {
+                _latchupNum = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("LatchupNum"));
+                }
+            }
+        }
 
         public Channel(byte stat, OutputType type, ushort vol, ushort currOut, ushort latch) : base(stat, type, vol)
         {

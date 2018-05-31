@@ -155,14 +155,14 @@ namespace DataModel.EPS.Tests
         {
             EPS eps = new EPS();
             EPS.eps_hk_wdt_t ans = eps.GET_HK_2_WDT(3);
-            Assert.AreEqual(ans.counter_wdt_csp[0], eps.Wdts[(int)wdt_type.CSP0].RebootCounter);
-            Assert.AreEqual(ans.counter_wdt_csp[1], eps.Wdts[(int)wdt_type.CSP1].RebootCounter);
-            Assert.AreEqual(ans.counter_wdt_gnd, eps.Wdts[(int)wdt_type.GND].RebootCounter);
-            Assert.AreEqual(ans.counter_wdt_i2c, eps.Wdts[(int)wdt_type.I2C].RebootCounter);
-            Assert.AreEqual(ans.wdt_csp_pings_left[0], eps.Wdts[(int)wdt_type.CSP0].TimePingLeft);
-            Assert.AreEqual(ans.wdt_csp_pings_left[1], eps.Wdts[(int)wdt_type.CSP1].TimePingLeft);
-            Assert.AreEqual(ans.wdt_gnd_time_left, eps.Wdts[(int)wdt_type.GND].TimePingLeft);
-            Assert.AreEqual(ans.wdt_i2c_time_left, eps.Wdts[(int)wdt_type.I2C].TimePingLeft);
+            Assert.AreEqual(ans.counter_wdt_csp[0], eps.Wdts[(int)WdtType.CSP0].RebootCounter);
+            Assert.AreEqual(ans.counter_wdt_csp[1], eps.Wdts[(int)WdtType.CSP1].RebootCounter);
+            Assert.AreEqual(ans.counter_wdt_gnd, eps.Wdts[(int)WdtType.GND].RebootCounter);
+            Assert.AreEqual(ans.counter_wdt_i2c, eps.Wdts[(int)WdtType.I2C].RebootCounter);
+            Assert.AreEqual(ans.wdt_csp_pings_left[0], eps.Wdts[(int)WdtType.CSP0].TimePingLeft);
+            Assert.AreEqual(ans.wdt_csp_pings_left[1], eps.Wdts[(int)WdtType.CSP1].TimePingLeft);
+            Assert.AreEqual(ans.wdt_gnd_time_left, eps.Wdts[(int)WdtType.GND].TimePingLeft);
+            Assert.AreEqual(ans.wdt_i2c_time_left, eps.Wdts[(int)WdtType.I2C].TimePingLeft);
         }
 
         [TestMethod()]
@@ -172,16 +172,16 @@ namespace DataModel.EPS.Tests
             EPS.eps_hk_basic_t ans = eps.GET_HK_2_BASIC(4);
             Assert.AreEqual(ans.counter_boot, eps.RebootCount);
             Assert.AreEqual(ans.bootcause, eps.LastResetCause);
-            Assert.AreEqual(ans.pptmode, eps.CurrentConfig.ppt_mode);
-            Assert.AreEqual(ans.battmode, (byte)eps.OnboardBattery.batt_mode);
+            Assert.AreEqual(ans.pptmode, eps.CurrentConfig.PptMode);
+            Assert.AreEqual(ans.battmode, (byte)eps.OnboardBattery.BattMode);
             int i;
             for (i = 0; i < 3; i++)
             {
                 Assert.AreEqual(ans.temp[i], eps.BoostConverters[i].Temperture);                
             }
-            Assert.AreEqual(ans.temp[3], eps.OnboardBattery.temperture);
-            Assert.AreEqual(ans.temp[4], eps.OnboardBattery.temperture);
-            Assert.AreEqual(ans.temp[5], eps.OnboardBattery.temperture);
+            Assert.AreEqual(ans.temp[3], eps.OnboardBattery.Temperture);
+            Assert.AreEqual(ans.temp[4], eps.OnboardBattery.Temperture);
+            Assert.AreEqual(ans.temp[5], eps.OnboardBattery.Temperture);
         }
 
         [TestMethod()]
@@ -239,11 +239,11 @@ namespace DataModel.EPS.Tests
         {
             EPS eps = new EPS();
             eps.SET_PV_AUTO(EPSConstants.HARDWARE);
-            Assert.AreEqual(eps.CurrentConfig.ppt_mode, EPSConstants.HARDWARE);
+            Assert.AreEqual(eps.CurrentConfig.PptMode, EPSConstants.HARDWARE);
             eps.SET_PV_AUTO(EPSConstants.MPPT);
-            Assert.AreEqual(eps.CurrentConfig.ppt_mode, EPSConstants.MPPT);
+            Assert.AreEqual(eps.CurrentConfig.PptMode, EPSConstants.MPPT);
             eps.SET_PV_AUTO(EPSConstants.FIXEDSWPPT);
-            Assert.AreEqual(eps.CurrentConfig.ppt_mode, EPSConstants.FIXEDSWPPT);
+            Assert.AreEqual(eps.CurrentConfig.PptMode, EPSConstants.FIXEDSWPPT);
         }
 
         /*[TestMethod()]
@@ -277,10 +277,10 @@ namespace DataModel.EPS.Tests
             EPS eps = new EPS();
             eps.RESET_COUNTERS(0x42);
             Assert.AreEqual(eps.RebootCount, (uint)0);
-            Assert.AreEqual(eps.Wdts[(int)wdt_type.CSP0].RebootCounter, (uint)0);
-            Assert.AreEqual(eps.Wdts[(int)wdt_type.GND].RebootCounter, (uint)0);
-            Assert.AreEqual(eps.Wdts[(int)wdt_type.I2C].RebootCounter, (uint)0);
-            Assert.AreEqual(eps.Wdts[(int)wdt_type.CSP1].RebootCounter, (uint)0);
+            Assert.AreEqual(eps.Wdts[(int)WdtType.CSP0].RebootCounter, (uint)0);
+            Assert.AreEqual(eps.Wdts[(int)WdtType.GND].RebootCounter, (uint)0);
+            Assert.AreEqual(eps.Wdts[(int)WdtType.I2C].RebootCounter, (uint)0);
+            Assert.AreEqual(eps.Wdts[(int)WdtType.CSP1].RebootCounter, (uint)0);
         }
 
         [TestMethod()]
@@ -288,7 +288,7 @@ namespace DataModel.EPS.Tests
         {
             EPS eps = new EPS();
             eps.RESET_WDT(0x78);
-            Assert.AreEqual(eps.Wdts[(int)wdt_type.GND].TimePingLeft, (uint)EPSConstants.WDT_GND_INIT_TIME);
+            Assert.AreEqual(eps.Wdts[(int)WdtType.GND].TimePingLeft, (uint)EPSConstants.WDT_GND_INIT_TIME);
         }
 
         [TestMethod()]
@@ -296,19 +296,19 @@ namespace DataModel.EPS.Tests
         {
             EPS eps = new EPS();
             eps.CONFIG_CMD(1);
-            Assert.AreEqual(eps.CurrentConfig.ppt_mode, EPSConstants.FIXEDSWPPT);
-            Assert.AreEqual(eps.CurrentConfig.battheater_mode, EPSConstants.AUTO);
-            Assert.AreEqual(eps.CurrentConfig.battheater_high, 100); //to change
-            Assert.AreEqual(eps.CurrentConfig.battheater_low, 0); //to change
+            Assert.AreEqual(eps.CurrentConfig.PptMode, EPSConstants.FIXEDSWPPT);
+            Assert.AreEqual(eps.CurrentConfig.BattheaterMode, EPSConstants.AUTO);
+            Assert.AreEqual(eps.CurrentConfig.BattheaterHigh, 100); //to change
+            Assert.AreEqual(eps.CurrentConfig.BattheaterLow, 0); //to change
             int i;
             for (i = 0; i < 3; i++)
-                Assert.AreEqual(eps.CurrentConfig.vboost[i], EPSConstants.SOFTWARE_PPT_DEFAULT_V);
+                Assert.AreEqual(eps.CurrentConfig.Vboost[i], EPSConstants.SOFTWARE_PPT_DEFAULT_V);
             for (i = 0; i < 8; i++)
             {
-                Assert.AreEqual(eps.CurrentConfig.output_initial_off_delay[i], 1);
-                Assert.AreEqual(eps.CurrentConfig.output_initial_on_delay[i], 1);
-                Assert.AreEqual(eps.CurrentConfig.output_normal_value[i], 0); //need to change
-                Assert.AreEqual(eps.CurrentConfig.output_safe_value[i], 0); //need to change
+                Assert.AreEqual(eps.CurrentConfig.OutputInitialOffDelay[i], 1);
+                Assert.AreEqual(eps.CurrentConfig.OutputInitialOnDelay[i], 1);
+                Assert.AreEqual(eps.CurrentConfig.OutputNormalValue[i], 0); //need to change
+                Assert.AreEqual(eps.CurrentConfig.OutputSafeValue[i], 0); //need to change
             }
         }
 
@@ -317,21 +317,21 @@ namespace DataModel.EPS.Tests
         {
             EPS eps = new EPS();
             EPS.eps_config_t config = eps.CONFIG_GET();
-            Assert.AreEqual(eps.CurrentConfig.ppt_mode, config.ppt_mode);
-            Assert.AreEqual(eps.CurrentConfig.battheater_mode, config.battheater_mode);
-            Assert.AreEqual(eps.CurrentConfig.battheater_low, config.battheater_low);
-            Assert.AreEqual(eps.CurrentConfig.battheater_high, config.battheater_high);
-            Assert.AreEqual(eps.CurrentConfig.battheater_mode, config.battheater_mode);
+            Assert.AreEqual(eps.CurrentConfig.PptMode, config.ppt_mode);
+            Assert.AreEqual(eps.CurrentConfig.BattheaterMode, config.battheater_mode);
+            Assert.AreEqual(eps.CurrentConfig.BattheaterLow, config.battheater_low);
+            Assert.AreEqual(eps.CurrentConfig.BattheaterHigh, config.battheater_high);
+            Assert.AreEqual(eps.CurrentConfig.BattheaterMode, config.battheater_mode);
             int i;
             for (i = 0; i < 8; i++)
             {
-                Assert.AreEqual(config.output_initial_off_delay[i], eps.CurrentConfig.output_initial_off_delay[i]);
-                Assert.AreEqual(config.output_initial_on_delay[i], eps.CurrentConfig.output_initial_on_delay[i]);
-                Assert.AreEqual(config.output_normal_value[i], eps.CurrentConfig.output_normal_value[i]);
-                Assert.AreEqual(config.output_safe_value[i], eps.CurrentConfig.output_safe_value[i]);
+                Assert.AreEqual(config.output_initial_off_delay[i], eps.CurrentConfig.OutputInitialOffDelay[i]);
+                Assert.AreEqual(config.output_initial_on_delay[i], eps.CurrentConfig.OutputInitialOnDelay[i]);
+                Assert.AreEqual(config.output_normal_value[i], eps.CurrentConfig.OutputNormalValue[i]);
+                Assert.AreEqual(config.output_safe_value[i], eps.CurrentConfig.OutputSafeValue[i]);
             }
             for (i = 0; i < 3; i++)
-                Assert.AreEqual(config.vboost[i], eps.CurrentConfig.vboost[i]);
+                Assert.AreEqual(config.vboost[i], eps.CurrentConfig.Vboost[i]);
         }
 
         [TestMethod()]
@@ -360,21 +360,21 @@ namespace DataModel.EPS.Tests
                 config.vboost[i] = 8;
 
             eps.CONFIG_SET(config);
-            Assert.AreEqual(eps.CurrentConfig.ppt_mode, config.ppt_mode);
-            Assert.AreEqual(eps.CurrentConfig.battheater_mode, config.battheater_mode);
-            Assert.AreEqual(eps.CurrentConfig.battheater_low, config.battheater_low);
-            Assert.AreEqual(eps.CurrentConfig.battheater_high, config.battheater_high);
-            Assert.AreEqual(eps.CurrentConfig.battheater_mode, config.battheater_mode);
+            Assert.AreEqual(eps.CurrentConfig.PptMode, config.ppt_mode);
+            Assert.AreEqual(eps.CurrentConfig.BattheaterMode, config.battheater_mode);
+            Assert.AreEqual(eps.CurrentConfig.BattheaterLow, config.battheater_low);
+            Assert.AreEqual(eps.CurrentConfig.BattheaterHigh, config.battheater_high);
+            Assert.AreEqual(eps.CurrentConfig.BattheaterMode, config.battheater_mode);
 
             for (int i = 0; i < 8; i++)
             {
-                Assert.AreEqual(config.output_initial_off_delay[i], eps.CurrentConfig.output_initial_off_delay[i]);
-                Assert.AreEqual(config.output_initial_on_delay[i], eps.CurrentConfig.output_initial_on_delay[i]);
-                Assert.AreEqual(config.output_normal_value[i], eps.CurrentConfig.output_normal_value[i]);
-                Assert.AreEqual(config.output_safe_value[i], eps.CurrentConfig.output_safe_value[i]);
+                Assert.AreEqual(config.output_initial_off_delay[i], eps.CurrentConfig.OutputInitialOffDelay[i]);
+                Assert.AreEqual(config.output_initial_on_delay[i], eps.CurrentConfig.OutputInitialOnDelay[i]);
+                Assert.AreEqual(config.output_normal_value[i], eps.CurrentConfig.OutputNormalValue[i]);
+                Assert.AreEqual(config.output_safe_value[i], eps.CurrentConfig.OutputSafeValue[i]);
             }
             for (int i = 0; i < 3; i++)
-                Assert.AreEqual(config.vboost[i], eps.CurrentConfig.vboost[i]);
+                Assert.AreEqual(config.vboost[i], eps.CurrentConfig.Vboost[i]);
         }
 
         [TestMethod()]
@@ -390,10 +390,10 @@ namespace DataModel.EPS.Tests
         {
             EPS eps = new EPS();
             eps.CONFIG2_CMD(1);
-            Assert.AreEqual(eps.CurrentConfig.batt_safevoltage, EPSConstants.SAFE_VBAT);
-            Assert.AreEqual(eps.CurrentConfig.batt_normalvoltage, EPSConstants.NORMAL_VBAT);
-            Assert.AreEqual(eps.CurrentConfig.batt_maxvoltage, EPSConstants.MAX_VBAT);
-            Assert.AreEqual(eps.CurrentConfig.batt_criticalvoltage, EPSConstants.CRITICAL_VBAT);
+            Assert.AreEqual(eps.CurrentConfig.BattSafeVoltage, EPSConstants.SAFE_VBAT);
+            Assert.AreEqual(eps.CurrentConfig.BattNormalVoltage, EPSConstants.NORMAL_VBAT);
+            Assert.AreEqual(eps.CurrentConfig.BattMaxVoltage, EPSConstants.MAX_VBAT);
+            Assert.AreEqual(eps.CurrentConfig.BattCriticalVoltage, EPSConstants.CRITICAL_VBAT);
         }
 
         [TestMethod()]
@@ -401,10 +401,10 @@ namespace DataModel.EPS.Tests
         {
             EPS eps = new EPS();
             EPS.eps_config2_t config2 = eps.CONFIG2_GET();
-            Assert.AreEqual(config2.batt_safevoltage, eps.CurrentConfig.batt_safevoltage);
-            Assert.AreEqual(config2.batt_normalvoltage, eps.CurrentConfig.batt_normalvoltage);
-            Assert.AreEqual(config2.batt_maxvoltage, eps.CurrentConfig.batt_maxvoltage);
-            Assert.AreEqual(config2.batt_criticalvoltage, eps.CurrentConfig.batt_criticalvoltage);
+            Assert.AreEqual(config2.batt_safevoltage, eps.CurrentConfig.BattSafeVoltage);
+            Assert.AreEqual(config2.batt_normalvoltage, eps.CurrentConfig.BattNormalVoltage);
+            Assert.AreEqual(config2.batt_maxvoltage, eps.CurrentConfig.BattMaxVoltage);
+            Assert.AreEqual(config2.batt_criticalvoltage, eps.CurrentConfig.BattCriticalVoltage);
 
         }
 
@@ -418,10 +418,10 @@ namespace DataModel.EPS.Tests
             config2.batt_maxvoltage = 8;
             config2.batt_criticalvoltage = 8;
             eps.CONFIG2_SET(config2);
-            Assert.AreEqual(config2.batt_safevoltage, eps.CurrentConfig.batt_safevoltage);
-            Assert.AreEqual(config2.batt_normalvoltage, eps.CurrentConfig.batt_normalvoltage);
-            Assert.AreEqual(config2.batt_maxvoltage, eps.CurrentConfig.batt_maxvoltage);
-            Assert.AreEqual(config2.batt_criticalvoltage, eps.CurrentConfig.batt_criticalvoltage);
+            Assert.AreEqual(config2.batt_safevoltage, eps.CurrentConfig.BattSafeVoltage);
+            Assert.AreEqual(config2.batt_normalvoltage, eps.CurrentConfig.BattNormalVoltage);
+            Assert.AreEqual(config2.batt_maxvoltage, eps.CurrentConfig.BattMaxVoltage);
+            Assert.AreEqual(config2.batt_criticalvoltage, eps.CurrentConfig.BattCriticalVoltage);
 
         }
 
