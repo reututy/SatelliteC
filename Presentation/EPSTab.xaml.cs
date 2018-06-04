@@ -29,11 +29,45 @@ namespace Presentation
         {
             InitializeComponent();
             eps = new EPS();
-            currInText.DataContext = eps.OnboardBattery;
-            currOutText.DataContext = eps.OnboardBattery;
-            voltText.DataContext = eps.OnboardBattery;
-            tempText.DataContext = eps.OnboardBattery;
-            battStateText.DataContext = eps.OnboardBattery;
+            Battery batt = eps.OnboardBattery;
+            BoostConverter converter1 = eps.BoostConverters[0];
+            BoostConverter converter2 = eps.BoostConverters[1];
+            BoostConverter converter3 = eps.BoostConverters[2];
+            Channel channel1 = (Channel)eps.Outputs[0];
+            Channel channel2 = (Channel)eps.Outputs[1];
+            Channel channel3 = (Channel)eps.Outputs[2];
+            Channel channel4 = (Channel)eps.Outputs[3];
+            Channel channel5 = (Channel)eps.Outputs[4];
+            Channel channel6 = (Channel)eps.Outputs[5];
+            EPSConfiguration currConfig = eps.CurrentConfig;
+            BatteryHeater heater = eps.BatteryHeater;
+            WDT i2c = eps.Wdts[(int)WdtType.I2C];
+            WDT gnd = eps.Wdts[(int)WdtType.GND];
+            WDT csp0 = eps.Wdts[(int)WdtType.CSP0];
+            WDT csp1 = eps.Wdts[(int)WdtType.CSP1];
+            //Battery
+            batteryGrid.DataContext = batt;
+            //pv
+            pv1Grid.DataContext = converter1;
+            pv2Grid.DataContext = converter2;           
+            pv3Grid.DataContext = converter3;
+            //channels
+            channel1Grid.DataContext = channel1;
+            channel2Grid.DataContext = channel2;
+            channel3Grid.DataContext = channel3;
+            channel4Grid.DataContext = channel4;
+            channel5Grid.DataContext = channel5;
+            channel6Grid.DataContext = channel6;
+            //current config
+            confGrid.DataContext = currConfig;
+            //battery heater
+            batteryHeaterGrid.DataContext = heater;
+            //WDTs
+            wdtI2CGrid.DataContext = i2c;
+            wdtGNDGrid.DataContext = gnd;
+            wdtCSP0Grid.DataContext = csp0;
+            wdtCSP1Grid.DataContext = csp1;
+
             /*Task.Factory.StartNew(() => Thread.Sleep(1000))
             .ContinueWith((t) =>
             {
@@ -55,7 +89,7 @@ namespace Presentation
         }
         private void myEvent(object source, ElapsedEventArgs e)
         {
-            eps.BatteryDrop();
+            eps.RunEPS();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
