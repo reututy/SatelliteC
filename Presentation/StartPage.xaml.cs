@@ -31,12 +31,14 @@ namespace Presentation
         {
             Logic.GomEPS eps = new Logic.GomEPS();
             Logic.IsisTRXVU trx = new Logic.IsisTRXVU();
+            Logic.FRAMLogic fram = new Logic.FRAMLogic();
             try
             {
                 int port = 4444;
                 AsyncService service = new AsyncService();
                 AsyncService.eps = eps;
                 AsyncService.trx = trx;
+                AsyncService.fram = fram;
                 Thread newThread = new Thread(AsyncService.Run);
                 newThread.Start();
             }
