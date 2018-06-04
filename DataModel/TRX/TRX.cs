@@ -36,21 +36,61 @@ namespace DataModel.TRX
         public ISIStrxvuI2CAddress address { get; set; }
         public ISIStrxvuFrameLengths maxFrameLengths { get; set; }
         public ISIStrxvuBitrate default_bitrates { get; set; }
-        public ISIStrxvuBeacon ISIStrxvuBeaconOn { get; set; }
+        public ISIStrxvuBeacon _ISIStrxvuBeaconOn { get; set; }
+        public ISIStrxvuBeacon ISIStrxvuBeaconOn
+        {
+            get { return this._ISIStrxvuBeaconOn; }
+            set
+            {
+                if (this._ISIStrxvuBeaconOn != value)
+                {
+                    this._ISIStrxvuBeaconOn = value;
+                    this.NotifyPropertyChanged("ISIStrxvuBeaconOn");
+                }
+            }
+        }
         public Transmitter transmitter;
         public Receiver receiver;
         public AX25Frame Beacon { get; set; }
         private Thread beaconThread;
-        ushort beaconInterval;
+        ushort _beaconInterval;
+        public ushort beaconInterval
+        {
+            get { return this._beaconInterval; }
+            set
+            {
+                if (this._beaconInterval != value)
+                {
+                    this._beaconInterval = value;
+                    this.NotifyPropertyChanged("beaconInterval");
+                }
+            }
+        }
 
         public void OverflowReceiverBuffer()
         {
-
+            for (int i = 0; i < 40; i++)
+            {
+                receiver.rxFrameBuffer.addFrame(new AX25Frame(TRXConfiguration.FromDefClSign, TRXConfiguration.ToDefClSign, Encoding.UTF8.GetBytes("defult")));
+            }
         }
 
         public void OverflowTransmitterBuffer()
         {
+            for(int i=0; i<40; i++)
+            {
+                transmitter.SendFrame(new AX25Frame(TRXConfiguration.FromDefClSign, TRXConfiguration.ToDefClSign, Encoding.UTF8.GetBytes("defult")));
+            }
+        }
 
+        public void clearReceiverBuffer()
+        {
+            receiver.clear();
+        }
+
+        public void clearTransmitterBuffer()
+        {
+            transmitter.clear();
         }
 
         public TRX(int trxId, ISIStrxvuI2CAddress address, ISIStrxvuFrameLengths maxFrameLengths, ISIStrxvuBitrate default_bitrates)
