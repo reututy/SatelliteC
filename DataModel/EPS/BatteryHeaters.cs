@@ -12,7 +12,7 @@ namespace DataModel.EPS
         public event PropertyChangedEventHandler PropertyChanged;
 
         private byte _mode;
-        //0 = Manual, 1 = Auto]
+        //0 = Manual, 1 = Auto
         public byte Mode
         {
             get

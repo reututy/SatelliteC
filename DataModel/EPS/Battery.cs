@@ -3,10 +3,10 @@
 namespace DataModel.EPS
 {
     /* battery protection states */
-    public enum batt_state {INITIAL, CRITICAL, SAFE, NORMAL, FULL }
+    public enum BattState {INITIAL, CRITICAL, SAFE, NORMAL, FULL }
 
     /* mode for battery[0 = normal, 1 = undervoltage, 2 = overvoltage] */
-    public enum batt_mode { NORMAL, UNDERVOLTAGE, OVERVOLTAGE }
+    public enum BattMode { NORMAL, UNDERVOLTAGE, OVERVOLTAGE }
 
     public class Battery : INotifyPropertyChanged
     {
@@ -81,8 +81,8 @@ namespace DataModel.EPS
             }
         }
 
-        private batt_state _battState;
-        public batt_state BattState
+        private BattState _battState;
+        public BattState BattState
         {
             get
             {
@@ -98,8 +98,8 @@ namespace DataModel.EPS
             }
         }
 
-        private batt_mode _battMode;
-        public batt_mode BattMode
+        private BattMode _battMode;
+        public BattMode BattMode
         {
             get
             {
@@ -115,7 +115,7 @@ namespace DataModel.EPS
             }
         }
 
-        public Battery(byte external, ushort vBat, ushort currIn, ushort currOut, short temp, batt_state state, batt_mode mode)
+        public Battery(byte external, ushort vBat, ushort currIn, ushort currOut, short temp, BattState state, BattMode mode)
         {
             OnboardExternal = external;
             Vbat = vBat;

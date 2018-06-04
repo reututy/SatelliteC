@@ -159,10 +159,10 @@ namespace DataModel.EPS.Tests
             Assert.AreEqual(ans.counter_wdt_csp[1], eps.Wdts[(int)WdtType.CSP1].RebootCounter);
             Assert.AreEqual(ans.counter_wdt_gnd, eps.Wdts[(int)WdtType.GND].RebootCounter);
             Assert.AreEqual(ans.counter_wdt_i2c, eps.Wdts[(int)WdtType.I2C].RebootCounter);
-            Assert.AreEqual(ans.wdt_csp_pings_left[0], eps.Wdts[(int)WdtType.CSP0].TimePingLeft);
-            Assert.AreEqual(ans.wdt_csp_pings_left[1], eps.Wdts[(int)WdtType.CSP1].TimePingLeft);
-            Assert.AreEqual(ans.wdt_gnd_time_left, eps.Wdts[(int)WdtType.GND].TimePingLeft);
-            Assert.AreEqual(ans.wdt_i2c_time_left, eps.Wdts[(int)WdtType.I2C].TimePingLeft);
+            Assert.AreEqual(ans.wdt_csp_pings_left[0], eps.Wdts[(int)WdtType.CSP0].TimeLeft);
+            Assert.AreEqual(ans.wdt_csp_pings_left[1], eps.Wdts[(int)WdtType.CSP1].TimeLeft);
+            Assert.AreEqual(ans.wdt_gnd_time_left, eps.Wdts[(int)WdtType.GND].TimeLeft);
+            Assert.AreEqual(ans.wdt_i2c_time_left, eps.Wdts[(int)WdtType.I2C].TimeLeft);
         }
 
         [TestMethod()]
@@ -288,7 +288,7 @@ namespace DataModel.EPS.Tests
         {
             EPS eps = new EPS();
             eps.RESET_WDT(0x78);
-            Assert.AreEqual(eps.Wdts[(int)WdtType.GND].TimePingLeft, (uint)EPSConstants.WDT_GND_INIT_TIME);
+            Assert.AreEqual(eps.Wdts[(int)WdtType.GND].TimeLeft, (uint)EPSConstants.WDT_GND_INIT_TIME);
         }
 
         [TestMethod()]

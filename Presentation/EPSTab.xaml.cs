@@ -40,7 +40,6 @@ namespace Presentation
             Channel channel5 = (Channel)eps.Outputs[4];
             Channel channel6 = (Channel)eps.Outputs[5];
             EPSConfiguration currConfig = eps.CurrentConfig;
-            EPSConfiguration defaultConfig = eps.DefaultConfig;
             BatteryHeater heater = eps.BatteryHeater;
             WDT i2c = eps.Wdts[(int)WdtType.I2C];
             WDT gnd = eps.Wdts[(int)WdtType.GND];
@@ -61,8 +60,6 @@ namespace Presentation
             channel6Grid.DataContext = channel6;
             //current config
             confGrid.DataContext = currConfig;
-            //default config
-            defconfGrid.DataContext = defaultConfig;
             //battery heater
             batteryHeaterGrid.DataContext = heater;
             //WDTs
@@ -92,7 +89,7 @@ namespace Presentation
         }
         private void myEvent(object source, ElapsedEventArgs e)
         {
-            eps.BatteryDrop();
+            eps.RunEPS();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

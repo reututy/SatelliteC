@@ -20,7 +20,7 @@ namespace DataModel.EPS
         }
 
         private byte _pptMode;
-        //!< Mode for PPT [1 = AUTO, 2 = FIXED]
+        //!< Mode for PPT [0 = Hardware, 1 = MPPT, 2 = Fixed SW PPT]
         public byte PptMode
         {
             get {return _pptMode;}

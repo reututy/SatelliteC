@@ -20,7 +20,7 @@ namespace DataModel.EPS
         public byte LastResetCause { get; set; } //Cause of last EPS reset
         public WDT[] Wdts { get; set; }
         public EPSConfiguration CurrentConfig { get; set; }
-        public EPSConfiguration DefaultConfig { get; set; }
+        //public EPSConfiguration DefaultConfig { get; set; }
         //public ushort[] curout { get; set; } //! Current out (switchable outputs) [mA]
         public byte KillSwitchStatus { get; set; } //ON or OFF
         public bool IsCharging { get; set; } //ON or OFF
@@ -33,17 +33,85 @@ namespace DataModel.EPS
        
         /// ///////////////////////////
 
+        public void RunEPS()
+        {
+            ChargingFlow();
+            BatteryDrop();
+            //CheckBatteryState();
+            CheckBatteryHeater();
+            RunWDTs();
+        }
+
         public void ChargingFlow()
         {
-            if (IsCharging)
+            //if (IsCharging)
+            //{
+            ushort[] increaseCurrentPV = {10, 10, 10}; //change
+            ushort[] dropCurrentOutPV = { 1, 1, 1 }; //change
+            ushort[] dropCurrentInPV = { 1, 1, 1 }; //change
+            int resistancePV = EPSConstants.PV_IN_V_MAX / EPSConstants.PV_IN_I_CHARGE_MAX;
+            ushort totalCurrent = 0;
+            //PV charging
+            for (int i = 0; i < 3; i++)
             {
-                ushort totalCurrent = 0;
-                for (int i = 0; i < 3; i++)
+                if (BoostConverters[i].IsSun) //charging
                 {
-                    totalCurrent += BoostConverters[i].CurrentIn;
-                    OnboardBattery.CurrentIn = totalCurrent;
+                    if (CurrentConfig.PptMode == EPSConstants.FIXEDSWPPT)
+                    {
+                        ushort vboost = CurrentConfig.Vboost[i];
+                        ushort currentGoal = (ushort)(vboost / resistancePV);
+                        BoostConverters[i].CurrentIn += increaseCurrentPV[i];
+                        if (BoostConverters[i].CurrentIn > currentGoal)
+                        {
+                            BoostConverters[i].CurrentIn = currentGoal;
+                        }
+                    }
+                    else //if (CurrentConfig.PptMode == EPSConstants.MPPT) or Hardware
+                    {
+                        BoostConverters[i].CurrentIn += increaseCurrentPV[i];
+                        if (BoostConverters[i].CurrentIn > EPSConstants.PV_IN_I_CHARGE_MAX)
+                        {
+                            BoostConverters[i].CurrentIn = EPSConstants.PV_IN_I_CHARGE_MAX;
+                        }
+                    }
                 }
+                else //no sun - no charging
+                {
+                    BoostConverters[i].CurrentIn -= dropCurrentInPV[i];
+                    if (BoostConverters[i].CurrentIn < EPSConstants.PV_IN_I_CHARGE_MIN)
+                    {
+                        BoostConverters[i].CurrentIn = EPSConstants.PV_IN_I_CHARGE_MIN;
+                    }
+                }
+                BoostConverters[i].Volt = (ushort)(BoostConverters[i].CurrentIn * resistancePV);
+                BoostConverters[i].Temperture = (short)(BoostConverters[i].Volt / 1000);
+                BoostConverters[i].CurrentOut = (ushort)(BoostConverters[i].CurrentIn - dropCurrentOutPV[i]);
+                totalCurrent += BoostConverters[i].CurrentOut;
             }
+            //battery charging
+            ushort dropCurrentBattery = 1; //change
+            ushort increaseVoltBattery = 50; //change
+            short increaseTempBattery = 1; //change
+
+            OnboardBattery.CurrentIn = totalCurrent;
+            //if charge
+            OnboardBattery.Vbat += increaseVoltBattery;
+            CheckBatteryState();
+            OnboardBattery.Temperture += increaseTempBattery;
+            OnboardBattery.CurrentOut = (ushort)(OnboardBattery.CurrentIn - dropCurrentBattery);
+            
+
+            //}
+            
+        }
+
+        public void BatteryDrop()
+        {
+            short tempChanged = 1;
+            OnboardBattery.Vbat -= 10; //need to be changed
+            OnboardBattery.CurrentOut -= 10; //need to be changed
+            OnboardBattery.Temperture -= tempChanged; //need to be changed
+            
         }
 
         private void HardwareHighVoltProtection()
@@ -60,26 +128,26 @@ namespace DataModel.EPS
         {
             switch (OnboardBattery.BattState)
             {
-                case batt_state.INITIAL:
+                case BattState.INITIAL:
                     if (OnboardBattery.Vbat < EPSConstants.CRITICAL_VBAT)
                     {
-                        OnboardBattery.BattState = batt_state.CRITICAL;
+                        OnboardBattery.BattState = BattState.CRITICAL;
                     }
                     else if (OnboardBattery.Vbat < EPSConstants.SAFE_VBAT)
                     {
-                        OnboardBattery.BattState = batt_state.SAFE;
+                        OnboardBattery.BattState = BattState.SAFE;
                     }
                     else if (OnboardBattery.Vbat < EPSConstants.MAX_VBAT)
                     {
-                        OnboardBattery.BattState = batt_state.NORMAL;
+                        OnboardBattery.BattState = BattState.NORMAL;
                     }
                     else
                     {
-                        OnboardBattery.BattState = batt_state.FULL;
+                        OnboardBattery.BattState = BattState.FULL;
                         HardwareHighVoltProtection();
                     }
                     break;
-                case batt_state.CRITICAL:
+                case BattState.CRITICAL:
                     //hardware LOW voltage protection will switch off the kill-switch
                     if (OnboardBattery.Vbat <= EPSConstants.SWITCH_ON_V)
                     {
@@ -93,134 +161,159 @@ namespace DataModel.EPS
                     }
                     if (OnboardBattery.Vbat > EPSConstants.SAFE_VBAT)
                     {
-                        OnboardBattery.BattState = batt_state.SAFE;
+                        OnboardBattery.BattState = BattState.SAFE;
                     }
                     break;
-                case batt_state.SAFE:
+                case BattState.SAFE:
                     if (OnboardBattery.Vbat < EPSConstants.CRITICAL_VBAT)
                     {
-                        OnboardBattery.BattState = batt_state.CRITICAL;
+                        OnboardBattery.BattState = BattState.CRITICAL;
                     }
                     else if (OnboardBattery.Vbat > EPSConstants.NORMAL_VBAT)
                     {
-                        OnboardBattery.BattState = batt_state.NORMAL;
+                        OnboardBattery.BattState = BattState.NORMAL;
                     }
                     break;
-                case batt_state.NORMAL:
+                case BattState.NORMAL:
                     if (OnboardBattery.Vbat < EPSConstants.SAFE_VBAT)
                     {
-                        OnboardBattery.BattState = batt_state.SAFE;
+                        OnboardBattery.BattState = BattState.SAFE;
                     }
                     else if (OnboardBattery.Vbat > EPSConstants.MAX_VBAT)
                     {
-                        OnboardBattery.BattState = batt_state.FULL;
+                        OnboardBattery.BattState = BattState.FULL;
                         HardwareHighVoltProtection();
                     }
                     break;
-                case batt_state.FULL:
+                case BattState.FULL:
                     if (IsCharging)
                         HardwareHighVoltProtection();
                     if (OnboardBattery.Vbat < EPSConstants.MAX_VBAT)
                     {
-                        OnboardBattery.BattState = batt_state.NORMAL;
+                        OnboardBattery.BattState = BattState.NORMAL;
                         IsCharging = true;
                     }
                     break;
             }
         }
 
-        public void BatteryDrop()
+
+        public void CheckBatteryHeater()
         {
-            OnboardBattery.Vbat -= 10; //need to be changed
-            OnboardBattery.CurrentOut -= 10; //need to be changed
-            CheckBatteryState();
+            short tempChanged = 1;
+            if (BatteryHeater.Mode == EPSConstants.AUTO)
+            {
+                sbyte high = BatteryHeater.BattHeaterHigh;
+                sbyte low = BatteryHeater.BattHeaterLow;
+                if (OnboardBattery.Temperture <= low)
+                {
+                    BatteryHeater.Status = EPSConstants.ON;
+                }
+                else if (OnboardBattery.Temperture >= high)
+                {
+                    BatteryHeater.Status = EPSConstants.OFF;
+                }
+            }
+            if (BatteryHeater.Status == EPSConstants.ON)
+            {
+                OnboardBattery.Temperture += tempChanged;
+            }
+            else //BatteryHeater.Status == EPSConstants.OFF
+            {
+                //temp stay the same or drop??
+            }
         }
 
-        private void i2c_wdt_timeout()
+        public void RunWDTs()
         {
-	        //only cycle the 6 switchable outputs.
-	        if (Wdts[(int)WdtType.I2C].Data == EPSConstants.I2C_WDT_RESET_0)
-            {
-                SET_OUTPUT(0);
-            }
-	        //do a hard-reset and thereby reset the NanoPower itself as well as all outputs including the permanent outputs
-	        else if (Wdts[(int)WdtType.I2C].Data == EPSConstants.I2C_WDT_RESET_1)
-            {
-                HARD_RESET();
-            }
+            I2CWdtWork();
+            GNDWdtWork();
+            CSPWdtWork(0);
+            CSPWdtWork(1);
         }
 
         //Any valid I2C communication to the EPS will kick (reset) this WDT.
-        private void i2c_wdt_reset()
+        private void I2CWdtReset()
         {
-	        Wdts[(int)WdtType.I2C].TimePingLeft = EPSConstants.WDT_I2C_INIT_TIME;
+	        Wdts[(int)WdtType.I2C].TimeLeft = EPSConstants.WDT_I2C_INIT_TIME;
         }
 
-        public void i2c_wdt_work()
+        public void I2CWdtWork()
         {
-	        //while (true)
-            //{
-	            //The I2C watchdog does not run when NanoPower is in critical power mode.
-		        if (OnboardBattery.BattState != batt_state.CRITICAL)
+	        //The I2C watchdog does not run when NanoPower is in critical power mode.
+		    if (OnboardBattery.BattState != BattState.CRITICAL)
+            {
+                //every 1 sec
+                WDT i2c = Wdts[(int)WdtType.I2C];
+                i2c.TimeLeft -= 1;
+                //timeout
+                if (i2c.TimeLeft == 0)
                 {
-			        //every 1 sec
-			        Wdts[(int)WdtType.I2C].TimePingLeft -= 1;
-			        if (Wdts[(int)WdtType.I2C].TimePingLeft == 0)
-
-                        i2c_wdt_timeout();
-		        }
-                //Thread.Sleep(30000); //30 sec
-	        //}
-        }
-
-        private void gnd_wdt_timeout()
-        {
-            // If no communication has been received for a long period of time (configurable by customer), NanoPower will switch off all outputs and do a reset
-            HARD_RESET();
-            //Note that if the dedicated WDT times out, the default config is restored on NanoPower
-            CONFIG_CMD(EPSConstants.RESTORE_DEFAULT_CONFIG);
-        }
-
-        public void gnd_wdt_work()
-        {
-	        //while (true)
-            //{
-		        Wdts[(int)WdtType.GND].TimePingLeft -= 1;
-		        //every integer hour it stores its hour value in persistent storage
-		        if (Wdts[(int)WdtType.GND].TimePingLeft % EPSConstants.WDT_GND_HOUR == 0)
-                {
-                    Wdts[(int)WdtType.GND].Data = Wdts[(int)WdtType.GND].TimePingLeft;
+                    //only cycle the 6 switchable outputs.
+                    if (i2c.Data == EPSConstants.I2C_WDT_RESET_0)
+                    {
+                        SET_OUTPUT(0);
+                    }
+                    //do a hard-reset and thereby reset the NanoPower itself as well as all outputs including the permanent outputs
+                    else if (i2c.Data == EPSConstants.I2C_WDT_RESET_1)
+                    {
+                        HARD_RESET();
+                    }
                 }
-                if (Wdts[(int)WdtType.GND].TimePingLeft == 0)
-                {
-                    gnd_wdt_timeout();
-                }
-                //Thread.Sleep(1000); //1 sec
-	        //}
+		    }
+        }
+
+        public void GNDWdtWork()
+        {
+            WDT gnd = Wdts[(int)WdtType.GND];
+            gnd.TimeLeft -= 1;
+            //every integer hour it stores its hour value in persistent storage
+            uint differentFromInit = EPSConstants.WDT_GND_INIT_TIME - gnd.TimeLeft;
+            if (differentFromInit % EPSConstants.WDT_GND_HOUR == 0)
+            {
+                gnd.Data = gnd.TimeLeft;
+            }
+            //timeout
+            if (gnd.TimeLeft == 0)
+            {
+                // If no communication has been received for a long period of time (configurable by customer), NanoPower will switch off all outputs and do a reset
+                HARD_RESET();
+                //Note that if the dedicated WDT times out, the default config is restored on NanoPower
+                CONFIG_CMD(EPSConstants.RESTORE_DEFAULT_CONFIG);
+                gnd.TimeLeft = EPSConstants.WDT_GND_INIT_TIME;
+
+            }
         }
 
         //num of csp is 0 or 1
-        public void csp_wdt_work(uint num_of_csp){
-	        //while (true)
-            //{
-		        int i;
-		        if (num_of_csp == 0)
+        public void CSPWdtWork(uint numOfCsp)
+        {
+            WDT csp;
+            if (numOfCsp == 0)
+                csp = Wdts[(int)WdtType.CSP0];
+            else
+                csp = Wdts[(int)WdtType.CSP1];
+
+            //time drop
+            csp.TimeLeft -= 1;
+            if (csp.TimeLeft == 0)
+            {
+                byte msg = 1;
+                byte response = PING(msg);
+                if (response != msg)
                 {
-                    i = (int)WdtType.CSP0;
+                    //ping drop
+                    csp.PingLeft -= 1;
                 }
-                else
+                if (csp.PingLeft == 0)
                 {
-                    i = (int)WdtType.CSP1;
+                    SET_SINGLE_OUTPUT((byte)csp.Data, EPSConstants.OFF, 5);
+                    csp.PingLeft = EPSConstants.WDT_CSP_INIT_PING;
                 }
-		        Wdts[i].TimePingLeft -= 1;
-                if (Wdts[i].TimePingLeft == 0)
-                {
-                    SET_SINGLE_OUTPUT((byte)Wdts[i].Data, EPSConstants.OFF, 5);
-                }
-                //Thread.Sleep(1000); //1 sec
-            //}
+                csp.TimeLeft = EPSConstants.WDT_CSP_INIT_TIME;
+            }
         }
-        /// ///////////////////////////////
+        ///////////////////////////////////
 
 
         private void InitEps()
@@ -263,7 +356,7 @@ namespace DataModel.EPS
                 BoostConverters[i] = new BoostConverter(EPSConstants.DEFAULT_TEMP, EPSConstants.SOFTWARE_PPT_DEFAULT_V, EPSConstants.PV_IN_I_CHARGE_MIN);
             }
 
-            OnboardBattery = new Battery(EPSConstants.ONBOARD_BATT, EPSConstants.BAT_CONNECT_V_TYP, 0, EPSConstants.V_BAT_I_OUT_TYP, EPSConstants.DEFAULT_TEMP, batt_state.INITIAL, batt_mode.NORMAL);
+            OnboardBattery = new Battery(EPSConstants.ONBOARD_BATT, EPSConstants.BAT_CONNECT_V_TYP, 0, EPSConstants.V_BAT_I_OUT_TYP, EPSConstants.DEFAULT_TEMP, BattState.INITIAL, BattMode.NORMAL);
 
             
             BatteryHeater = new BatteryHeater(EPSConstants.MANUAL, EPSConstants.ONBOARD_HEATER, EPSConstants.OFF, EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW, EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH);
@@ -281,16 +374,16 @@ namespace DataModel.EPS
                 switch (i)
                 {
                     case (int)WdtType.I2C:
-                        Wdts[i] = new WDT(WdtType.I2C,0, EPSConstants.WDT_I2C_INIT_TIME, EPSConstants.I2C_WDT_RESET_0);
+                        Wdts[i] = new WDT(WdtType.I2C,0, EPSConstants.WDT_I2C_INIT_TIME, 0, EPSConstants.I2C_WDT_RESET_0);
                         break;
                     case (int)WdtType.GND:
-                        Wdts[i] = new WDT(WdtType.GND, 0, EPSConstants.WDT_GND_INIT_TIME, EPSConstants.WDT_GND_INIT_TIME);
+                        Wdts[i] = new WDT(WdtType.GND, 0, EPSConstants.WDT_GND_INIT_TIME, 0, EPSConstants.WDT_GND_INIT_TIME);
                         break;
                     case (int)WdtType.CSP0:
-                        Wdts[i] = new WDT(WdtType.CSP0, 0, EPSConstants.WDT_CSP_INIT_PING, (int)OutputType.T_5V1);
+                        Wdts[i] = new WDT(WdtType.CSP0, 0, EPSConstants.WDT_CSP_INIT_TIME, EPSConstants.WDT_CSP_INIT_PING, (int)OutputType.T_5V1);
                         break;
                     case (int)WdtType.CSP1:
-                        Wdts[i] = new WDT(WdtType.CSP1, 0, EPSConstants.WDT_CSP_INIT_PING, (int)OutputType.T_3_3V1);
+                        Wdts[i] = new WDT(WdtType.CSP1, 0, EPSConstants.WDT_CSP_INIT_TIME, EPSConstants.WDT_CSP_INIT_PING, (int)OutputType.T_3_3V1);
                         break;
                 }
             }
@@ -547,10 +640,10 @@ namespace DataModel.EPS
                 ans.output_on_delta[i] =  CurrentConfig.OutputInitialOnDelay[i];
                 ans.output_off_delta[i] =  CurrentConfig.OutputInitialOffDelay[i];
             }   
-            ans.wdt_csp_pings_left[0] =  (byte)Wdts[(int)WdtType.CSP0].TimePingLeft;
-            ans.wdt_csp_pings_left[1] =  (byte)Wdts[(int)WdtType.CSP1].TimePingLeft;
-            ans.wdt_gnd_time_left =  Wdts[(int)WdtType.GND].TimePingLeft;
-            ans.wdt_i2c_time_left =  Wdts[(int)WdtType.I2C].TimePingLeft;
+            ans.wdt_csp_pings_left[0] =  (byte)Wdts[(int)WdtType.CSP0].TimeLeft;
+            ans.wdt_csp_pings_left[1] =  (byte)Wdts[(int)WdtType.CSP1].TimeLeft;
+            ans.wdt_gnd_time_left =  Wdts[(int)WdtType.GND].TimeLeft;
+            ans.wdt_i2c_time_left =  Wdts[(int)WdtType.I2C].TimeLeft;
             ans.counter_boot =  RebootCount;
             ans.counter_wdt_csp[0] =  Wdts[(int)WdtType.CSP0].RebootCounter;
             ans.counter_wdt_csp[1] =  Wdts[(int)WdtType.CSP1].RebootCounter;
@@ -621,10 +714,10 @@ namespace DataModel.EPS
 	        ans.counter_wdt_csp[1] = Wdts[(int)WdtType.CSP1].RebootCounter;
 	        ans.counter_wdt_gnd = Wdts[(int)WdtType.GND].RebootCounter;
 	        ans.counter_wdt_i2c = Wdts[(int)WdtType.I2C].RebootCounter;
-	        ans.wdt_csp_pings_left[0] = (byte)Wdts[(int)WdtType.CSP0].TimePingLeft;
-	        ans.wdt_csp_pings_left[1] = (byte)Wdts[(int)WdtType.CSP1].TimePingLeft;
-	        ans.wdt_gnd_time_left = Wdts[(int)WdtType.GND].TimePingLeft;
-	        ans.wdt_i2c_time_left = Wdts[(int)WdtType.I2C].TimePingLeft;
+	        ans.wdt_csp_pings_left[0] = (byte)Wdts[(int)WdtType.CSP0].TimeLeft;
+	        ans.wdt_csp_pings_left[1] = (byte)Wdts[(int)WdtType.CSP1].TimeLeft;
+	        ans.wdt_gnd_time_left = Wdts[(int)WdtType.GND].TimeLeft;
+	        ans.wdt_i2c_time_left = Wdts[(int)WdtType.I2C].TimeLeft;
 	        return ans;
         }
 
@@ -765,7 +858,7 @@ namespace DataModel.EPS
             }
             else
             {
-                Wdts[(int)WdtType.GND].TimePingLeft = EPSConstants.WDT_GND_INIT_TIME; //need to change;
+                Wdts[(int)WdtType.GND].TimeLeft = EPSConstants.WDT_GND_INIT_TIME; //need to change;
             }
 		        
         }
@@ -863,6 +956,7 @@ namespace DataModel.EPS
 	        //should run on different thread
 
 	        //maybe I need to add something more to that
+            //should reset als the permenant outputs!!!!!!
         }
 
         /*Use this command to control the config 2 system.

@@ -42,22 +42,40 @@ namespace DataModel.EPS
             }
         }
 
-        private uint _timePingLeft;
-        public uint TimePingLeft
+        private uint _timeLeft;
+        public uint TimeLeft
         {
             get
             {
-                return _timePingLeft;
+                return _timeLeft;
             }
             set
             {
-                _timePingLeft = value;
+                _timeLeft = value;
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("TimePingLeft"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("TimeLeft"));
                 }
             }
         }
+
+        private uint _pingLeft;
+        public uint PingLeft
+        {
+            get
+            {
+                return _pingLeft;
+            }
+            set
+            {
+                _pingLeft = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("PingLeft"));
+                }
+            }
+        }
+
 
         private uint _data;
         //I2C- type of reset, GND- last hour, CSP- channel connected
@@ -77,11 +95,12 @@ namespace DataModel.EPS
             }
         } 
 
-        public WDT(WdtType type, uint reboot, uint left, uint dat)
+        public WDT(WdtType type, uint reboot, uint time, uint ping, uint dat)
         {
             WdtType = type;
             RebootCounter = reboot;
-            TimePingLeft = left;
+            TimeLeft = time;
+            PingLeft = ping;
             Data = dat;
         }
     }

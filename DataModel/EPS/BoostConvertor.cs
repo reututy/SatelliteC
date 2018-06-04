@@ -96,6 +96,23 @@ namespace DataModel.EPS
             }
         }
 
+        private bool _isSun;
+        public bool IsSun
+        {
+            get
+            {
+                return _isSun;
+            }
+            set
+            {
+                _isSun = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("IsSun"));
+                }
+            }
+        }
+
         //public bool IsSunny { get; set; }
 
         public BoostConverter(short temp, ushort vol, ushort currIn)
@@ -103,6 +120,7 @@ namespace DataModel.EPS
             Temperture = temp;
             Volt = vol;
             CurrentIn = currIn;
+            IsSun = false;
         }
 
         /*public void run()

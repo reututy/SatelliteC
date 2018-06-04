@@ -20,7 +20,7 @@ namespace Logic
          * 	@param[in] number number of attached EPS in the system to be initialized
          * 	@return Error code according to <hal/errors.h>
          */
-        
+
         public int GomEpsInitialize(byte i2c_address, byte number)
         {
             // TODO - what to do with the address?
@@ -108,7 +108,30 @@ namespace Logic
                 return Constants.E_INDEX_ERROR;
         }
 
-        //TODO GomEpsGetHkData_param
+        /**
+         *	Read back the current housekeeping data from GOMSpace EPS
+         *
+         *	@param[in] index index of GOMSpace EPS I2C bus address
+         *	@param[out] data_out housekeeping output of GOMSpace EPS
+         * 	@return Error code according to <hal/errors.h>
+         */
+        int GomEpsGetHkData_param(byte index, Output<EPS.hkparam_t> data_out)
+        {
+            if (eps_table == null)
+            {
+                return Constants.E_NOT_INITIALIZED;
+            }
+            if (index < eps_num && index >= 0)
+            {
+                data_out.output = eps_table[index].GET_HK_1();
+                return Constants.E_NO_SS_ERR;
+            }
+            else
+                return Constants.E_INDEX_ERROR;
+        }
+
+        
+
 
         /**
          *	Read back the current housekeeping data from GOMSpace EPS
