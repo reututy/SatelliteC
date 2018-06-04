@@ -8,6 +8,7 @@ namespace DataModel.TRX
 {
     public class FrameBuffer
     {
+        int counter;
         public ObservableQueue<Frame> frames;
         private int MAX_FRAMES { get; }
 
@@ -19,6 +20,8 @@ namespace DataModel.TRX
 
         internal int addFrame(Frame frame)
         {
+            frame.FrameId = counter;
+            counter++;
             if (frames.count() + 1 > MAX_FRAMES)
             {
                 return Constants.E_MEM_ALLOC;
@@ -40,6 +43,11 @@ namespace DataModel.TRX
         internal int getFrameCount()
         {
             return frames.count();
+        }
+
+        public void clear()
+        {
+            frames.clear();
         }
     }
 }

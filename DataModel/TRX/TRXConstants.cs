@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,10 +67,29 @@ namespace DataModel.TRX
     /**
      *  Struct for defining ISIS TRXVU buffers length.
      */
-    public struct ISIStrxvuFrameLengths
+    public struct ISIStrxvuFrameLengths : INotifyPropertyChanged
     {
-        public uint maxAX25frameLengthTX; ///< AX25 maximum frame size for transmission.
-        public uint maxAX25frameLengthRX; ///< AX25 maximum frame size for reception.
+        public event PropertyChangedEventHandler PropertyChanged;
+        public uint _maxAX25frameLengthTX; ///< AX25 maximum frame size for transmission.
+        public uint maxAX25frameLengthTX
+        {
+            get { return _maxAX25frameLengthTX; }
+            set
+            {
+                _maxAX25frameLengthTX = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("maxAX25frameLengthTX"));
+            }
+        }
+        public uint _maxAX25frameLengthRX; ///< AX25 maximum frame size for reception.
+        public uint maxAX25frameLengthRX
+        {
+            get { return _maxAX25frameLengthRX; }
+            set
+            {
+                _maxAX25frameLengthRX = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("maxAX25frameLengthRX"));
+            }
+        }
     }
 
     /**

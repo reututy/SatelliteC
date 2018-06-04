@@ -34,5 +34,11 @@ namespace DataModel.TRX
         {
             return queue.Count;
         }
+
+        public void clear()
+        {
+            queue.Clear();
+            queueCollection.Clear();
+        }
     }
 }

@@ -10,17 +10,39 @@ using DataModel.TRX;
 
 namespace Logic
 {
+
+    public class Log : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private String logInfo;
+        public String LogInfo
+        {
+            get { return this.logInfo; }
+            set
+            {
+                if (this.logInfo != value)
+                {
+                    this.logInfo = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LogInfo"));
+                }
+            }
+        }
+
+        public Log(String log)
+        {
+            LogInfo = log;
+        }
+    }
     public class IsisTRXVU
     {
         
 
         private TRX[] tRXes;
-        private List<int> errors;
+        public ObservableCollection<Log> logs = new ObservableCollection<Log>();
         public ObservableCollection<TRX> tRXesCollection = new ObservableCollection<TRX>();
 
         public IsisTRXVU()
         {
-            errors = new List<int>();
         }
         
         /**
@@ -34,18 +56,20 @@ namespace Logic
          */
         public int IsisTrxvu_initialize(ISIStrxvuI2CAddress[] address, ISIStrxvuFrameLengths[] maxFrameLengths, ISIStrxvuBitrate default_bitrates, byte number)
         {
-            if(tRXes == null)
+            logs.Add(new Log("IsisTrxvu_initialize"));
+            if (tRXes == null)
             {
                 tRXes = new TRX[number];
-                for(int i=0; i<number; i++)
+                for (int i = 0; i < number; i++)
                 {
                     TRX trx = new TRX(i, address[i], maxFrameLengths[i], default_bitrates) { Name = i.ToString() };
                     tRXes[i] = trx;
                     tRXesCollection.Add(trx);
                 }
+                logs.Add(new Log("No Error"));
                 return Constants.E_NO_SS_ERR;
             }
-            errors.Add(Constants.E_IS_INITIALIZED);
+            logs.Add(new Log("IsisTRXVU allready initiallized"));
             return Constants.E_IS_INITIALIZED;
         }
 
@@ -57,11 +81,14 @@ namespace Logic
          */
         public int IsisTrxvu_componentSoftReset(byte index, ISIStrxvuComponent component)
         {
-            if(index < tRXes.Length)
+            logs.Add(new Log("IsisTrxvu_componentSoftReset"));
+            if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_componentSoftReset(component);
+                logs.Add(new Log("No Error"));
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(new Log("Index Error"));
             return Constants.E_INDEX_ERROR;
         }
 
@@ -73,11 +100,14 @@ namespace Logic
          */
         public int IsisTrxvu_componentHardReset(byte index, ISIStrxvuComponent component)
         {
+            logs.Add(new Log("IsisTrxvu_componentHardReset"));
             if (index < tRXes.Length)
             {
+                logs.Add(new Log("No Error"));
                 tRXes[index].IsisTrxvu_componentHardReset(component);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(new Log("Index Error"));
             return Constants.E_INDEX_ERROR;
         }
 

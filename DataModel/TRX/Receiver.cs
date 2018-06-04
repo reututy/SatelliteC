@@ -189,6 +189,11 @@ namespace DataModel.TRX
             return rxFrameBuffer.getFrameCount();
         }
 
+        public void clear()
+        {
+            rxFrameBuffer.clear();
+        }
+
         /*private byte[] buffer;
         private Interpreter interpreter;
         private int bitrate; // ????
