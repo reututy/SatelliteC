@@ -120,7 +120,7 @@ namespace DataModel.EPS
             Temperture = temp;
             Volt = vol;
             CurrentIn = currIn;
-            IsSun = false;
+            IsSun = true;
         }
 
         /*public void run()

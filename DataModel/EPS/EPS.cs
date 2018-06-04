@@ -23,7 +23,8 @@ namespace DataModel.EPS
         //public EPSConfiguration DefaultConfig { get; set; }
         //public ushort[] curout { get; set; } //! Current out (switchable outputs) [mA]
         public byte KillSwitchStatus { get; set; } //ON or OFF
-        public bool IsCharging { get; set; } //ON or OFF
+        public bool IsCharging { get; set; } 
+        public bool IsFull { get; set; } 
 
         public EPS()
         {
@@ -38,14 +39,14 @@ namespace DataModel.EPS
             ChargingFlow();
             BatteryDrop();
             CheckBatteryState();
-            CheckKillSwitch();
+            //CheckKillSwitch();
             CheckBatteryHeater();
             RunWDTs();
         }
 
         public void ChargingFlow()
         {
-            if (IsCharging)
+            if (IsCharging && !IsFull)
             {
                 ushort[] increaseCurrentPV = { 10, 10, 10 }; //change
                 ushort[] dropCurrentOutPV = { 1, 1, 1 }; //change
@@ -121,7 +122,7 @@ namespace DataModel.EPS
             
         }
 
-        private void HardwareHighVoltProtection()
+        /*private void HardwareHighVoltProtection()
         {
             //The hardware high voltage protection will set the input voltage on the solar cells to zero. 
             for (int i = 0; i < 3; i++)
@@ -130,7 +131,7 @@ namespace DataModel.EPS
                 BoostConverters[i].CurrentOut = EPSConstants.PV_IN_I_CHARGE_MIN;
             }
             //IsCharging = false;
-        }
+        }*/
 
         private void CheckBatteryState()
         {
@@ -164,16 +165,19 @@ namespace DataModel.EPS
                     else if (OnboardBattery.Vbat < EPSConstants.CRITICAL_VBAT)
                     {
                         //swich off all user outputs
-                    }
-                    if (OnboardBattery.Vbat <= EPSConstants.SWITCH_OFF_V)
-                    {
-                        KillSwitchStatus = EPSConstants.OFF;
-                        //SET_OUTPUT(0);
-                    }
-                    else if (OnboardBattery.Vbat >= EPSConstants.SWITCH_ON_V)
-                    {
-                        KillSwitchStatus = EPSConstants.ON;
-                        //SET_OUTPUT(54);
+                        SET_OUTPUT(0);
+
+                        if (OnboardBattery.Vbat <= EPSConstants.SWITCH_OFF_V)
+                        {
+                            KillSwitchStatus = EPSConstants.OFF;
+                            SET_OUTPUT(0);
+                            //set constant output to 0 as well
+                        }
+                        else if (OnboardBattery.Vbat >= EPSConstants.SWITCH_ON_V)
+                        {
+                            KillSwitchStatus = EPSConstants.ON;
+                            SET_OUTPUT(54);
+                        }
                     }
                     
                     break;
@@ -202,11 +206,19 @@ namespace DataModel.EPS
                     if (OnboardBattery.Vbat < EPSConstants.MAX_VBAT)
                     {
                         OnboardBattery.BattState = BattState.NORMAL;
-                        IsCharging = true; //why?
+                        IsFull = false; 
                     }
-                    if (IsCharging)
-                        HardwareHighVoltProtection();
-                   
+                    else
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            BoostConverters[i].Volt = EPSConstants.PV_IN_V_MIN;
+                            BoostConverters[i].CurrentOut = EPSConstants.PV_IN_I_CHARGE_MIN;
+                        }
+                        IsFull = true;
+                    }
+
+
                     break;
             }
         }
@@ -226,7 +238,7 @@ namespace DataModel.EPS
         public void CheckBatteryHeater()
         {
             short tempChanged = 1;
-            if (BatteryHeater.Mode == EPSConstants.AUTO)
+            if (BatteryHeater.Mode == HeaterMode.AUTO)
             {
                 sbyte high = BatteryHeater.BattHeaterHigh;
                 sbyte low = BatteryHeater.BattHeaterLow;
@@ -384,7 +396,7 @@ namespace DataModel.EPS
             OnboardBattery = new Battery(EPSConstants.ONBOARD_BATT, EPSConstants.BAT_CONNECT_V_TYP, 0, EPSConstants.V_BAT_I_OUT_TYP, EPSConstants.DEFAULT_TEMP, BattState.INITIAL, BattMode.NORMAL);
 
             
-            BatteryHeater = new BatteryHeater(EPSConstants.MANUAL, EPSConstants.ONBOARD_HEATER, EPSConstants.OFF, EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW, EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH);
+            BatteryHeater = new BatteryHeater(HeaterMode.MANUAL, HeaterType.ONBOARD, EPSConstants.OFF, EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW, EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH);
             
 
             //photo_current = EPSConstants.BAT_CONNECT_I_CHARGE_MAX;
@@ -446,6 +458,7 @@ namespace DataModel.EPS
 
             KillSwitchStatus = EPSConstants.ON;
             IsCharging = false;
+            IsFull = false;
 
         }
 
