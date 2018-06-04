@@ -1,21 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DataModel.TRX
 {
-    public class TRX
+    public class TRX : INotifyPropertyChanged
     {
-        public int trxId { get; set; }
+        private int trxId;
+        private String name;
+        public String Name
+        {
+            get { return this.name; }
+            set
+            {
+                if (this.name != value)
+                {
+                    this.name = value;
+                    this.NotifyPropertyChanged("Name");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
+
         public ISIStrxvuI2CAddress address { get; set; }
         public ISIStrxvuFrameLengths maxFrameLengths { get; set; }
         public ISIStrxvuBitrate default_bitrates { get; set; }
         public ISIStrxvuBeacon ISIStrxvuBeaconOn { get; set; }
-        Transmitter transmitter;
-        Receiver receiver;
+        public Transmitter transmitter;
+        public Receiver receiver;
         public AX25Frame Beacon { get; set; }
+        private Thread beaconThread;
         ushort beaconInterval;
 
         public void OverflowReceiverBuffer()
@@ -86,18 +111,18 @@ namespace DataModel.TRX
             {
                 return Constants.E_TRXUV_FRAME_LENGTH;
             }
-            int res = transmitter.SendFrame(new AX25Frame(new byte[1], new byte[1], data));
+            int res = transmitter.SendFrame(new AX25Frame(TRXConfiguration.FromDefClSign, TRXConfiguration.ToDefClSign, data));
             avail.output = Convert.ToByte(transmitter.getAvailbleSpace());
             return res;
         }
 
-        public int IsisTrxvu_tcSendAX25OvrClSign(byte fromCallsign, byte toCallsign, byte[] data, byte length, Output<byte> avail)
+        public int IsisTrxvu_tcSendAX25OvrClSign(char[] fromCallsign, char[] toCallsign, byte[] data, byte length, Output<byte> avail)
         {
             if (length > maxFrameLengths.maxAX25frameLengthTX)
             {
                 return Constants.E_TRXUV_FRAME_LENGTH;
             }
-            int res = transmitter.SendFrame(new AX25Frame(new byte[]{ toCallsign }, new byte[] { fromCallsign }, data));
+            int res = transmitter.SendFrame(new AX25Frame(toCallsign, fromCallsign, data));
             avail.output = Convert.ToByte(transmitter.getAvailbleSpace());
             return res;
         }
@@ -109,12 +134,24 @@ namespace DataModel.TRX
                 return Constants.E_TRXUV_FRAME_LENGTH;
             }
             ISIStrxvuBeaconOn = ISIStrxvuBeacon.trxvu_beacon_active;
-            this.Beacon = new AX25Frame(new byte[1], new byte[1], data);
+            this.Beacon = new AX25Frame(TRXConfiguration.FromDefClSign, TRXConfiguration.ToDefClSign, data);
             this.beaconInterval = interval;
+            if (beaconThread != null)
+            {
+                beaconThread.Abort();
+            }
+            beaconThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    System.Threading.Thread.Sleep(interval);
+                    transmitter.SendFrame(this.Beacon);
+                }
+            });
             return Constants.E_NO_SS_ERR;
         }
 
-        public int IsisTrxvu_tcSetAx25BeaconOvrClSign(byte[] fromCallsign, byte[] toCallsign, byte[] data, byte length, ushort interval)
+        public int IsisTrxvu_tcSetAx25BeaconOvrClSign(char[] fromCallsign, char[] toCallsign, byte[] data, byte length, ushort interval)
         {
             if (length > maxFrameLengths.maxAX25frameLengthTX)
             {
@@ -123,29 +160,46 @@ namespace DataModel.TRX
             ISIStrxvuBeaconOn = ISIStrxvuBeacon.trxvu_beacon_active;
             this.Beacon = new AX25Frame(toCallsign, fromCallsign, data);
             this.beaconInterval = interval;
+            if(beaconThread != null)
+            {
+                beaconThread.Abort();
+            }
+            beaconThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    System.Threading.Thread.Sleep(interval);
+                    transmitter.SendFrame(this.Beacon);
+                }
+            });
             return Constants.E_NO_SS_ERR;
         }
 
         public void IsisTrxvu_tcClearBeacon()
         {
             ISIStrxvuBeaconOn = ISIStrxvuBeacon.trxvu_beacon_none;
+            if (beaconThread != null)
+            {
+                beaconThread.Abort();
+                beaconThread = null;
+            }
             this.Beacon = null;
             this.beaconInterval = 0;
         }
 
-        public void IsisTrxvu_tcSetDefToClSign(string toCallsign)
+        public void IsisTrxvu_tcSetDefToClSign(char[] toCallsign)
         {
-            throw new NotImplementedException();
+            TRXConfiguration.ToDefClSign = toCallsign;
         }
 
-        public void IsisTrxvu_tcSetDefFromClSign(string fromCallsign)
+        public void IsisTrxvu_tcSetDefFromClSign(char[] fromCallsign)
         {
-            throw new NotImplementedException();
+            TRXConfiguration.FromDefClSign = fromCallsign;
         }
 
         public void IsisTrxvu_tcSetIdlestate(ISIStrxvuIdleState state)
         {
-            transmitter.state = state;
+            transmitter.IdleState = state;
         }
 
         public void IsisTrxvu_tcSetAx25Bitrate(ISIStrxvuBitrate bitrate)
@@ -153,7 +207,7 @@ namespace DataModel.TRX
             this.default_bitrates = bitrate;
         }
 
-        public void IsisTrxvu_tcGetUptime(Output<byte> uptime)
+        public void IsisTrxvu_tcGetUptime(Output<char[]> uptime)
         {
             throw new NotImplementedException();
         }
@@ -165,16 +219,11 @@ namespace DataModel.TRX
 
         public void IsisTrxvu_rcGetCommandFrame(Output<ISIStrxvuRxFrame> rx_frame)
         {
-            ISIStrxvuRxFrame outFrame = new ISIStrxvuRxFrame();
             Frame frame = receiver.ReceiveFrame();
-            outFrame.rx_doppler = frame.rx_doppler;
-            outFrame.rx_framedata = frame.rx_framedata;
-            outFrame.rx_length = frame.rx_length;
-            outFrame.rx_rssi = frame.rx_rssi;
-            rx_frame.output = outFrame;
+            rx_frame.output = frame.frame;
         }
 
-        public void IsisTrxvu_rcGetUptime(Output<byte> uptime)
+        public void IsisTrxvu_rcGetUptime(Output<char[]> uptime)
         {
             throw new NotImplementedException();
         }
@@ -184,30 +233,37 @@ namespace DataModel.TRX
             frameCount.output = (ushort) receiver.getFrameCount();
         }
 
-
-        /*typedef struct _ISIStrxvuFrameLengths
+        public void IsisTrxvu_tcGetState(Output<ISIStrxvuTransmitterState> currentvutcState)
         {
-            unsigned int maxAX25frameLengthTX; ///< AX25 maximum frame size for transmission.
-            unsigned int maxAX25frameLengthRX; ///< AX25 maximum frame size for reception.
+            ISIStrxvuTransmitterState state = new ISIStrxvuTransmitterState();
+            state.transmitter_beacon = this.ISIStrxvuBeaconOn;
+            state.transmitter_bitrate = transmitter.bitrate;
+            state.transmitter_idle_state = transmitter.state;
+            currentvutcState.output = state;
         }
-        ISIStrxvuFrameLengths;
 
-            int availableFrames;
+        public void IsisTrxvu_tcGetLastTxTelemetry(Output<ISIStrxvuTxTelemetry> last_telemetry)
+        {
+            ISIStrxvuTxTelemetry tl = new ISIStrxvuTxTelemetry();
+            tl.pa_temp = transmitter.Pa_temp;
+            tl.tx_current = transmitter.Tx_current;
+            tl.tx_fwrdpwr = transmitter.Tx_fwrdpwr;
+            tl.tx_reflpwr = transmitter.Tx_reflpwr;
+            last_telemetry.output = tl;
+        }
 
-        void update_wod(gom_eps_hk_t EpsTelemetry_hk);
-        void vurc_getRxTelemTest(isisRXtlm* converted);
-        void vurc_getTxTelemTest(isisTXtlm* converted);
-        void init_trxvu(void);
-        int TRX_sendFrame(unsigned char* data, unsigned char length);
-        void act_upon_comm(unsigned char* in, gom_eps_channelstates_t channels_state);
-        void dump(void* arg);
-        void Beacon(gom_eps_hk_t EpsTelemetry_hk);
-        Boolean check_ants_deployed();
-        void trxvu_logic(unsigned long* start_gs_time, unsigned long* time_now_unix, gom_eps_channelstates_t channels_state);
-        void enter_gs_mode(unsigned long* start_gs_time);
-        void end_gs_mode();
-
-        extern unsigned char dumpparam[11];*/
+        public void IsisTrxvu_rcGetTelemetryAll(Output<ISIStrxvuRxTelemetry> telemetry)
+        {
+            ISIStrxvuRxTelemetry tl = new ISIStrxvuRxTelemetry();
+            tl.tx_current = receiver.Tx_current;
+            tl.pa_temp = receiver.Pa_temp;
+            tl.rx_current = receiver.Rx_current;
+            tl.rx_doppler = receiver.Rx_doppler;
+            tl.rx_rssi = receiver.Rx_rssi;
+            tl.board_temp = receiver.Board_temp;
+            tl.bus_volt = receiver.Bus_volt;
+            telemetry.output = tl;
+        }
 
     }
 }

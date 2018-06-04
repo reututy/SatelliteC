@@ -1,21 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataModel.TRX
 {
-    public class Transmitter
+    public class Transmitter : INotifyPropertyChanged
     {
-
+        public event PropertyChangedEventHandler PropertyChanged;
         public FrameBuffer txFrameBuffer;
         public ISIStrxvuIdleState state { get; set; }
+        public ISIStrxvuIdleState IdleState
+        {
+            get { return state; }
+            set
+            {
+                state = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IdleState"));
+            }
+        }
+
+        public ISIStrxvuBitrateStatus bitrate;
+        public ISIStrxvuBitrateStatus TxBitrate
+        {
+            get { return bitrate; }
+            set
+            {
+                bitrate = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TxBitrate"));
+            }
+        }
+
+        private ushort tx_reflpwr; ///< Tx Telemetry reflected power.
+        public ushort Tx_reflpwr
+        {
+            get { return tx_reflpwr; }
+            set
+            {
+                tx_reflpwr = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tx_reflpwr"));
+            }
+        }
+        private ushort pa_temp; ///< Tx Telemetry power amplifier temperature.
+        public ushort Pa_temp
+        {
+            get { return pa_temp; }
+            set
+            {
+                pa_temp = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Pa_temp"));
+            }
+        }
+        private ushort tx_fwrdpwr; ///< Tx Telemetry forward power.
+        public ushort Tx_fwrdpwr
+        {
+            get { return tx_fwrdpwr; }
+            set
+            {
+                tx_fwrdpwr = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tx_fwrdpwr"));
+            }
+        }
+        private ushort tx_current; ///< Tx Telemetry transmitter current.
+        public ushort Tx_current
+        {
+            get { return tx_current; }
+            set
+            {
+                tx_current = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tx_current"));
+            }
+        }
+
+        private DateTime lastReset;
 
         public Transmitter()
         {
             txFrameBuffer = new FrameBuffer(40); // max frames = 40
             state = ISIStrxvuIdleState.trxvu_idle_state_off;
+            lastReset = DateTime.Now;
         }
 
         public int getAvailbleSpace()
@@ -28,7 +93,7 @@ namespace DataModel.TRX
          */
          public void WatchdogReset()
         {
-
+            lastReset = DateTime.Now;
         }
 
         /**
@@ -36,7 +101,7 @@ namespace DataModel.TRX
          */
          public void SofteareReset()
         {
-
+            lastReset = DateTime.Now;
         }
 
         /**
@@ -44,7 +109,7 @@ namespace DataModel.TRX
          */
          public void HardwareSystemReset()
         {
-
+            lastReset = DateTime.Now;
         }
 
         /**

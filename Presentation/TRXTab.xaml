@@ -19,6 +19,130 @@
                 </Image.OpacityMask>
             </Image>
         </DockPanel>
-        <DataGrid x:Name="trxes" HorizontalAlignment="Left" AutoGenerateColumns="True" Margin="20,20,0,0" VerticalAlignment="Top" Height="200" Width="400" ItemsSource="{Binding}" Loaded="trx_Loaded" IsReadOnly="true" SelectionChanged="trx_SelectionChanged" MouseDoubleClick="trx_MouseDoubleClick"/>
+        <ListBox x:Name="trxes"  DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="25,114,0,0" VerticalAlignment="Top" Height="109" Width="172" SelectionChanged="trx_SelectionChanged" SelectionMode="Single"></ListBox>
+        <TextBox x:Name="currInText" HorizontalAlignment="Left" Height="23" Margin="822,542,0,0" TextWrapping="Wrap" Text="{Binding Path=Testt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="x" HorizontalAlignment="Left" Height="23" Margin="833,505,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="980,505,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" RenderTransformOrigin="0.4,3.85"/>
+        <Label Content="Select TRX by ID" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="25,72,0,0" VerticalAlignment="Top" Width="172" Height="37" FontWeight="Bold"/>
+        <Label Content="Receiver" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="283,45,0,0" VerticalAlignment="Top" Width="172" Height="37" FontWeight="Bold"/>
+        <Label Content="Transmitter" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="576,45,0,0" VerticalAlignment="Top" Width="172" Height="37" FontWeight="Bold"/>
+        <ListBox x:Name="receiver_buffer"  DisplayMemberPath="FrameId" HorizontalAlignment="Left" Margin="283,114,0,0" VerticalAlignment="Top" Height="109" Width="181"/>
+        <Label Content="Receiver Buffer" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="283,72,0,0" VerticalAlignment="Top" Width="172" Height="37" FontWeight="Bold"/>
+        <ListBox x:Name="transmitter_buffer"  DisplayMemberPath="FrameId" HorizontalAlignment="Left" Margin="576,114,0,0" VerticalAlignment="Top" Height="109" Width="181"/>
+        <Label Content="Transmitter Buffer" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="576,72,0,0" VerticalAlignment="Top" Width="191" Height="37" FontWeight="Bold"/>
+        <Grid x:Name="pv1Grid" HorizontalAlignment="Left" Background="White" Height="190" Margin="283,267,0,0" VerticalAlignment="Top" Width="195">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="tx_Current:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="rtxCurrText" Grid.Row="0" Grid.Column="1" Text="{Binding Tx_current, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="Doppler:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="rxDopplerText" Grid.Row="1" Grid.Column="1" Text="{Binding Rx_doppler, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="rx_Current:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="rxCurrText" Grid.Row="2" Grid.Column="1" Text="{Binding Rx_current, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Bus Volt:" Grid.Row="3" Grid.Column="0"/>
+            <TextBlock x:Name="busVoltText" Grid.Row="3" Grid.Column="1" Text="{Binding Bus_volt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Board Temperature:" Grid.Row="4" Grid.Column="0"/>
+            <TextBlock x:Name="boardTempText" Grid.Row="4" Grid.Column="1" Text="{Binding Board_temp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,-27,0"/>
+            <Label Content="Power Amplifier Temperature:" Grid.Row="4" Grid.Column="0" Margin="0,27,0,-27"/>
+            <TextBlock x:Name="paTempText" Grid.Row="4" Grid.Column="1" Text="{Binding Pa_temp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,28,-27,-28"/>
+            <Label Content="Rssi:" Grid.Row="4" Grid.Column="0" Margin="0,55,0,-55"/>
+            <TextBlock x:Name="rssiText" Grid.Row="4" Grid.Column="1" Text="{Binding Rx_rssi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,54,-27,-54"/>
+        </Grid>
+        <Grid x:Name="pv1Grid_Copy" HorizontalAlignment="Left" Background="White" Height="108" Margin="576,267,0,0" VerticalAlignment="Top" Width="191">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="tx_Reflpwr:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="txReflpwrText" Grid.Row="0" Grid.Column="1" Text="{Binding Tx_reflpwr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="pa_temp:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="paTempText1" Grid.Row="1" Grid.Column="1" Text="{Binding Pa_temp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="tx_fwrdpwr:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="txFwrdpwrText" Grid.Row="2" Grid.Column="1" Text="{Binding Tx_fwrdpwr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="tx_current:" Grid.Row="3" Grid.Column="0"/>
+            <TextBlock x:Name="txCurrText" Grid.Row="3" Grid.Column="1" Text="{Binding Tx_current, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Label Content="Transmitter Telemetry" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="576,225,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
+        <Label Content="Receiver Telemetry" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="283,225,0,0" VerticalAlignment="Top" Width="195" Height="37" RenderTransformOrigin="0.483,5.459" FontWeight="Bold"/>
+        <Grid x:Name="pv1Grid_Copy1" HorizontalAlignment="Left" Background="White" Height="207" Margin="871,114,0,0" VerticalAlignment="Top" Width="276">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="From:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="txReflpwrText1" Grid.Row="0" Grid.Column="1" Text="{Binding Tx_reflpwr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="To:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="paTempText2" Grid.Row="1" Grid.Column="1" Text="{Binding Pa_temp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="CheckSum:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="txFwrdpwrText1" Grid.Row="2" Grid.Column="1" Text="{Binding Tx_fwrdpwr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Content:" Grid.Row="3" Grid.Column="0"/>
+            <TextBlock x:Name="txCurrText1" Grid.Row="3" Grid.Column="1" Text="{Binding Tx_current, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Label Content="Frame" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="871,72,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
+        <Button Content="Change from feild" HorizontalAlignment="Left" Margin="871,326,0,0" VerticalAlignment="Top" Width="276" Height="33"/>
+        <Button Content="Change to feild" HorizontalAlignment="Left" Margin="871,364,0,0" VerticalAlignment="Top" Width="276" Height="33"/>
+        <Button Content="Change CheckSum" HorizontalAlignment="Left" Margin="871,402,0,0" VerticalAlignment="Top" Width="276" Height="33"/>
+        <Button Content="Change content" HorizontalAlignment="Left" Margin="871,440,0,0" VerticalAlignment="Top" Width="276" Height="33"/>
+        <Button Content="Fill Receiver Buffer" HorizontalAlignment="Left" Margin="283,580,0,-56" VerticalAlignment="Top" Width="191" Height="41"/>
+        <Button Content="Empty Receiver Buffer" HorizontalAlignment="Left" Margin="283,626,0,-102" VerticalAlignment="Top" Width="191" Height="41"/>
+        <Button Content="Fill Transmitter Buffer" HorizontalAlignment="Left" Margin="576,580,0,-56" VerticalAlignment="Top" Width="191" Height="41"/>
+        <Button Content="Empty Transmitter Buffer" HorizontalAlignment="Left" Margin="576,626,0,-102" VerticalAlignment="Top" Width="191" Height="41"/>
+        <Grid x:Name="pv1Grid_Copy2" HorizontalAlignment="Left" Background="White" Height="52" Margin="576,422,0,0" VerticalAlignment="Top" Width="191">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="Bitrate:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="txBitrateText" Grid.Row="0" Grid.Column="1" Text="{Binding TxBitrate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="Idle State:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="idleStateText" Grid.Row="1" Grid.Column="1" Text="{Binding IdleState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Label Content="Transmitter More Info" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="576,380,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
+        <Grid x:Name="pv1Grid_Copy3" HorizontalAlignment="Left" Background="White" Height="33" Margin="283,504,0,0" VerticalAlignment="Top" Width="191">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="Bitrate:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="rxBitrateText" Grid.Row="0" Grid.Column="1" Text="{Binding RxBitrate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+        <Label Content="Receiver More Info" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="283,462,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
     </Grid>
 </UserControl>

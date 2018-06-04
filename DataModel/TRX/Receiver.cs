@@ -1,19 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataModel.TRX
 {
-    public class Receiver
+    public class Receiver : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private FrameBuffer rxFrameBuffer;
+        public ISIStrxvuBitrateStatus bitrate;
+        public ISIStrxvuBitrateStatus RxBitrate
+        {
+            get { return bitrate; }
+            set
+            {
+                bitrate = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RxBitrate"));
+            }
+        }
+
+        public FrameBuffer rxFrameBuffer;
+        private ushort tx_current; ///< Rx Telemetry transmitter current.
+        public ushort Tx_current {
+            get { return tx_current;}
+            set { tx_current = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tx_current"));}
+        }
+
+        private ushort rx_doppler; ///< Rx Telemetry receiver doppler.
+        public ushort Rx_doppler
+        {
+            get { return rx_doppler; }
+            set
+            {
+                rx_doppler = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rx_doppler"));
+            }
+        }
+
+        private ushort rx_current; ///< Rx Telemetry receiver current.
+        public ushort Rx_current
+        {
+            get { return rx_current; }
+            set
+            {
+                rx_current = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rx_current"));
+            }
+        }
+        private ushort bus_volt; ///< Rx Telemetry bus voltage.
+        public ushort Bus_volt
+        {
+            get { return bus_volt; }
+            set
+            {
+                bus_volt = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Bus_volt"));
+            }
+        }
+        private ushort board_temp; ///< Rx Telemetry board temperature.
+        public ushort Board_temp
+        {
+            get { return board_temp; }
+            set
+            {
+                board_temp = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Board_temp"));
+            }
+        }
+        private ushort pa_temp; ///< Rx Telemetry power amplifier temperature.
+        public ushort Pa_temp
+        {
+            get { return pa_temp; }
+            set
+            {
+                pa_temp = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Pa_temp"));
+            }
+        }
+        private ushort rx_rssi; ///< Rx Telemetry rssi measurement.
+        public ushort Rx_rssi
+        {
+            get { return rx_rssi; }
+            set
+            {
+                rx_rssi = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rx_rssi"));
+            }
+        }
+
+        private DateTime lastReset;
 
         public Receiver()
         {
             rxFrameBuffer = new FrameBuffer(40);
+            lastReset = DateTime.Now;
         }
 
         /**
@@ -21,7 +105,7 @@ namespace DataModel.TRX
          */
         public void WatchdogReset()
         {
-
+            lastReset = DateTime.Now;
         }
 
         /**
@@ -29,7 +113,7 @@ namespace DataModel.TRX
          */
         public void SoftwareReset()
         {
-
+            lastReset = DateTime.Now;
         }
 
         /**
@@ -37,7 +121,7 @@ namespace DataModel.TRX
          */
          public void HardwareSystemReset()
         {
-
+            lastReset = DateTime.Now;
         }
 
         /**

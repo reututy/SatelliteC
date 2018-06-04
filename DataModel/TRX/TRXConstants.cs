@@ -104,66 +104,10 @@ namespace DataModel.TRX
 
     public class ISIStrxvuTransmitterState
     {
-        ISIStrxvuIdleState transmitter_idle_state = ISIStrxvuIdleState.trxvu_idle_state_on; ///< Transmitter current idle state.
-        ISIStrxvuBeacon transmitter_beacon  = ISIStrxvuBeacon.trxvu_beacon_active; ///< Transmitter beacon mode status.
-        ISIStrxvuBitrateStatus transmitter_bitrate  = ISIStrxvuBitrateStatus.trxvu_bitratestatus_2400; ///< Transmitter current bitrate.
+        public ISIStrxvuIdleState transmitter_idle_state = ISIStrxvuIdleState.trxvu_idle_state_on; ///< Transmitter current idle state.
+        public ISIStrxvuBeacon transmitter_beacon  = ISIStrxvuBeacon.trxvu_beacon_active; ///< Transmitter beacon mode status.
+        public ISIStrxvuBitrateStatus transmitter_bitrate  = ISIStrxvuBitrateStatus.trxvu_bitratestatus_2400; ///< Transmitter current bitrate.
     }
-
-
-
-    //    /**
-    //     *  Struct for the TRXVU Rx telemetry.
-    //     */
-    //    typedef union __attribute__((__packed__)) _ISIStrxvuRxTelemetry
-    //{
-    //	/** Raw value array with Rx Telemetry data*/
-    //    unsigned char raw[TRXVU_ALL_RXTELEMETRY_SIZE];
-    //    /** Telemetry values*/
-    //    struct __attribute__ ((__packed__))
-    //    {
-    //        unsigned short tx_current; ///< Rx Telemetry transmitter current.
-    //    unsigned short rx_doppler; ///< Rx Telemetry receiver doppler.
-    //    unsigned short rx_current; ///< Rx Telemetry receiver current.
-    //    unsigned short bus_volt; ///< Rx Telemetry bus voltage.
-    //    unsigned short board_temp; ///< Rx Telemetry board temperature.
-    //    unsigned short pa_temp; ///< Rx Telemetry power amplifier temperature.
-    //    unsigned short rx_rssi; ///< Rx Telemetry rssi measurement.
-    //}
-    //fields;
-    //} ISIStrxvuRxTelemetry;
-
-    ///**
-    // *  Struct for the TRXVU Tx telemetry.
-    // */
-    //typedef union __attribute__((__packed__)) _ISIStrxvuTxTelemetry
-    //{
-    //	/** Raw value array with Tx Telemetry data*/
-    //    unsigned char raw[TRXVU_ALL_TXTELEMETRY_SIZE];
-    ///** Telemetry values*/
-    //struct __attribute__ ((__packed__))
-    //    {
-    //        unsigned short tx_reflpwr; ///< Tx Telemetry reflected power.
-    //unsigned short pa_temp; ///< Tx Telemetry power amplifier temperature.
-    //unsigned short tx_fwrdpwr; ///< Tx Telemetry forward power.
-    //unsigned short tx_current; ///< Tx Telemetry transmitter current.
-    //    } fields;
-    //} ISIStrxvuTxTelemetry;
-
-    ///**
-    // *  Struct for the TRXVU current buffer status.
-    // */
-    //typedef union __attribute__((__packed__)) _ISIStrxvuTransmitterState
-    //{
-    //	/** Raw value that contains the current transmitter state*/
-    //    unsigned char raw;
-    //struct __attribute__ ((__packed__))
-    //    {
-    //        ISIStrxvuIdleState transmitter_idle_state : 1; ///< Transmitter current idle state.
-    //        ISIStrxvuBeacon transmitter_beacon : 1; ///< Transmitter beacon mode status.
-    //        ISIStrxvuBitrateStatus transmitter_bitrate : 2; ///< Transmitter current bitrate.
-    //    }fields;
-    //} ISIStrxvuTransmitterState;
-
 
     public class TRXConstants
     {

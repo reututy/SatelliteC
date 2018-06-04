@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +12,11 @@ namespace Logic
 {
     public class IsisTRXVU
     {
+        
 
-        public TRX[] tRXes;
+        private TRX[] tRXes;
         private List<int> errors;
+        public ObservableCollection<TRX> tRXesCollection = new ObservableCollection<TRX>();
 
         public IsisTRXVU()
         {
@@ -35,8 +39,9 @@ namespace Logic
                 tRXes = new TRX[number];
                 for(int i=0; i<number; i++)
                 {
-                    TRX trx = new TRX(i, address[i], maxFrameLengths[i], default_bitrates);
+                    TRX trx = new TRX(i, address[i], maxFrameLengths[i], default_bitrates) { Name = i.ToString() };
                     tRXes[i] = trx;
+                    tRXesCollection.Add(trx);
                 }
                 return Constants.E_NO_SS_ERR;
             }
@@ -133,7 +138,7 @@ namespace Logic
          *  @param[out]  avail Number of the available slots in the transmission buffer of the VU_TC after the frame has been added.
          *  @return      Error code according to <hal/errors.h>
          */
-        public int IsisTrxvu_tcSendAX25OvrClSign(byte index, byte fromCallsign, byte toCallsign, byte[] data, byte length, Output<Byte> avail)
+        public int IsisTrxvu_tcSendAX25OvrClSign(byte index, char[] fromCallsign, char[] toCallsign, byte[] data, byte length, Output<Byte> avail)
         {
             if (index < tRXes.Length)
             {
@@ -170,7 +175,7 @@ namespace Logic
          *  @param[in]   interval Interval of beacon transmission.
          *  @return      Error code according to <hal/errors.h>
          */
-        public int IsisTrxvu_tcSetAx25BeaconOvrClSign(byte index, byte[] fromCallsign, byte[] toCallsign, byte[] data, byte length, ushort interval)
+        public int IsisTrxvu_tcSetAx25BeaconOvrClSign(byte index, char[] fromCallsign, char[] toCallsign, byte[] data, byte length, ushort interval)
         {
             if (index < tRXes.Length)
             {
@@ -201,7 +206,7 @@ namespace Logic
          *  @param[in]   toCallsign This variable will define the new 7 characters default to callsign.
          *  @return      Error code according to <hal/errors.h>
          */
-        public int IsisTrxvu_tcSetDefToClSign(byte index, string toCallsign)
+        public int IsisTrxvu_tcSetDefToClSign(byte index, char[] toCallsign)
         {
             if(index < tRXes.Length)
             {
@@ -217,7 +222,7 @@ namespace Logic
          *  @param[in]   fromCallsign This variable will define the new 7 characters default from callsign.
          *  @return      Error code according to <hal/errors.h>
          */
-        public int IsisTrxvu_tcSetDefFromClSign(byte index, string fromCallsign)
+        public int IsisTrxvu_tcSetDefFromClSign(byte index, char[] fromCallsign)
         {
             if (index < tRXes.Length)
             {
@@ -265,7 +270,7 @@ namespace Logic
          *  @param[out]  uptime This array of 4 characters contains the operation time of the transmitter (Seconds, Minutes, Hours and Days, in that order).
          *  @return      Error code according to <hal/errors.h>
          */
-        public int IsisTrxvu_tcGetUptime(byte index, Output<Byte> uptime)
+        public int IsisTrxvu_tcGetUptime(byte index, Output<char[]> uptime)
         {
             if (index < tRXes.Length)
             {
@@ -283,7 +288,12 @@ namespace Logic
          */
         public int IsisTrxvu_tcGetState(byte index, Output<ISIStrxvuTransmitterState> currentvutcState)
         {
-            return 0;
+            if (index < tRXes.Length)
+            {
+                tRXes[index].IsisTrxvu_tcGetState(currentvutcState);
+                return Constants.E_NO_SS_ERR;
+            }
+            return Constants.E_INDEX_ERROR;
         }
 
         /**
@@ -305,7 +315,12 @@ namespace Logic
          */
         int IsisTrxvu_tcGetLastTxTelemetry(byte index, Output<ISIStrxvuTxTelemetry> last_telemetry)
         {
-            return 0;
+            if (index < tRXes.Length)
+            {
+                tRXes[index].IsisTrxvu_tcGetLastTxTelemetry(last_telemetry);
+                return Constants.E_NO_SS_ERR;
+            }
+            return Constants.E_INDEX_ERROR;
         }
 
         /**
@@ -361,7 +376,12 @@ namespace Logic
          */
         int IsisTrxvu_rcGetTelemetryAll(byte index, Output<ISIStrxvuRxTelemetry> telemetry)
         {
-            return 0;
+            if (index < tRXes.Length)
+            {
+                tRXes[index].IsisTrxvu_rcGetTelemetryAll(telemetry);
+                return Constants.E_NO_SS_ERR;
+            }
+            return Constants.E_INDEX_ERROR;
         }
 
         /**
@@ -370,7 +390,7 @@ namespace Logic
          *  @param[out]  uptime This array of 3 characters contains the operation time of the receiver (Minutes, Hours and Days, in that order)..
          *  @return      Error code according to <hal/errors.h>
          */
-        public int IsisTrxvu_rcGetUptime(byte index, Output<Byte> uptime)
+        public int IsisTrxvu_rcGetUptime(byte index, Output<char[]> uptime)
         {
             if (index < tRXes.Length)
             {
