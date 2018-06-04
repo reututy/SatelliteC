@@ -28,6 +28,7 @@ namespace Presentation
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.ChangePanel(new ComponentsTabs());
+            // number of trxes.. defaults..
         }
     }
 }

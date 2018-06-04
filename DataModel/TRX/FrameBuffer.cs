@@ -8,37 +8,38 @@ namespace DataModel.TRX
 {
     public class FrameBuffer
     {
-        private Queue<Frame> frames;
+        public ObservableQueue<Frame> frames;
         private int MAX_FRAMES { get; }
 
         public FrameBuffer(int maxFrames)
         {
+            frames = new ObservableQueue<Frame>();
             MAX_FRAMES = maxFrames;
         }
 
         internal int addFrame(Frame frame)
         {
-            if (frames.Count + 1 > MAX_FRAMES)
+            if (frames.count() + 1 > MAX_FRAMES)
             {
                 return Constants.E_MEM_ALLOC;
             }
-            frames.Enqueue(frame);
+            frames.enqueue(frame);
             return Constants.E_NO_SS_ERR;
         }
 
         internal int getAvailbleSpace()
         {
-            return MAX_FRAMES - frames.Count;
+            return MAX_FRAMES - frames.count();
         }
 
         internal Frame removeFrame()
         {
-            return frames.Dequeue();
+            return frames.dequeue();
         }
 
         internal int getFrameCount()
         {
-            return frames.Count;
+            return frames.count();
         }
     }
 }

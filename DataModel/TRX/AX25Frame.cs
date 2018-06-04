@@ -15,12 +15,21 @@ namespace DataModel.TRX
         public byte[] FrameCheckSeq { get; set; }
         public byte LastFlag { get; set; }
 
-        public AX25Frame(byte[] dest, byte[] src,byte[] data)
+        public AX25Frame(char[] dest, char[] src,byte[] data)
         {
             Header = new AX25Header(dest, src);
+            infoFeild = data;
+            FrameCheckSeq = calculateCheckSum(data);
             rx_framedata = new byte[1 + Header.data.Length + data.Length + 16 + 1];
+            rx_length = (ushort) rx_framedata.Length;
             System.Buffer.BlockCopy(Header.data, 0, rx_framedata, 1, Header.data.Length);
             System.Buffer.BlockCopy(data, 0, rx_framedata, 1 + Header.data.Length, data.Length);
+            createISIStrxvuRxFrame();
+        }
+
+        public byte[] calculateCheckSum(byte[] data)
+        {
+            return new byte[2];
         }
     }
 }
