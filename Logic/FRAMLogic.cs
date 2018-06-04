@@ -22,7 +22,7 @@ namespace Logic
          * -1 If creating semaphores to control access to the FRAM fails.
          * 0 on success.
          */
-        int FRAM_start()
+        public int FRAM_start()
         {
             fram = new FRAM(OBCConstants.SIZE_8K);
             return 0;
@@ -31,7 +31,7 @@ namespace Logic
         /*!
          * De-initializes the FRAM driver.
          */
-        void FRAM_stop()
+        public void FRAM_stop()
         {
             fram = null;
         }
@@ -61,7 +61,7 @@ namespace Logic
          * -1 if obtaining lock for FRAM access fails,
          * 0 on success.
          */
-        int FRAM_read(byte[] data, uint address, uint size)
+        public int FRAM_read(byte[] data, uint address, uint size)
         {
             if (fram == null)
                 return OBCConstants.ACCESS_ERROR;
