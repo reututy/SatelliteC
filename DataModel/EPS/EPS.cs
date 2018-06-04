@@ -37,71 +37,74 @@ namespace DataModel.EPS
         {
             ChargingFlow();
             BatteryDrop();
-            //CheckBatteryState();
+            CheckBatteryState();
+            CheckKillSwitch();
             CheckBatteryHeater();
             RunWDTs();
         }
 
         public void ChargingFlow()
         {
-            //if (IsCharging)
-            //{
-            ushort[] increaseCurrentPV = {10, 10, 10}; //change
-            ushort[] dropCurrentOutPV = { 1, 1, 1 }; //change
-            ushort[] dropCurrentInPV = { 1, 1, 1 }; //change
-            int resistancePV = EPSConstants.PV_IN_V_MAX / EPSConstants.PV_IN_I_CHARGE_MAX;
-            ushort totalCurrent = 0;
-            //PV charging
-            for (int i = 0; i < 3; i++)
+            if (IsCharging)
             {
-                if (BoostConverters[i].IsSun) //charging
+                ushort[] increaseCurrentPV = { 10, 10, 10 }; //change
+                ushort[] dropCurrentOutPV = { 1, 1, 1 }; //change
+                ushort[] dropCurrentInPV = { 1, 1, 1 }; //change
+                int resistancePV = EPSConstants.PV_IN_V_MAX / EPSConstants.PV_IN_I_CHARGE_MAX;
+                ushort totalCurrent = 0;
+                //PV charging
+                for (int i = 0; i < 3; i++)
                 {
-                    if (CurrentConfig.PptMode == EPSConstants.FIXEDSWPPT)
+                    if (BoostConverters[i].IsSun) //charging
                     {
-                        ushort vboost = CurrentConfig.Vboost[i];
-                        ushort currentGoal = (ushort)(vboost / resistancePV);
-                        BoostConverters[i].CurrentIn += increaseCurrentPV[i];
-                        if (BoostConverters[i].CurrentIn > currentGoal)
+                        if (CurrentConfig.PptMode == EPSConstants.FIXEDSWPPT)
                         {
-                            BoostConverters[i].CurrentIn = currentGoal;
+                            ushort vboost = CurrentConfig.Vboost[i];
+                            ushort currentGoal = (ushort)(vboost / resistancePV);
+                            BoostConverters[i].CurrentIn += increaseCurrentPV[i];
+                            if (BoostConverters[i].CurrentIn > currentGoal)
+                            {
+                                BoostConverters[i].CurrentIn = currentGoal;
+                            }
+                        }
+                        else //if (CurrentConfig.PptMode == EPSConstants.MPPT) or Hardware
+                        {
+                            BoostConverters[i].CurrentIn += increaseCurrentPV[i];
+                            if (BoostConverters[i].CurrentIn > EPSConstants.PV_IN_I_CHARGE_MAX)
+                            {
+                                BoostConverters[i].CurrentIn = EPSConstants.PV_IN_I_CHARGE_MAX;
+                            }
                         }
                     }
-                    else //if (CurrentConfig.PptMode == EPSConstants.MPPT) or Hardware
+                    else //no sun - no charging
                     {
-                        BoostConverters[i].CurrentIn += increaseCurrentPV[i];
-                        if (BoostConverters[i].CurrentIn > EPSConstants.PV_IN_I_CHARGE_MAX)
+                        BoostConverters[i].CurrentIn -= dropCurrentInPV[i];
+                        if (BoostConverters[i].CurrentIn < EPSConstants.PV_IN_I_CHARGE_MIN)
                         {
-                            BoostConverters[i].CurrentIn = EPSConstants.PV_IN_I_CHARGE_MAX;
+                            BoostConverters[i].CurrentIn = EPSConstants.PV_IN_I_CHARGE_MIN;
                         }
                     }
+                    BoostConverters[i].Volt = (ushort)(BoostConverters[i].CurrentIn * resistancePV);
+                    BoostConverters[i].Temperture = (short)(BoostConverters[i].Volt / 1000);
+                    BoostConverters[i].CurrentOut = (ushort)(BoostConverters[i].CurrentIn - dropCurrentOutPV[i]);
+                    totalCurrent += BoostConverters[i].CurrentOut;
                 }
-                else //no sun - no charging
+                //battery charging
+                ushort dropCurrentBattery = 1; //change
+                ushort increaseVoltBattery = 50; //change
+                short increaseTempBattery = 1; //change
+
+                OnboardBattery.CurrentIn = totalCurrent;
+                //if charge
+                OnboardBattery.Vbat += increaseVoltBattery;
+                if (OnboardBattery.Vbat > EPSConstants.MAX_VBAT)
                 {
-                    BoostConverters[i].CurrentIn -= dropCurrentInPV[i];
-                    if (BoostConverters[i].CurrentIn < EPSConstants.PV_IN_I_CHARGE_MIN)
-                    {
-                        BoostConverters[i].CurrentIn = EPSConstants.PV_IN_I_CHARGE_MIN;
-                    }
+                    OnboardBattery.Vbat = EPSConstants.MAX_VBAT;
                 }
-                BoostConverters[i].Volt = (ushort)(BoostConverters[i].CurrentIn * resistancePV);
-                BoostConverters[i].Temperture = (short)(BoostConverters[i].Volt / 1000);
-                BoostConverters[i].CurrentOut = (ushort)(BoostConverters[i].CurrentIn - dropCurrentOutPV[i]);
-                totalCurrent += BoostConverters[i].CurrentOut;
+                CheckBatteryState();
+                OnboardBattery.Temperture += increaseTempBattery;
+                OnboardBattery.CurrentOut = (ushort)(OnboardBattery.CurrentIn - dropCurrentBattery);
             }
-            //battery charging
-            ushort dropCurrentBattery = 1; //change
-            ushort increaseVoltBattery = 50; //change
-            short increaseTempBattery = 1; //change
-
-            OnboardBattery.CurrentIn = totalCurrent;
-            //if charge
-            OnboardBattery.Vbat += increaseVoltBattery;
-            CheckBatteryState();
-            OnboardBattery.Temperture += increaseTempBattery;
-            OnboardBattery.CurrentOut = (ushort)(OnboardBattery.CurrentIn - dropCurrentBattery);
-            
-
-            //}
             
         }
 
@@ -109,6 +112,10 @@ namespace DataModel.EPS
         {
             short tempChanged = 1;
             OnboardBattery.Vbat -= 10; //need to be changed
+            if (OnboardBattery.Vbat < EPSConstants.CRITICAL_VBAT)
+            {
+                
+            }
             OnboardBattery.CurrentOut -= 10; //need to be changed
             OnboardBattery.Temperture -= tempChanged; //need to be changed
             
@@ -116,12 +123,13 @@ namespace DataModel.EPS
 
         private void HardwareHighVoltProtection()
         {
+            //The hardware high voltage protection will set the input voltage on the solar cells to zero. 
             for (int i = 0; i < 3; i++)
             {
                 BoostConverters[i].Volt = EPSConstants.PV_IN_V_MIN;
-                BoostConverters[i].CurrentIn = EPSConstants.PV_IN_I_CHARGE_MIN;
+                BoostConverters[i].CurrentOut = EPSConstants.PV_IN_I_CHARGE_MIN;
             }
-            IsCharging = false;
+            //IsCharging = false;
         }
 
         private void CheckBatteryState()
@@ -144,25 +152,30 @@ namespace DataModel.EPS
                     else
                     {
                         OnboardBattery.BattState = BattState.FULL;
-                        HardwareHighVoltProtection();
+                        //HardwareHighVoltProtection();
                     }
                     break;
                 case BattState.CRITICAL:
-                    //hardware LOW voltage protection will switch off the kill-switch
-                    if (OnboardBattery.Vbat <= EPSConstants.SWITCH_ON_V)
-                    {
-                        KillSwitchStatus = EPSConstants.OFF;
-                        SET_OUTPUT(0);
-                    }
-                    else
-                    {
-                        KillSwitchStatus = EPSConstants.ON;
-                        SET_OUTPUT(54);
-                    }
                     if (OnboardBattery.Vbat > EPSConstants.SAFE_VBAT)
                     {
                         OnboardBattery.BattState = BattState.SAFE;
                     }
+                    //hardware LOW voltage protection will switch off the kill-switch
+                    else if (OnboardBattery.Vbat < EPSConstants.CRITICAL_VBAT)
+                    {
+                        //swich off all user outputs
+                    }
+                    if (OnboardBattery.Vbat <= EPSConstants.SWITCH_OFF_V)
+                    {
+                        KillSwitchStatus = EPSConstants.OFF;
+                        //SET_OUTPUT(0);
+                    }
+                    else if (OnboardBattery.Vbat >= EPSConstants.SWITCH_ON_V)
+                    {
+                        KillSwitchStatus = EPSConstants.ON;
+                        //SET_OUTPUT(54);
+                    }
+                    
                     break;
                 case BattState.SAFE:
                     if (OnboardBattery.Vbat < EPSConstants.CRITICAL_VBAT)
@@ -182,21 +195,33 @@ namespace DataModel.EPS
                     else if (OnboardBattery.Vbat > EPSConstants.MAX_VBAT)
                     {
                         OnboardBattery.BattState = BattState.FULL;
-                        HardwareHighVoltProtection();
+                        //HardwareHighVoltProtection();
                     }
                     break;
                 case BattState.FULL:
-                    if (IsCharging)
-                        HardwareHighVoltProtection();
                     if (OnboardBattery.Vbat < EPSConstants.MAX_VBAT)
                     {
                         OnboardBattery.BattState = BattState.NORMAL;
-                        IsCharging = true;
+                        IsCharging = true; //why?
                     }
+                    if (IsCharging)
+                        HardwareHighVoltProtection();
+                   
                     break;
             }
         }
 
+        public void CheckKillSwitch()
+        {
+            if (KillSwitchStatus == EPSConstants.OFF)
+            {
+                SET_OUTPUT(0);
+            }
+            else //KillSwitchStatus == EPSConstants.ON
+            {
+                SET_OUTPUT(54);
+            }
+        }
 
         public void CheckBatteryHeater()
         {
