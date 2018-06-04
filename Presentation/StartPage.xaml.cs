@@ -1,7 +1,9 @@
-﻿using System;
+﻿using DemoService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +29,22 @@ namespace Presentation
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.ChangePanel(new ComponentsTabs());
+            Logic.GomEPS eps = new Logic.GomEPS();
+            Logic.IsisTRXVU trx = new Logic.IsisTRXVU();
+            try
+            {
+                int port = 4444;
+                AsyncService service = new AsyncService();
+                AsyncService.eps = eps;
+                AsyncService.trx = trx;
+                Thread newThread = new Thread(AsyncService.Run);
+                newThread.Start();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            MainWindow.ChangePanel(new ComponentsTabs(eps, trx));
             // number of trxes.. defaults..
         }
     }

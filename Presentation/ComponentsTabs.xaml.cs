@@ -20,14 +20,14 @@ namespace Presentation
     /// </summary>
     public partial class ComponentsTabs : UserControl
     {
-        public ComponentsTabs()
+        public ComponentsTabs(Logic.GomEPS eps, Logic.IsisTRXVU trx)
         {
             InitializeComponent();
-            TRXTab tRXTab = new TRXTab();
+            TRXTab tRXTab = new TRXTab(trx);
             trxpanel.Children.Add(tRXTab);
             tRXTab.Visibility = Visibility.Visible;
 
-            EPSTab ePXTab = new EPSTab();
+            EPSTab ePXTab = new EPSTab(eps);
             epspanel.Children.Add(ePXTab);
             ePXTab.Visibility = Visibility.Visible;
 
