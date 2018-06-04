@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    class GomEPS
+    public class GomEPS
     {
         EPS[] eps_table;
-        int eps_num;
+        int eps_num; //number of EPSs
 
         /**
          * 	Initialize the GOMSpace EPS with the corresponding i2cAddress. This function can only be called once.
@@ -20,6 +20,7 @@ namespace Logic
          * 	@param[in] number number of attached EPS in the system to be initialized
          * 	@return Error code according to <hal/errors.h>
          */
+        
         public int GomEpsInitialize(byte i2c_address, byte number)
         {
             // TODO - what to do with the address?
@@ -329,7 +330,7 @@ namespace Logic
          *	@param[in] mode power point mode of the eps
          * 	@return Error code according to <hal/errors.h>
          */
-        int GomEpsSetPptMode(byte index, byte mode)
+        public int GomEpsSetPptMode(byte index, byte mode)
         {
             if (eps_table == null)
             {

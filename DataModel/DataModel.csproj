@@ -8,9 +8,10 @@
     <OutputType>Library</OutputType>
     <RootNamespace>DataModel</RootNamespace>
     <AssemblyName>DataModel</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,6 +54,8 @@
     <Compile Include="EPS\Channel.cs" />
     <Compile Include="EPS\EPSConfiguration.cs" />
     <Compile Include="EPS\EPSConstants.cs" />
+    <Compile Include="EPS\EPSStartValues.cs" />
+    <Compile Include="EPS\Output.cs" />
     <Compile Include="EPS\WDT.cs" />
     <Compile Include="OBC\FRAM.cs" />
     <Compile Include="OBC\I2C.cs" />
