@@ -207,7 +207,7 @@ namespace DataModel.TRX
             this.default_bitrates = bitrate;
         }
 
-        public void IsisTrxvu_tcGetUptime(Output<char[]> uptime)
+        public void IsisTrxvu_tcGetUptime(Output<byte[]> uptime)
         {
             throw new NotImplementedException();
         }
@@ -223,7 +223,7 @@ namespace DataModel.TRX
             rx_frame.output = frame.frame;
         }
 
-        public void IsisTrxvu_rcGetUptime(Output<char[]> uptime)
+        public void IsisTrxvu_rcGetUptime(Output<byte[]> uptime)
         {
             throw new NotImplementedException();
         }
