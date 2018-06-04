@@ -245,6 +245,28 @@ namespace DataModel.TRX
         public void IsisTrxvu_tcSetAx25Bitrate(ISIStrxvuBitrate bitrate)
         {
             this.default_bitrates = bitrate;
+            if(bitrate == ISIStrxvuBitrate.trxvu_bitrate_1200)
+            {
+                transmitter.TxBitrate = ISIStrxvuBitrateStatus.trxvu_bitratestatus_1200;
+                receiver.RxBitrate = ISIStrxvuBitrateStatus.trxvu_bitratestatus_1200;
+            }
+            if (bitrate == ISIStrxvuBitrate.trxvu_bitrate_2400)
+            {
+                transmitter.TxBitrate = ISIStrxvuBitrateStatus.trxvu_bitratestatus_2400;
+                receiver.RxBitrate = ISIStrxvuBitrateStatus.trxvu_bitratestatus_2400;
+            }
+            if (bitrate == ISIStrxvuBitrate.trxvu_bitrate_4800)
+            {
+                transmitter.TxBitrate = ISIStrxvuBitrateStatus.trxvu_bitratestatus_4800;
+                receiver.RxBitrate = ISIStrxvuBitrateStatus.trxvu_bitratestatus_4800;
+            }
+            if (bitrate == ISIStrxvuBitrate.trxvu_bitrate_9600)
+            {
+                transmitter.TxBitrate = ISIStrxvuBitrateStatus.trxvu_bitratestatus_9600;
+                receiver.RxBitrate = ISIStrxvuBitrateStatus.trxvu_bitratestatus_9600;
+            }
+            
+
         }
 
         public void IsisTrxvu_tcGetUptime(Output<byte[]> uptime)

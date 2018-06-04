@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataModel;
 using DataModel.TRX;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Logic
 {
@@ -81,14 +82,11 @@ namespace Logic
          */
         public int IsisTrxvu_componentSoftReset(byte index, ISIStrxvuComponent component)
         {
-            logs.Add(new Log("IsisTrxvu_componentSoftReset"));
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_componentSoftReset(component);
-                logs.Add(new Log("No Error"));
                 return Constants.E_NO_SS_ERR;
             }
-            logs.Add(new Log("Index Error"));
             return Constants.E_INDEX_ERROR;
         }
 
@@ -100,14 +98,11 @@ namespace Logic
          */
         public int IsisTrxvu_componentHardReset(byte index, ISIStrxvuComponent component)
         {
-            logs.Add(new Log("IsisTrxvu_componentHardReset"));
             if (index < tRXes.Length)
             {
-                logs.Add(new Log("No Error"));
                 tRXes[index].IsisTrxvu_componentHardReset(component);
                 return Constants.E_NO_SS_ERR;
             }
-            logs.Add(new Log("Index Error"));
             return Constants.E_INDEX_ERROR;
         }
 
@@ -291,6 +286,7 @@ namespace Logic
                 tRXes[index].IsisTrxvu_tcSetAx25Bitrate(bitrate);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(new Log("Index Error"));
             return Constants.E_INDEX_ERROR;
         }
 
