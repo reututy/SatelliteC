@@ -11,58 +11,35 @@ using System.Runtime.InteropServices;
 
 namespace DemoService
 {
-    class ServiceProgram
-    {
-        static void Main(string[] args)
-        {
-            try
-            {
-                int port = 4444;
-                AsyncService service = new AsyncService(port);
-                service.Run();
-                Console.ReadLine();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
-            }
-        }
-    }
     public class AsyncService
     {
-        private Logic.GomEPS eps;
-        private Logic.IsisTRXVU trx;
-        private IPAddress ipAddress;
-        private int port;
-        public AsyncService(int port)
+        public static Logic.GomEPS eps;
+        public static Logic.IsisTRXVU trx;
+        public static IPAddress ipAddress;
+        public static int port = 4444;
+
+        public static async void Run()
         {
-            this.port = port;
             string hostName = Dns.GetHostName();
             IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
-            this.ipAddress = null;
+            ipAddress = null;
             for (int i = 0; i < ipHostInfo.AddressList.Length; ++i)
             {
                 if (ipHostInfo.AddressList[i].AddressFamily ==
                   AddressFamily.InterNetwork)
                 {
-                    this.ipAddress = ipHostInfo.AddressList[i];
+                    ipAddress = ipHostInfo.AddressList[i];
                     break;
                 }
             }
-            if (this.ipAddress == null)
+            if (ipAddress == null)
                 throw new Exception("No IPv4 address for server");
 
-            eps = new Logic.GomEPS();
-            trx = new Logic.IsisTRXVU();
-        }
-        public async void Run()
-        {
-            TcpListener listener = new TcpListener(IPAddress.Loopback, this.port);
+            TcpListener listener = new TcpListener(IPAddress.Loopback, port);
             listener.Start();
             Console.Write("Array Min and Avg service is now running");
           
-            Console.WriteLine(" on port " + this.port);
+            Console.WriteLine(" on port " + port);
             Console.WriteLine("Hit <enter> to stop service\n");
             while (true)
             {
@@ -79,7 +56,7 @@ namespace DemoService
             }
         }
 
-        private async Task Process(TcpClient tcpClient)
+        public static async Task Process(TcpClient tcpClient)
         {
             string clientEndPoint =
               tcpClient.Client.RemoteEndPoint.ToString();
@@ -113,13 +90,13 @@ namespace DemoService
                     tcpClient.Close();
             }
         }
-        private byte[] Response(string request)
+        public static byte[] Response(string request)
         {
             byte[] analyzedResponse = analyzeRequest(request);
             return analyzedResponse;
         }
 
-        private byte[] analyzeRequest(string request)
+        public static byte[] analyzeRequest(string request)
         {
             byte[] response = { 0 };
             string[] args = request.Split('&');
@@ -131,7 +108,7 @@ namespace DemoService
             return response;
         }
 
-        private byte[] analyzeIsisTrxvu(string request)
+        public static byte[] analyzeIsisTrxvu(string request)
         {
             byte[] response = { 0 };
             string[] args = request.Split('&');
@@ -198,8 +175,8 @@ namespace DemoService
                     }
                 case "IsisTrxvu_tcSetAx25BeaconOvrClSign":
                     {
-                        byte[] fromCallsign = Encoding.ASCII.GetBytes(args[2]);
-                        byte[] toCallsign = Encoding.ASCII.GetBytes(args[3]);
+                        char[] fromCallsign = args[2].ToCharArray(0, args[2].Length);
+                        char[] toCallsign = args[3].ToCharArray(0, args[3].Length);
                         byte[] data = Encoding.ASCII.GetBytes(args[4]);
                         byte length = Encoding.ASCII.GetBytes(args[5])[0];
                         ushort interval = Convert.ToUInt16(args[6]);
@@ -214,13 +191,13 @@ namespace DemoService
                 case "IsisTrxvu_tcSetDefToClSign":
                     {
                         string toCallsign = args[2];
-                        response = convertErrorToByteArr(trx.IsisTrxvu_tcSetDefToClSign(index, toCallsign));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_tcSetDefToClSign(index, toCallsign.ToCharArray(0, toCallsign.Length)));
                         break;
                     }
                 case "IsisTrxvu_tcSetDefFromClSign":
                     {
                         string toCallsign = args[2];
-                        response = convertErrorToByteArr(trx.IsisTrxvu_tcSetDefFromClSign(index, toCallsign));
+                        response = convertErrorToByteArr(trx.IsisTrxvu_tcSetDefFromClSign(index, toCallsign.ToCharArray(0, toCallsign.Length)));
                         break;
                     }
                 case "IsisTrxvu_tcSetIdlestate":
@@ -301,7 +278,7 @@ namespace DemoService
             return response;
         }
 
-        private byte[] concatBytesArr(byte[] a1, byte[] a2)
+        public static byte[] concatBytesArr(byte[] a1, byte[] a2)
         {
             byte[] rv = new byte[a1.Length + a2.Length];
             System.Buffer.BlockCopy(a1, 0, rv, 0, a1.Length);
@@ -309,7 +286,7 @@ namespace DemoService
             return rv;
         }
 
-        private byte[] analyzeGomEps(string request)
+        public static byte[] analyzeGomEps(string request)
         {
             byte[] response = { 0 };
             string[] args = request.Split('&');
@@ -475,14 +452,14 @@ namespace DemoService
             return response;
         }
 
-        private ISIStrxvuComponent convertToSturctISIStrxvuComponent(string str)
+        public static ISIStrxvuComponent convertToSturctISIStrxvuComponent(string str)
         {
             IntPtr pBuf = Marshal.StringToBSTR(str);
             ISIStrxvuComponent strct = (ISIStrxvuComponent)Marshal.PtrToStructure(pBuf, typeof(ISIStrxvuComponent));
             return strct;
         }
 
-        private ISIStrxvuI2CAddress[] convertToSturctISIStrxvuI2CAddressArr(string str)
+        public static ISIStrxvuI2CAddress[] convertToSturctISIStrxvuI2CAddressArr(string str)
         {
             IntPtr pBuf = Marshal.StringToBSTR(str);
             ISIStrxvuI2CAddress strct = (ISIStrxvuI2CAddress)Marshal.PtrToStructure(pBuf, typeof(ISIStrxvuI2CAddress));
@@ -491,28 +468,28 @@ namespace DemoService
             return ret;
         }
 
-        EPS.eps_config_t convertToSturcteps_config_t(string str)
+        public static EPS.eps_config_t convertToSturcteps_config_t(string str)
         {
             IntPtr pBuf = Marshal.StringToBSTR(str);
             EPS.eps_config_t strct = (EPS.eps_config_t)Marshal.PtrToStructure(pBuf, typeof(EPS.eps_config_t));
             return strct;
         }
 
-        EPS.eps_config2_t convertToSturcteps_config2_t(string str)
+        public static EPS.eps_config2_t convertToSturcteps_config2_t(string str)
         {
             IntPtr pBuf = Marshal.StringToBSTR(str);
             EPS.eps_config2_t strct = (EPS.eps_config2_t)Marshal.PtrToStructure(pBuf, typeof(EPS.eps_config2_t));
             return strct;
         }
 
-        byte[] convertErrorToByteArr(int err)
+        public static byte[] convertErrorToByteArr(int err)
         {
             ASCIIEncoding ascii = new ASCIIEncoding();
             byte[] errByteArr = BitConverter.GetBytes(0-err);
             return errByteArr;
         }
 
-        byte[] getBytes(EPS.eps_config2_t str)
+        public static byte[] getBytes(EPS.eps_config2_t str)
         {
             int size = Marshal.SizeOf(str);
             byte[] arr = new byte[size];
@@ -524,7 +501,7 @@ namespace DemoService
             return arr;
         }
 
-        byte[] getBytes(EPS.eps_config_t str)
+        public static byte[] getBytes(EPS.eps_config_t str)
         {
             int size = Marshal.SizeOf(str);
             byte[] arr = new byte[size];
@@ -536,7 +513,7 @@ namespace DemoService
             return arr;
         }
 
-        byte[] getBytes(EPS.eps_hk_t str)
+        public static byte[] getBytes(EPS.eps_hk_t str)
         {
             int size = Marshal.SizeOf(str);
             byte[] arr = new byte[size];
@@ -548,7 +525,7 @@ namespace DemoService
             return arr;
         }
 
-        byte[] getBytes(EPS.eps_hk_vi_t str)
+        public static byte[] getBytes(EPS.eps_hk_vi_t str)
         {
             int size = Marshal.SizeOf(str);
             byte[] arr = new byte[size];
@@ -560,7 +537,7 @@ namespace DemoService
             return arr;
         }
 
-        byte[] getBytes(EPS.eps_hk_out_t str)
+        public static byte[] getBytes(EPS.eps_hk_out_t str)
         {
             int size = Marshal.SizeOf(str);
             byte[] arr = new byte[size];
@@ -572,7 +549,7 @@ namespace DemoService
             return arr;
         }
 
-        byte[] getBytes(EPS.eps_hk_wdt_t str)
+        public static byte[] getBytes(EPS.eps_hk_wdt_t str)
         {
             int size = Marshal.SizeOf(str);
             byte[] arr = new byte[size];
@@ -584,7 +561,7 @@ namespace DemoService
             return arr;
         }
 
-        byte[] getBytes(EPS.eps_hk_basic_t str)
+        public static byte[] getBytes(EPS.eps_hk_basic_t str)
         {
             int size = Marshal.SizeOf(str);
             byte[] arr = new byte[size];
@@ -596,7 +573,7 @@ namespace DemoService
             return arr;
         }
 
-        byte[] getBytes(ushort str)
+        public static byte[] getBytes(ushort str)
         {
             int size = Marshal.SizeOf(str);
             byte[] arr = new byte[size];

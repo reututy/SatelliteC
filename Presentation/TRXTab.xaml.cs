@@ -32,7 +32,6 @@ namespace Presentation
 
         private void initiallizeTRX()
         {
-            isisTRXVU = new IsisTRXVU();
             byte number = Convert.ToByte(2);
             ISIStrxvuFrameLengths fls = new ISIStrxvuFrameLengths();
             fls.maxAX25frameLengthRX = 2048;
@@ -45,39 +44,14 @@ namespace Presentation
             isisTRXVU.IsisTrxvu_initialize(new ISIStrxvuI2CAddress[] { new ISIStrxvuI2CAddress(), new ISIStrxvuI2CAddress() }, fl, ISIStrxvuBitrate.trxvu_bitrate_2400, number);
         }
 
-        public TRXTab()
+        public TRXTab(IsisTRXVU isisTRXVU)
         {
             InitializeComponent();
+            this.isisTRXVU = isisTRXVU;
             testt = new TestThreadGui();
-            currInText.DataContext = testt;
 
             initiallizeTRX();
             trxes.ItemsSource = isisTRXVU.tRXesCollection;
-
-            var listeningThread = new Thread(() =>
-            {
-                int counter = 0;
-                while (true)
-                {
-                    
-                    counter++;
-
-                    System.Threading.Thread.Sleep(2000);
-
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        isisTRXVU.IsisTrxvu_initialize(new ISIStrxvuI2CAddress[2], new ISIStrxvuFrameLengths[2], ISIStrxvuBitrate.trxvu_bitrate_1200, Convert.ToByte(2));
-                        testt.Testt = "cunter now = " + counter;
-                        //currInText.Text = "cunter now = " + counter;
-                        x.Text = "in thread";
-                    });
-                    
-                    
-                }
-            });
-
-            listeningThread.IsBackground = true;
-            listeningThread.Start();
         }
 
         private void trx_Loaded(object sender, RoutedEventArgs e)
@@ -112,18 +86,6 @@ namespace Presentation
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (currInText.DataContext != testt)
-            {
-                currInText.DataContext = testt;
-            }
-            else
-            {
-                TestThreadGui tjk = new TestThreadGui() { Testt = "changed" };
-                currInText.DataContext = tjk;
-            }
-        }
     }
 
     
