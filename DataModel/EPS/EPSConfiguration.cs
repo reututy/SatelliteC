@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace DataModel.EPS
 {
+    /* power point tracking mode */
+    public enum PPTMode {HARDWARE, MPPT, FIXED}
+
+    /* battery heater modes */
+    public enum HeaterMode { MANUAL, AUTO }
+
     public class EPSConfiguration : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -19,9 +25,9 @@ namespace DataModel.EPS
             }
         }
 
-        private byte _pptMode;
+        private PPTMode _pptMode;
         //!< Mode for PPT [0 = Hardware, 1 = MPPT, 2 = Fixed SW PPT]
-        public byte PptMode
+        public PPTMode PptMode
         {
             get {return _pptMode;}
             set
@@ -31,9 +37,9 @@ namespace DataModel.EPS
             }
         }
 
-        private byte _battheaterMode;
+        private HeaterMode _battheaterMode;
         //!< Mode for battheater [0 = Manual, 1 = Auto]
-        public byte BattheaterMode
+        public HeaterMode BattheaterMode
         {
             get {return _battheaterMode; }
             set
@@ -43,9 +49,9 @@ namespace DataModel.EPS
             }
         }
 
-        private byte _battheaterLow;
+        private sbyte _battheaterLow;
         //!< Turn heater on at [degC]
-        public byte BattheaterLow
+        public sbyte BattheaterLow
         {
             get { return _battheaterLow; }
             set
@@ -55,9 +61,9 @@ namespace DataModel.EPS
             }
         }
 
-        private byte _battheaterHigh;
+        private sbyte _battheaterHigh;
         //!< Turn heater off at [degC]
-        public byte BattheaterHigh
+        public sbyte BattheaterHigh
         {
             get { return _battheaterHigh; }
             set
@@ -175,7 +181,7 @@ namespace DataModel.EPS
             }
         } 
 
-        public EPSConfiguration(byte mode, byte heatMode, byte heatLow, byte heatHigh, byte[] outNormal, byte[] outSafe,
+        public EPSConfiguration(PPTMode mode, HeaterMode heatMode, sbyte heatLow, sbyte heatHigh, byte[] outNormal, byte[] outSafe,
             ushort[] outOnDel, ushort[] outOffDel, ushort[] vBoost)
         {
             PptMode = mode;

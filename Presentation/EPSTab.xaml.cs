@@ -44,7 +44,7 @@ namespace Presentation
             Channel channel5 = (Channel)eps.Outputs[4];
             Channel channel6 = (Channel)eps.Outputs[5];
             EPSConfiguration currConfig = eps.CurrentConfig;
-            BatteryHeater heater = eps.BatteryHeater;
+            BatteryHeater heater = eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER];
             WDT i2c = eps.Wdts[(int)WdtType.I2C];
             WDT gnd = eps.Wdts[(int)WdtType.GND];
             WDT csp0 = eps.Wdts[(int)WdtType.CSP0];
@@ -66,6 +66,7 @@ namespace Presentation
             confGrid.DataContext = currConfig;
             //battery heater
             batteryHeaterGrid.DataContext = heater;
+            heaterModeText.DataContext = currConfig;
             //WDTs
             wdtI2CGrid.DataContext = i2c;
             wdtGNDGrid.DataContext = gnd;

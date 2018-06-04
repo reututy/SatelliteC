@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace DataModel.EPS
 {
-    /* battery heater modes */
-    public enum HeaterMode { MANUAL, AUTO}
 
     /* battery heater types */
     public enum HeaterType { BP4, ONBOARD }
@@ -18,7 +16,7 @@ namespace DataModel.EPS
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private HeaterMode _mode;
+        /*private HeaterMode _mode;
         //0 = Manual, 1 = Auto
         public HeaterMode Mode
         {
@@ -34,7 +32,7 @@ namespace DataModel.EPS
                     PropertyChanged(this, new PropertyChangedEventArgs("Mode"));
                 }
             }
-        }
+        }*/
 
         private HeaterType _type;
         //0 = BP4, 1= Onboard
@@ -72,7 +70,7 @@ namespace DataModel.EPS
             }
         } 
 
-        private sbyte _battHeaterLow;
+        /*private sbyte _battHeaterLow;
         //! Turn heater on at [degC]
         public sbyte BattHeaterLow
         {
@@ -106,17 +104,17 @@ namespace DataModel.EPS
                     PropertyChanged(this, new PropertyChangedEventArgs("BattHeaterHigh"));
                 }
             }
-        }  
+        }*/
 
         
 
-        public BatteryHeater(HeaterMode mod, HeaterType typ, byte stat, sbyte low, sbyte high)
+        public BatteryHeater(HeaterType typ, byte stat)
         {
-            Mode = mod;
+            //Mode = mod;
             Type = typ;
             Status = stat;
-            BattHeaterLow = low;
-            BattHeaterHigh = high;
+            //BattHeaterLow = low;
+            //BattHeaterHigh = high;
         }
     }
 }

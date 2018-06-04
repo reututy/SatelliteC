@@ -58,7 +58,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Label Content="Mode:" Grid.Row="0" Grid.Column="0"/>
-            <TextBlock x:Name="heaterModeText" Grid.Row="0" Grid.Column="1" Text="{Binding Mode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock x:Name="heaterModeText" Grid.Row="0" Grid.Column="1" Text="{Binding BattheaterMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Label Content="Type:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="heaterTypeText" Grid.Row="1" Grid.Column="1" Text="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Status:" Grid.Row="2" Grid.Column="0"/>
@@ -251,7 +251,7 @@
         </Grid>
         <Label Content="Battery Heater" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="350,232,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
         <Label Content="Channels" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="617,9,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
-        <Grid x:Name="confGrid" HorizontalAlignment="Left" Background="White" Height="338" Margin="869,49,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="confGrid" HorizontalAlignment="Left" Background="White" Height="311" Margin="869,49,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -364,7 +364,7 @@
                 <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding OutputInitialOffDelay[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Row="0" Grid.Column="7" Text="{Binding OutputInitialOffDelay[7], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
-            <Label Content="Vboost [mV]:" Grid.Row="8" Grid.Column="0"/>
+            <!--<Label Content="Vboost [mV]:" Grid.Row="8" Grid.Column="0"/>
             <Grid x:Name="vboostGrid" Grid.Row="8" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -374,7 +374,7 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Vboost[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Vboost[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Vboost[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </Grid>
+            </Grid>-->
             <Label Content="Max voltage [mV]:" Grid.Row="9" Grid.Column="0"/>
             <TextBlock x:Name="maxVoltText" Grid.Row="9" Grid.Column="1" Text="{Binding BattMaxVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Safe voltage [mV]:" Grid.Row="10" Grid.Column="0"/>
@@ -424,7 +424,7 @@
             <Label Content="Time left [sec]:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="gndTimeText" Grid.Row="2" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="wdtCSP1Grid" HorizontalAlignment="Left" Background="White" Height="82" Margin="266,611,0,0" VerticalAlignment="Top" Width="149">
+        <Grid x:Name="wdtCSP1Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="266,611,0,-14.2" VerticalAlignment="Top" Width="149">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -441,9 +441,11 @@
             <Label Content="#Reboot:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="csp1RebootText" Grid.Row="1" Grid.Column="1" Text="{Binding RebootCounter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="#Ping left:" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock x:Name="csp1TimeText" Grid.Row="2" Grid.Column="1" Text="{Binding PingLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock x:Name="csp1PingText" Grid.Row="2" Grid.Column="1" Text="{Binding PingLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Time to ping [sec]:" Grid.Row="3" Grid.Column="0"/>
+            <TextBlock x:Name="csp1TimeText" Grid.Row="3" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="wdtCSP0Grid" HorizontalAlignment="Left" Background="White" Height="82" Margin="88,611,0,0" VerticalAlignment="Top" Width="149">
+        <Grid x:Name="wdtCSP0Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="88,611,0,-14.2" VerticalAlignment="Top" Width="149">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -460,7 +462,9 @@
             <Label Content="#Reboot:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="csp0RebootText" Grid.Row="1" Grid.Column="1" Text="{Binding RebootCounter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="#Ping left:" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock x:Name="csp0TimeText" Grid.Row="2" Grid.Column="1" Text="{Binding PingLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock x:Name="csp0pingText" Grid.Row="2" Grid.Column="1" Text="{Binding PingLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Time to ping [sec]:" Grid.Row="3" Grid.Column="0"/>
+            <TextBlock x:Name="csp0TimeText" Grid.Row="3" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <Button x:Name="pauseButton" Content="Pause" Foreground="White" Background="Orange" FontSize="18" HorizontalAlignment="Left" Margin="1083,48,-23.4,0" VerticalAlignment="Top" Width="122" Height="43" Click="PauseButton_Click"/>
     </Grid>
