@@ -16,6 +16,7 @@ namespace DemoService
     {
         public static Logic.GomEPS eps;
         public static Logic.IsisTRXVU trx;
+        public static Logic.FRAMLogic fram;
         public static IPAddress ipAddress;
         public static int port = 4444;
 
@@ -106,6 +107,41 @@ namespace DemoService
                 response = analyzeGomEps(request);
             else if (methodName.Contains("IsisTrxvu"))
                 response = analyzeIsisTrxvu(request);
+            else if (methodName.Contains("FRAM"))
+                response = analyzeFRAM(request);
+            return response;
+        }
+
+        private static byte[] analyzeFRAM(string request)
+        {
+            byte[] response = { 0 };
+            string[] args = request.Split('&');
+            string methodName = args[0];
+            switch (methodName)
+            {
+                case "FRAM_start":
+                    {
+                        response = convertErrorToByteArr(fram.FRAM_start());
+                        break;
+                    }
+                case "FRAM_write":
+                    {
+                        byte[] data = Encoding.ASCII.GetBytes(args[1]);
+                        uint address = Convert.ToUInt32(args[2]);
+                        uint size = BitConverter.ToUInt32(Encoding.ASCII.GetBytes(args[3]), 0);
+                        response = convertErrorToByteArr(fram.FRAM_write(data, address, size));
+                        break;
+                    }
+                case "FRAM_read":
+                    {
+                        uint address = Convert.ToUInt32(args[1]);
+                        uint size = BitConverter.ToUInt32(Encoding.ASCII.GetBytes(args[2]), 0);
+                        byte[] data = new byte[size];
+                        byte[] err = convertErrorToByteArr(fram.FRAM_read(data, address, size));
+                        response = concatBytesArr(err, data);
+                        break;
+                    }
+            }
             return response;
         }
 
