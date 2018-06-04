@@ -3,7 +3,7 @@
 namespace DataModel.EPS
 {
     /* battery protection states */
-    public enum BattState {INITIAL, CRITICAL, SAFE, NORMAL, FULL }
+    public enum BattState {INITIAL, CRITICAL, SAFE, NORMAL, FULL}
 
     /* mode for battery[0 = normal, 1 = undervoltage, 2 = overvoltage] */
     public enum BattMode { NORMAL, UNDERVOLTAGE, OVERVOLTAGE }

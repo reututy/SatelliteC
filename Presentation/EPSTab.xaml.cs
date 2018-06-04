@@ -25,6 +25,7 @@ namespace Presentation
     public partial class EPSTab : UserControl
     {
         private EPS eps;
+        Timer myTimer;
         private GomEPS gomEPS;
 
         public EPSTab(GomEPS gomEPS)
@@ -78,7 +79,7 @@ namespace Presentation
             }, TaskScheduler.FromCurrentSynchronizationContext());
             */
             // Create a timer
-            Timer myTimer = new System.Timers.Timer();
+            myTimer = new System.Timers.Timer();
             // Tell the timer what to do when it elapses
             myTimer.Elapsed += new ElapsedEventHandler(myEvent);
             // Set it to go off every five seconds
@@ -95,22 +96,39 @@ namespace Presentation
             eps.RunEPS();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ChargeButton_Click(object sender, RoutedEventArgs e)
         {
             eps.IsCharging = !eps.IsCharging;
             if (chargeDischargeButton.Content.Equals("Charge"))
             {
                 chargeDischargeButton.Content = "Discharge";
                 chargeDischargeButton.Background = new SolidColorBrush(Colors.Red);
+                
             }
             else
             {
                 chargeDischargeButton.Content = "Charge";
                 chargeDischargeButton.Background = new SolidColorBrush(Colors.Green);
+                
             }
 
             //eps.ChargingFlow();
         }
 
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (pauseButton.Content.Equals("Pause"))
+            {
+                pauseButton.Content = "Continue";
+                pauseButton.Background = new SolidColorBrush(Colors.Blue);
+                myTimer.Stop();
+            }
+            else
+            {
+                pauseButton.Content = "Pause";
+                pauseButton.Background = new SolidColorBrush(Colors.Orange);
+                myTimer.Start();
+            }
+        }
     }
 }

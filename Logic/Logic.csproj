@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FRAMLogic.cs" />
     <Compile Include="GomEPS.cs" />
     <Compile Include="IsisTRXVU.cs" />
     <Compile Include="LogicMain.cs" />

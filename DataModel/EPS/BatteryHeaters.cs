@@ -7,13 +7,20 @@ using System.Threading.Tasks;
 
 namespace DataModel.EPS
 {
+    /* battery heater modes */
+    public enum HeaterMode { MANUAL, AUTO}
+
+    /* battery heater types */
+    public enum HeaterType { BP4, ONBOARD }
+
     public class BatteryHeater : INotifyPropertyChanged
     {
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private byte _mode;
+        private HeaterMode _mode;
         //0 = Manual, 1 = Auto
-        public byte Mode
+        public HeaterMode Mode
         {
             get
             {
@@ -29,9 +36,9 @@ namespace DataModel.EPS
             }
         }
 
-        private byte _type;
+        private HeaterType _type;
         //0 = BP4, 1= Onboard
-        public byte Type
+        public HeaterType Type
         {
             get
             {
@@ -103,7 +110,7 @@ namespace DataModel.EPS
 
         
 
-        public BatteryHeater(byte mod, byte typ, byte stat, sbyte low, sbyte high)
+        public BatteryHeater(HeaterMode mod, HeaterType typ, byte stat, sbyte low, sbyte high)
         {
             Mode = mod;
             Type = typ;
