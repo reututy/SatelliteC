@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Timers;
-//using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,7 +31,8 @@ namespace Presentation
         {
             InitializeComponent();
             this.gomEPS = gomEPS;
-            eps = new EPS();
+            gomEPS.GomEpsInitialize(0, 1);
+            eps = gomEPS.eps_table[0];
             Battery batt = eps.OnboardBattery;
             BoostConverter converter1 = eps.BoostConverters[0];
             BoostConverter converter2 = eps.BoostConverters[1];

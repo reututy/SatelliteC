@@ -244,8 +244,8 @@ namespace DataModel.EPS
             short tempChanged = 1;
             if (CurrentConfig.BattheaterMode == HeaterMode.AUTO)
             {
-                sbyte high = CurrentConfig.BattheaterHigh;
-                sbyte low = CurrentConfig.BattheaterLow;
+                byte high = CurrentConfig.BattheaterHigh;
+                byte low = CurrentConfig.BattheaterLow;
                 if (OnboardBattery.Temperture <= low)
                 {
                     BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = EPSConstants.ON;
@@ -586,8 +586,8 @@ namespace DataModel.EPS
             public ushort commandReply; //!< reply of the last command
             public byte ppt_mode; //!< Mode for PPT [1 = AUTO, 2 = FIXED]
             public byte battheater_mode; //!< Mode for battheater [0 = Manual, 1 = Auto]
-            public sbyte battheater_low; //!< Turn heater on at [degC]
-            public sbyte battheater_high; //!< Turn heater off at [degC]
+            public byte battheater_low; //!< Turn heater on at [degC]
+            public byte battheater_high; //!< Turn heater off at [degC]
             public byte[] output_normal_value; //!< Nominal mode output value
             public byte[] output_safe_value; //!< Safe mode output value
             public ushort[] output_initial_on_delay; //!< Output switches: init with these on delays [s]
