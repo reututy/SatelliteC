@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
-    class GomEPS
+    public class GomEPS
     {
         EPS[] eps_table;
         int eps_num; //number of EPSs
@@ -353,7 +353,7 @@ namespace Logic
          *	@param[in] mode power point mode of the eps
          * 	@return Error code according to <hal/errors.h>
          */
-        int GomEpsSetPptMode(byte index, byte mode)
+        public int GomEpsSetPptMode(byte index, byte mode)
         {
             if (eps_table == null)
             {

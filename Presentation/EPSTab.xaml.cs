@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Logic;
 
 namespace Presentation
 {
@@ -25,10 +26,12 @@ namespace Presentation
     {
         private EPS eps;
         Timer myTimer;
+        private GomEPS gomEPS;
 
-        public EPSTab()
+        public EPSTab(GomEPS gomEPS)
         {
             InitializeComponent();
+            this.gomEPS = gomEPS;
             eps = new EPS();
             Battery batt = eps.OnboardBattery;
             BoostConverter converter1 = eps.BoostConverters[0];

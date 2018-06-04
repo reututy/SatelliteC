@@ -14,12 +14,14 @@ namespace DataModel.TRX
         public byte ControlBits = Convert.ToByte(0x03);
         public byte ProtocolId = Convert.ToByte(0xF0);
 
-        public AX25Header(byte[] dest, byte[] src)
+        public AX25Header(char[] dest, char[] src)
         {
             data = new byte[16];
             // check length dest, src = 7
-            System.Buffer.BlockCopy(dest, 0, data, 0, 7);
-            System.Buffer.BlockCopy(src, 0, data, 7, 7);
+            this.Dest = Encoding.UTF8.GetBytes(dest);
+            this.Src = Encoding.UTF8.GetBytes(src);
+            System.Buffer.BlockCopy(Dest, 0, data, 0, 7);
+            System.Buffer.BlockCopy(Src, 0, data, 8, 7);
             data[14] = ControlBits;
             data[15] = ProtocolId;
         }
