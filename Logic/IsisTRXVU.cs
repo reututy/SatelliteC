@@ -300,7 +300,7 @@ namespace Logic
          *  @param[out]  uptime This array of 4 characters contains the operation time of the transmitter (Seconds, Minutes, Hours and Days, in that order).
          *  @return      Error code according to <hal/errors.h>
          */
-        public int IsisTrxvu_tcGetUptime(byte index, Output<char[]> uptime)
+        public int IsisTrxvu_tcGetUptime(byte index, Output<byte[]> uptime)
         {
             if (index < tRXes.Length)
             {
@@ -332,7 +332,7 @@ namespace Logic
          *  @param[out]  telemetry Pointer to the union where the telemetry should be stored.
          *  @return      Error code according to <hal/errors.h>
          */
-        int IsisTrxvu_tcGetTelemetryAll(byte index, Output<ISIStrxvuTxTelemetry> telemetry)
+        public int IsisTrxvu_tcGetTelemetryAll(byte index, Output<ISIStrxvuTxTelemetry> telemetry)
         {
             return 0;
         }
@@ -343,7 +343,7 @@ namespace Logic
          *  @param[out]  last_telemetry Pointer to the union where the telemetry should be stored.
          *  @return      Error code according to <hal/errors.h>
          */
-        int IsisTrxvu_tcGetLastTxTelemetry(byte index, Output<ISIStrxvuTxTelemetry> last_telemetry)
+        public int IsisTrxvu_tcGetLastTxTelemetry(byte index, Output<ISIStrxvuTxTelemetry> last_telemetry)
         {
             if (index < tRXes.Length)
             {
@@ -404,7 +404,7 @@ namespace Logic
          *  @param[out]  telemetry Pointer to the union where the telemetry should be stored.
          *  @return      Error code according to <hal/errors.h>
          */
-        int IsisTrxvu_rcGetTelemetryAll(byte index, Output<ISIStrxvuRxTelemetry> telemetry)
+        public int IsisTrxvu_rcGetTelemetryAll(byte index, Output<ISIStrxvuRxTelemetry> telemetry)
         {
             if (index < tRXes.Length)
             {
@@ -420,7 +420,7 @@ namespace Logic
          *  @param[out]  uptime This array of 3 characters contains the operation time of the receiver (Minutes, Hours and Days, in that order)..
          *  @return      Error code according to <hal/errors.h>
          */
-        public int IsisTrxvu_rcGetUptime(byte index, Output<char[]> uptime)
+        public int IsisTrxvu_rcGetUptime(byte index, Output<byte[]> uptime)
         {
             if (index < tRXes.Length)
             {

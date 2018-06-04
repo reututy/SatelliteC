@@ -18,13 +18,13 @@
     <Grid>
         <TabControl>
             <TabItem Header="EPS" Visibility="Visible">
-                <WrapPanel  x:Name="epspanel" HorizontalAlignment="Left" VerticalAlignment="Top" Height="Auto" Width="Auto"/>
+                <WrapPanel x:Name="epspanel" HorizontalAlignment="Left" VerticalAlignment="Top" Height="Auto" Width="Auto"/>
             </TabItem>
             <TabItem Header="TRX" Visibility="Visible">
-                <WrapPanel  x:Name="trxpanel" HorizontalAlignment="Left" VerticalAlignment="Top" Height="Auto" Width="Auto"/>
+                <WrapPanel x:Name="trxpanel" HorizontalAlignment="Left" VerticalAlignment="Top" Height="Auto" Width="Auto"/>
             </TabItem>
             <TabItem Header="OBC" Visibility="Visible">
-                <WrapPanel  x:Name="obcpanel" HorizontalAlignment="Left" VerticalAlignment="Top" Height="Auto" Width="Auto"/>
+                <WrapPanel x:Name="obcpanel" HorizontalAlignment="Left" VerticalAlignment="Top" Height="Auto" Width="Auto"/>
             </TabItem>
         </TabControl>
     </Grid>

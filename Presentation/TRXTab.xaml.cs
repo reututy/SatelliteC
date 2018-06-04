@@ -33,7 +33,6 @@ namespace Presentation
 
         private void initiallizeTRX()
         {
-            isisTRXVU = new IsisTRXVU();
             byte number = Convert.ToByte(2);
             ISIStrxvuFrameLengths fls = new ISIStrxvuFrameLengths();
             fls.maxAX25frameLengthRX = 2048;
@@ -47,9 +46,10 @@ namespace Presentation
             logs.ItemsSource = isisTRXVU.logs;
         }
 
-        public TRXTab()
+        public TRXTab(IsisTRXVU isisTRXVU)
         {
             InitializeComponent();
+            this.isisTRXVU = isisTRXVU;
             testt = new TestThreadGui();
 
             initiallizeTRX();
@@ -177,6 +177,7 @@ namespace Presentation
             {
             }
         }
+
     }
 
     

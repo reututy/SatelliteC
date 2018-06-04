@@ -144,7 +144,8 @@ namespace DataModel.EPS
 
         public const int WDT_I2C_INIT_TIME = 10; //sec
         public const int WDT_GND_INIT_TIME = 480; //sec - should be configurable to  48 hours in the real system
-        public const int WDT_GND_HOUR = 10; //sec - should be 1 hour
+        public const int WDT_GND_HOUR = 300; //in sec - should be 1 hour
+        public const int WDT_CSP_INIT_TIME = 60; //in sec, every 60 sec- one ping is send
         public const int WDT_CSP_INIT_PING = 5; //num of pings
 
 

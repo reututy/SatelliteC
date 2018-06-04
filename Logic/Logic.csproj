@@ -8,9 +8,10 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Logic</RootNamespace>
     <AssemblyName>Logic</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FRAMLogic.cs" />
     <Compile Include="GomEPS.cs" />
     <Compile Include="IsisTRXVU.cs" />
     <Compile Include="LogicMain.cs" />

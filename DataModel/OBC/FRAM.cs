@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DataModel.OBC
 {
     public class FRAM
     {
-        public byte[] memory { get; set; }
+        static ReaderWriterLock rwl = new ReaderWriterLock();
+        public byte[] Memory { get; set; }
 
-        public FRAM()
+        public FRAM(int size)
         {
-            memory = new byte[OBCConstants.SIZE_8K];
+            Memory = new byte[size];
         }
 
         /*!
@@ -35,19 +37,41 @@ namespace DataModel.OBC
         }*/
 
         /*!
-         * Writes data to the FRAM.
-         * @param data Address where data to be written is stored.
-         * @param address Location in the FRAM where data should be written.
-         * @param size Number of bytes to write.
-         * @return -2 if the specified address and size are out of range,
-         * -1 if obtaining lock for FRAM access fails,
-         * 0 on success.
-         */
-        public void Write(byte[] data, int address, int size)
+        * Writes data to the FRAM.
+        * @param data Address where data to be written is stored.
+        * @param address Location in the FRAM where data should be written.
+        * @param size Number of bytes to write.
+        * @return -2 if the specified address and size are out of range,
+        * -1 if obtaining lock for FRAM access fails,
+        * 0 on success.
+        */
+        public int Write(byte[] data, int address, int size)
         {
-            for (int i = 0; i< size; i++)
+            try
             {
-                memory[address + i] = data[i];
+                rwl.AcquireWriterLock(10);
+                try
+                {
+                    for (int i = 0; i < size; i++)
+                    {
+                        Memory[address + i] = data[i];
+                    }
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    return OBCConstants.OUT_OF_RANGE_ERROR;
+                }
+                finally
+                {
+                    // Ensure that the lock is released.
+                    rwl.ReleaseWriterLock();
+                }
+                return 0;
+            }
+            catch (ApplicationException)
+            {
+                // The writer lock request timed out.
+                return OBCConstants.ACCESS_ERROR;
             }
             
         }
@@ -61,14 +85,33 @@ namespace DataModel.OBC
          * -1 if obtaining lock for FRAM access fails,
          * 0 on success.
          */
-        public byte[] Read(int address, int size)
+        public int Read(byte[] data,int address, int size)
         {
-            byte[] data = new byte[size];
-            for (int i = 0; i < size; i++)
+            try
             {
-                data[i] = memory[address + i];
+                rwl.AcquireReaderLock(10);
+                try
+                {
+                    for (int i = 0; i < size; i++)
+                    {
+                        data[i] = Memory[address + i];
+                    }
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    return OBCConstants.OUT_OF_RANGE_ERROR;
+                }
+                finally
+                {
+                    rwl.ReleaseReaderLock();
+                }
+                return 0;
             }
-            return data;
+            catch (ApplicationException)
+            {
+                // The reader lock request timed out.
+                return OBCConstants.ACCESS_ERROR;
+            }
         }
 
     }

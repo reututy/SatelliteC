@@ -1,20 +1,116 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataModel.EPS
 {
-    public class BatteryHeater
-    {
-        public byte Mode { get; set; } //0 = Manual, 1 = Auto]
-        public byte Type { get; set; } //0 = BP4, 1= Onboard
-        public byte Status { get; set; } //0 = OFF 1 = ON
-        public sbyte BattHeaterLow { get; set; }   //! Turn heater on at [degC]
-        public sbyte BattHeaterHigh { get; set; }  //! Turn heater off at [degC]
+    /* battery heater modes */
+    public enum HeaterMode { MANUAL, AUTO}
 
-        public BatteryHeater(byte mod, byte typ, byte stat, sbyte low, sbyte high)
+    /* battery heater types */
+    public enum HeaterType { BP4, ONBOARD }
+
+    public class BatteryHeater : INotifyPropertyChanged
+    {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private HeaterMode _mode;
+        //0 = Manual, 1 = Auto
+        public HeaterMode Mode
+        {
+            get
+            {
+                return _mode;
+            }
+            set
+            {
+                _mode = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Mode"));
+                }
+            }
+        }
+
+        private HeaterType _type;
+        //0 = BP4, 1= Onboard
+        public HeaterType Type
+        {
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                _type = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Type"));
+                }
+            }
+        }
+
+        private byte _status;
+        //0 = OFF 1 = ON
+        public byte Status
+        {
+            get
+            {
+                return _status;
+            }
+            set
+            {
+                _status = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Status"));
+                }
+            }
+        } 
+
+        private sbyte _battHeaterLow;
+        //! Turn heater on at [degC]
+        public sbyte BattHeaterLow
+        {
+            get
+            {
+                return _battHeaterLow;
+            }
+            set
+            {
+                _battHeaterLow = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("BattHeaterLow"));
+                }
+            }
+        }   
+
+        private sbyte _battHeaterHigh;
+        //! Turn heater off at [degC]
+        public sbyte BattHeaterHigh
+        {
+            get
+            {
+                return _battHeaterHigh;
+            }
+            set
+            {
+                _battHeaterHigh = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("BattHeaterHigh"));
+                }
+            }
+        }  
+
+        
+
+        public BatteryHeater(HeaterMode mod, HeaterType typ, byte stat, sbyte low, sbyte high)
         {
             Mode = mod;
             Type = typ;
