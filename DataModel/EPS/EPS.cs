@@ -12,7 +12,7 @@ namespace DataModel.EPS
         public Output[] Outputs { get; set; }
         public BoostConverter[] BoostConverters { get; set; }
         public Battery OnboardBattery { get; set; }
-        public BatteryHeater BatteryHeater { get; set; }
+        public BatteryHeater[] BatteryHeaters { get; set; }
         //public ushort photo_current { get; set; } //Total photo current [mA]
         //public ushort system_current { get; set; } //Total system current [mA]
         public ushort RebootCount { get; set; } //Number of EPS reboots
@@ -58,7 +58,7 @@ namespace DataModel.EPS
                 {
                     if (BoostConverters[i].IsSun) //charging
                     {
-                        if (CurrentConfig.PptMode == EPSConstants.FIXEDSWPPT)
+                        if (CurrentConfig.PptMode == PPTMode.FIXED)
                         {
                             ushort vboost = CurrentConfig.Vboost[i];
                             ushort currentGoal = (ushort)(vboost / resistancePV);
@@ -118,6 +118,10 @@ namespace DataModel.EPS
                 
             }
             OnboardBattery.CurrentOut -= 10; //need to be changed
+            if (OnboardBattery.CurrentOut < 0)
+            {
+                OnboardBattery.CurrentOut = 0;
+            }
             OnboardBattery.Temperture -= tempChanged; //need to be changed
             
         }
@@ -238,20 +242,20 @@ namespace DataModel.EPS
         public void CheckBatteryHeater()
         {
             short tempChanged = 1;
-            if (BatteryHeater.Mode == HeaterMode.AUTO)
+            if (CurrentConfig.BattheaterMode == HeaterMode.AUTO)
             {
-                sbyte high = BatteryHeater.BattHeaterHigh;
-                sbyte low = BatteryHeater.BattHeaterLow;
+                sbyte high = CurrentConfig.BattheaterHigh;
+                sbyte low = CurrentConfig.BattheaterLow;
                 if (OnboardBattery.Temperture <= low)
                 {
-                    BatteryHeater.Status = EPSConstants.ON;
+                    BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = EPSConstants.ON;
                 }
                 else if (OnboardBattery.Temperture >= high)
                 {
-                    BatteryHeater.Status = EPSConstants.OFF;
+                    BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = EPSConstants.OFF;
                 }
             }
-            if (BatteryHeater.Status == EPSConstants.ON)
+            if (BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status == EPSConstants.ON)
             {
                 OnboardBattery.Temperture += tempChanged;
             }
@@ -296,6 +300,7 @@ namespace DataModel.EPS
                     {
                         HARD_RESET();
                     }
+                    i2c.TimeLeft = EPSConstants.WDT_I2C_INIT_TIME;
                 }
 		    }
         }
@@ -396,8 +401,6 @@ namespace DataModel.EPS
             OnboardBattery = new Battery(EPSConstants.ONBOARD_BATT, EPSConstants.BAT_CONNECT_V_TYP, 0, EPSConstants.V_BAT_I_OUT_TYP, EPSConstants.DEFAULT_TEMP, BattState.INITIAL, BattMode.NORMAL);
 
             
-            BatteryHeater = new BatteryHeater(HeaterMode.MANUAL, HeaterType.ONBOARD, EPSConstants.OFF, EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW, EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH);
-            
 
             //photo_current = EPSConstants.BAT_CONNECT_I_CHARGE_MAX;
             //system_current = EPSConstants.V_BAT_I_OUT_TYP;
@@ -411,7 +414,7 @@ namespace DataModel.EPS
                 switch (i)
                 {
                     case (int)WdtType.I2C:
-                        Wdts[i] = new WDT(WdtType.I2C,0, EPSConstants.WDT_I2C_INIT_TIME, 0, EPSConstants.I2C_WDT_RESET_0);
+                        Wdts[i] = new WDT(WdtType.I2C, 0, EPSConstants.WDT_I2C_INIT_TIME, 0, EPSConstants.I2C_WDT_RESET_0);
                         break;
                     case (int)WdtType.GND:
                         Wdts[i] = new WDT(WdtType.GND, 0, EPSConstants.WDT_GND_INIT_TIME, 0, EPSConstants.WDT_GND_INIT_TIME);
@@ -443,7 +446,7 @@ namespace DataModel.EPS
                 output_safe_value[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_SAFE; //need to change
             }
 
-            CurrentConfig = new EPSConfiguration(EPSConstants.DEFAULT_CONFIG_PPT_MODE, EPSConstants.DEFAULT_CONFIG_BATTHEAT_MODE,
+            CurrentConfig = new EPSConfiguration(PPTMode.FIXED,HeaterMode.AUTO,
                 EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW, EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH, output_normal_value, output_safe_value,
                 output_initial_on_delay, output_initial_off_delay, vboost);
 
@@ -452,6 +455,9 @@ namespace DataModel.EPS
             CurrentConfig.BattMaxVoltage = EPSConstants.MAX_VBAT;
             CurrentConfig.BattCriticalVoltage = EPSConstants.CRITICAL_VBAT;
 
+            BatteryHeaters = new BatteryHeater[2];
+            BatteryHeaters[EPSConstants.ONBOARD_HEATER] = new BatteryHeater(HeaterType.ONBOARD, EPSConstants.OFF);
+            BatteryHeaters[EPSConstants.BP4_HEATER] = new BatteryHeater(HeaterType.BP4, EPSConstants.OFF);
             //curout = new ushort[6];
             //for (i = 0; i < 6; i++)
             //    curout[i] = EPSConstants.OUT_LATCHUP_PROTEC_I_MIN;
@@ -580,8 +586,8 @@ namespace DataModel.EPS
             public ushort commandReply; //!< reply of the last command
             public byte ppt_mode; //!< Mode for PPT [1 = AUTO, 2 = FIXED]
             public byte battheater_mode; //!< Mode for battheater [0 = Manual, 1 = Auto]
-            public byte battheater_low; //!< Turn heater on at [degC]
-            public byte battheater_high; //!< Turn heater off at [degC]
+            public sbyte battheater_low; //!< Turn heater on at [degC]
+            public sbyte battheater_high; //!< Turn heater off at [degC]
             public byte[] output_normal_value; //!< Nominal mode output value
             public byte[] output_safe_value; //!< Safe mode output value
             public ushort[] output_initial_on_delay; //!< Output switches: init with these on delays [s]
@@ -629,7 +635,7 @@ namespace DataModel.EPS
             ans.reset = LastResetCause;
             ans.bootcount = RebootCount;
             ans.sw_errors = SwErrors; //Number of errors in the eps software
-            ans.ppt_mode = CurrentConfig.PptMode; //0 = Hardware, 1 = MPPT, 2 = Fixed SW PPT.
+            ans.ppt_mode =(byte)CurrentConfig.PptMode; //0 = Hardware, 1 = MPPT, 2 = Fixed SW PPT.
             byte channel_status = 0; //Mask of output channel status, 1=on, 0=off
             for (i = 0; i < 8; i++)
             {
@@ -694,7 +700,7 @@ namespace DataModel.EPS
             ans.temp[5] =  OnboardBattery.Temperture; // external - need to change
             ans.bootcause =  LastResetCause;
             ans.battmode =  (byte)OnboardBattery.BattMode;
-            ans.pptmode =  CurrentConfig.PptMode;
+            ans.pptmode =  (byte)CurrentConfig.PptMode;
             return ans;
         }
 
@@ -765,7 +771,7 @@ namespace DataModel.EPS
 	        eps_hk_basic_t ans = new eps_hk_basic_t();
             ans.counter_boot = RebootCount;
 	        ans.bootcause = LastResetCause;
-	        ans.pptmode = CurrentConfig.PptMode;
+	        ans.pptmode = (byte)CurrentConfig.PptMode;
 	        ans.battmode = (byte)OnboardBattery.BattMode;
             ans.temp = new short[6];
 	        for (int i = 0; i< 3; i++)
@@ -823,8 +829,8 @@ namespace DataModel.EPS
             * value set with SET_PV_VOLT, default 4V*/
         public void SET_PV_AUTO(byte mode)
         {
-        if (mode == EPSConstants.HARDWARE || mode == EPSConstants.MPPT || mode == EPSConstants.FIXEDSWPPT)
-	        CurrentConfig.PptMode = mode;
+        if (mode == (byte)PPTMode.HARDWARE || mode == (byte)PPTMode.MPPT || mode == (byte)PPTMode.FIXED)
+	        CurrentConfig.PptMode = (PPTMode)mode;
         else
             throw new System.Exception("ERROR: mode param is not valid in SET_PV_AUTO\n");
         }
@@ -848,25 +854,25 @@ namespace DataModel.EPS
             {
                 throw new System.Exception("ERROR: mode param is not 0/1 in SET_HEATER\n");
             }
-	        /*switch (heater)
+	        switch (heater)
             {
 	            case EPSConstants.BP4_HEATER:
-		            BatteryHeater[EPSConstants.BP4_HEATER].Status = mode;
+		            BatteryHeaters[EPSConstants.BP4_HEATER].Status = mode;
 		            break;
 	            case EPSConstants.ONBOARD_HEATER:
-		            BatteryHeater[EPSConstants.ONBOARD_HEATER].Status = mode;
+		            BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = mode;
 		            break;
 	            case EPSConstants.BOTH_HEATER:
-		            BatteryHeater[EPSConstants.BP4_HEATER].Status = mode;
-		            BatteryHeater[EPSConstants.ONBOARD_HEATER].Status = mode;
+		            BatteryHeaters[EPSConstants.BP4_HEATER].Status = mode;
+		            BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = mode;
 		            break;
-	        }*/
-            if (heater == EPSConstants.ONBOARD_HEATER)
+	        }
+            /*if (heater == EPSConstants.ONBOARD_HEATER)
             {
-                BatteryHeater.Status = mode;
-            }
-            //ushort ans = BitConverter.ToUInt16(new byte[2] { BatteryHeater[EPSConstants.BP4_HEATER].Status, BatteryHeater[EPSConstants.ONBOARD_HEATER].Status }, 0);	        
-            ushort ans = BitConverter.ToUInt16(new byte[2] { (byte)EPSConstants.OFF, BatteryHeater.Status }, 0);
+                BatteryHeaters.Status = mode;
+            }*/
+            ushort ans = BitConverter.ToUInt16(new byte[2] { BatteryHeaters[EPSConstants.BP4_HEATER].Status, BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status }, 0);	        
+            //ushort ans = BitConverter.ToUInt16(new byte[2] { (byte)EPSConstants.OFF, BatteryHeaters.Status }, 0);
             return ans;
         }
 
@@ -910,8 +916,8 @@ namespace DataModel.EPS
             }
 	        else
             {
-		        CurrentConfig.PptMode = EPSConstants.DEFAULT_CONFIG_PPT_MODE;
-		        CurrentConfig.BattheaterMode = EPSConstants.DEFAULT_CONFIG_BATTHEAT_MODE;
+		        CurrentConfig.PptMode = PPTMode.FIXED;
+                CurrentConfig.BattheaterMode = HeaterMode.AUTO;
 		        CurrentConfig.BattheaterHigh = EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH;
 		        CurrentConfig.BattheaterLow = EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW;
 		        for (int i = 0; i< 3; i++)
@@ -933,8 +939,8 @@ namespace DataModel.EPS
         public eps_config_t CONFIG_GET()
         {
             eps_config_t ans = new eps_config_t();
-            ans.ppt_mode = CurrentConfig.PptMode;
-	        ans.battheater_mode = CurrentConfig.BattheaterMode;
+            ans.ppt_mode = (byte)CurrentConfig.PptMode;
+	        ans.battheater_mode = (byte)CurrentConfig.BattheaterMode;
 	        ans.battheater_low = CurrentConfig.BattheaterLow;
 	        ans.battheater_high = CurrentConfig.BattheaterHigh;
             ans.output_initial_off_delay = new ushort[8];
@@ -959,8 +965,8 @@ namespace DataModel.EPS
         /*Use this command to send a config to the NanoPower and save it. */
         public void CONFIG_SET(eps_config_t eps_config) 
         {
-	        CurrentConfig.PptMode = eps_config.ppt_mode;
-	        CurrentConfig.BattheaterMode = eps_config.battheater_mode;
+	        CurrentConfig.PptMode = (PPTMode)eps_config.ppt_mode;
+	        CurrentConfig.BattheaterMode = (HeaterMode)eps_config.battheater_mode;
 	        CurrentConfig.BattheaterLow = eps_config.battheater_low;
 	        CurrentConfig.BattheaterHigh = eps_config.battheater_high;
 	        int i;

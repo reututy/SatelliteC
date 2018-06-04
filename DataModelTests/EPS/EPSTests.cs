@@ -17,29 +17,34 @@ namespace DataModel.EPS.Tests
             Assert.Fail();
         }*/
 
-        /*[TestMethod()]
+        [TestMethod()]
         public void GET_HK_1Test()
         {
             EPS eps = new EPS();
             EPS.hkparam_t ans = eps.GET_HK_1();
-            Assert.AreEqual(ans.pc, eps.photo_current);
+            ushort photoCurrent = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                photoCurrent += eps.BoostConverters[i].CurrentOut;
+            }
+            Assert.AreEqual(ans.pc, photoCurrent);
             Assert.AreEqual(ans.bv, eps.OnboardBattery.Vbat);
-            Assert.AreEqual(ans.sc, eps.system_current);
+            Assert.AreEqual(ans.sc, eps.OnboardBattery.CurrentOut);
             for (int i = 0; i < 3; i++)
             {
                 Assert.AreEqual(ans.temp[i], eps.BoostConverters[i].Temperture);
             }
-            Assert.AreEqual(ans.temp[3], eps.OnboardBattery.temperture);
-            Assert.AreEqual(ans.batt_temp[0], eps.OnboardBattery.temperture);
-            Assert.AreEqual(ans.batt_temp[1], eps.OnboardBattery.temperture);
+            Assert.AreEqual(ans.temp[3], eps.OnboardBattery.Temperture);
+            Assert.AreEqual(ans.batt_temp[0], eps.OnboardBattery.Temperture);
+            Assert.AreEqual(ans.batt_temp[1], eps.OnboardBattery.Temperture);
             for (int i = 0; i < 6; i++)
             {
-                Assert.AreEqual(ans.latchup[i], eps.Outputs[i].LatchupNum);
+                Assert.AreEqual(ans.latchup[i], ((Channel)eps.Outputs[i]).LatchupNum);
             }
             Assert.AreEqual(ans.reset, eps.LastResetCause);
             Assert.AreEqual(ans.bootcount, eps.RebootCount);
             Assert.AreEqual(ans.sw_errors, eps.SwErrors);
-            Assert.AreEqual(ans.ppt_mode, eps.CurrentConfig.ppt_mode);
+            Assert.AreEqual(ans.ppt_mode, eps.CurrentConfig.PptMode);
             Assert.AreEqual(ans.channel_status, 255);
         }
 
@@ -55,35 +60,40 @@ namespace DataModel.EPS.Tests
                 Assert.AreEqual(ans.curin[i], eps.BoostConverters[i].CurrentIn);
             }
             Assert.AreEqual(ans.vbatt, eps.OnboardBattery.Vbat);
-            Assert.AreEqual(ans.cursun, eps.photo_current);
-            Assert.AreEqual(ans.cursys, eps.system_current);
+            ushort photoCurrent = 0;
+            for (i = 0; i < 3; i++)
+            {
+                photoCurrent += eps.BoostConverters[i].CurrentOut;
+            }
+            Assert.AreEqual(ans.cursun, photoCurrent);
+            Assert.AreEqual(ans.cursys, eps.OnboardBattery.CurrentOut);
             for (i = 0; i < 6; i++)
-                Assert.AreEqual(ans.curout[i], eps.curout[i]);
+                Assert.AreEqual(ans.curout[i], ((Channel)eps.Outputs[i]).CurrentOut);
             for (i = 0; i < 8; i++)
             {
                 Assert.AreEqual(ans.output[i], eps.Outputs[i].Status);
-                Assert.AreEqual(ans.output_on_delta[i], eps.CurrentConfig.output_initial_on_delay[i]);
-                Assert.AreEqual(ans.output_off_delta[i], eps.CurrentConfig.output_initial_off_delay[i]);
+                Assert.AreEqual(ans.output_on_delta[i], eps.CurrentConfig.OutputInitialOnDelay[i]);
+                Assert.AreEqual(ans.output_off_delta[i], eps.CurrentConfig.OutputInitialOffDelay[i]);
             }
             for (i = 0; i < 6; i++)
-                Assert.AreEqual(ans.latchup[i], eps.Outputs[i].LatchupNum);
-            Assert.AreEqual(ans.wdt_csp_pings_left[0], eps.Wdts[(int)wdt_type.CSP0].TimePingLeft);
-            Assert.AreEqual(ans.wdt_csp_pings_left[1], eps.Wdts[(int)wdt_type.CSP1].TimePingLeft);
-            Assert.AreEqual(ans.wdt_gnd_time_left, eps.Wdts[(int)wdt_type.GND].TimePingLeft);
-            Assert.AreEqual(ans.wdt_i2c_time_left, eps.Wdts[(int)wdt_type.I2C].TimePingLeft);
+                Assert.AreEqual(ans.latchup[i], ((Channel)eps.Outputs[i]).LatchupNum);
+            Assert.AreEqual(ans.wdt_csp_pings_left[0], eps.Wdts[(int)WdtType.CSP0].PingLeft);
+            Assert.AreEqual(ans.wdt_csp_pings_left[1], eps.Wdts[(int)WdtType.CSP1].PingLeft);
+            Assert.AreEqual(ans.wdt_gnd_time_left, eps.Wdts[(int)WdtType.GND].TimeLeft);
+            Assert.AreEqual(ans.wdt_i2c_time_left, eps.Wdts[(int)WdtType.I2C].TimeLeft);
             Assert.AreEqual(ans.counter_boot, eps.RebootCount);
-            Assert.AreEqual(ans.counter_wdt_csp[0], eps.Wdts[(int)wdt_type.CSP0].RebootCounter);
-            Assert.AreEqual(ans.counter_wdt_csp[1], eps.Wdts[(int)wdt_type.CSP1].RebootCounter);
-            Assert.AreEqual(ans.counter_wdt_gnd, eps.Wdts[(int)wdt_type.GND].RebootCounter);
-            Assert.AreEqual(ans.counter_wdt_i2c, eps.Wdts[(int)wdt_type.I2C].RebootCounter);
+            Assert.AreEqual(ans.counter_wdt_csp[0], eps.Wdts[(int)WdtType.CSP0].RebootCounter);
+            Assert.AreEqual(ans.counter_wdt_csp[1], eps.Wdts[(int)WdtType.CSP1].RebootCounter);
+            Assert.AreEqual(ans.counter_wdt_gnd, eps.Wdts[(int)WdtType.GND].RebootCounter);
+            Assert.AreEqual(ans.counter_wdt_i2c, eps.Wdts[(int)WdtType.I2C].RebootCounter);
             for (i = 0; i < 3; i++)
                 Assert.AreEqual(ans.temp[i], eps.BoostConverters[i].Temperture);
-            Assert.AreEqual(ans.temp[3], eps.OnboardBattery.temperture);
-            Assert.AreEqual(ans.temp[4], eps.OnboardBattery.temperture);
-            Assert.AreEqual(ans.temp[5], eps.OnboardBattery.temperture); // external - need to change
+            Assert.AreEqual(ans.temp[3], eps.OnboardBattery.Temperture);
+            Assert.AreEqual(ans.temp[4], eps.OnboardBattery.Temperture);
+            Assert.AreEqual(ans.temp[5], eps.OnboardBattery.Temperture); // external - need to change
             Assert.AreEqual(ans.bootcause, eps.LastResetCause);
-            Assert.AreEqual(ans.battmode, (byte)eps.OnboardBattery.batt_mode);
-            Assert.AreEqual(ans.pptmode, eps.CurrentConfig.ppt_mode);
+            Assert.AreEqual(ans.battmode, (byte)eps.OnboardBattery.BattMode);
+            Assert.AreEqual(ans.pptmode, eps.CurrentConfig.PptMode);
         }
 
         [TestMethod()]
@@ -97,8 +107,14 @@ namespace DataModel.EPS.Tests
                 Assert.AreEqual(ans.curin[i], eps.BoostConverters[i].CurrentIn);
             }
             Assert.AreEqual(ans.vbatt, eps.OnboardBattery.Vbat);
-            Assert.AreEqual(ans.cursys, eps.system_current);
-            Assert.AreEqual(ans.cursun, eps.photo_current);
+            ushort systemCurrent = eps.OnboardBattery.CurrentOut;
+            Assert.AreEqual(ans.cursys, systemCurrent);
+            ushort photoCurrent = 0;
+            for (int i =0; i<3; i++)
+            {
+                photoCurrent += eps.BoostConverters[i].CurrentOut;
+            }
+            Assert.AreEqual(ans.cursun, photoCurrent);
 
         }
 
@@ -110,16 +126,15 @@ namespace DataModel.EPS.Tests
             for (int i = 0; i < 8; i++)
             {
                 Assert.AreEqual(ans.output[i], eps.Outputs[i].Status);
-                Assert.AreEqual(ans.output_off_delta[i], eps.CurrentConfig.output_initial_off_delay[i]);
-                Assert.AreEqual(ans.output_on_delta[i], eps.CurrentConfig.output_initial_on_delay[i]);
+                Assert.AreEqual(ans.output_off_delta[i], eps.CurrentConfig.OutputInitialOffDelay[i]);
+                Assert.AreEqual(ans.output_on_delta[i], eps.CurrentConfig.OutputInitialOnDelay[i]);
             }
             for (int i = 0; i < 6; i++)
             {
-                Assert.AreEqual(ans.latchup[i], eps.Outputs[i].LatchupNum);
-                Assert.AreEqual(ans.curout[i], eps.curout[i]);
+                Assert.AreEqual(ans.latchup[i], ((Channel)eps.Outputs[i]).LatchupNum);
+                Assert.AreEqual(ans.curout[i], ((Channel)eps.Outputs[i]).CurrentOut);
             }
-        }*/
-
+        }
         /*[TestMethod()]
         public void ChargingFlowTest()
         {
@@ -246,30 +261,30 @@ namespace DataModel.EPS.Tests
             Assert.AreEqual(eps.CurrentConfig.PptMode, EPSConstants.FIXEDSWPPT);
         }
 
-        /*[TestMethod()]
+        [TestMethod()]
         public void SET_HEATERTest()
         {
             EPS eps = new EPS();
-            Assert.AreEqual(eps.SET_HEATER(0, EPSConstants.BP4_HEATER, EPSConstants.ON), EPSConstants.ON + (eps.BatteryHeater[EPSConstants.ONBOARD_HEATER].Status << 8));
-            Assert.AreEqual(eps.BatteryHeater[EPSConstants.BP4_HEATER].Status, EPSConstants.ON);
+            Assert.AreEqual(eps.SET_HEATER(0, EPSConstants.BP4_HEATER, EPSConstants.ON), EPSConstants.ON + (eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status << 8));
+            Assert.AreEqual(eps.BatteryHeaters[EPSConstants.BP4_HEATER].Status, EPSConstants.ON);
 
-            Assert.AreEqual(eps.SET_HEATER(0, EPSConstants.BP4_HEATER, EPSConstants.OFF), EPSConstants.OFF + (eps.BatteryHeater[EPSConstants.ONBOARD_HEATER].Status << 8));
-            Assert.AreEqual(eps.BatteryHeater[EPSConstants.BP4_HEATER].Status, EPSConstants.OFF);
+            Assert.AreEqual(eps.SET_HEATER(0, EPSConstants.BP4_HEATER, EPSConstants.OFF), EPSConstants.OFF + (eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status << 8));
+            Assert.AreEqual(eps.BatteryHeaters[EPSConstants.BP4_HEATER].Status, EPSConstants.OFF);
 
-            Assert.AreEqual(eps.SET_HEATER(0, EPSConstants.ONBOARD_HEATER, EPSConstants.ON), eps.BatteryHeater[EPSConstants.BP4_HEATER].Status + (EPSConstants.ON << 8));
-            Assert.AreEqual(eps.BatteryHeater[EPSConstants.ONBOARD_HEATER].Status, EPSConstants.ON);
+            Assert.AreEqual(eps.SET_HEATER(0, EPSConstants.ONBOARD_HEATER, EPSConstants.ON), eps.BatteryHeaters[EPSConstants.BP4_HEATER].Status + (EPSConstants.ON << 8));
+            Assert.AreEqual(eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status, EPSConstants.ON);
 
-            Assert.AreEqual(eps.SET_HEATER(0, EPSConstants.ONBOARD_HEATER, EPSConstants.OFF), eps.BatteryHeater[EPSConstants.BP4_HEATER].Status + (EPSConstants.OFF << 8));
-            Assert.AreEqual(eps.BatteryHeater[EPSConstants.ONBOARD_HEATER].Status, EPSConstants.OFF);
+            Assert.AreEqual(eps.SET_HEATER(0, EPSConstants.ONBOARD_HEATER, EPSConstants.OFF), eps.BatteryHeaters[EPSConstants.BP4_HEATER].Status + (EPSConstants.OFF << 8));
+            Assert.AreEqual(eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status, EPSConstants.OFF);
 
             Assert.AreEqual(eps.SET_HEATER(0, EPSConstants.BOTH_HEATER, EPSConstants.ON), EPSConstants.ON + (EPSConstants.ON << 8));
-            Assert.AreEqual(eps.BatteryHeater[EPSConstants.BP4_HEATER].Status, EPSConstants.ON);
-            Assert.AreEqual(eps.BatteryHeater[EPSConstants.ONBOARD_HEATER].Status, EPSConstants.ON);
+            Assert.AreEqual(eps.BatteryHeaters[EPSConstants.BP4_HEATER].Status, EPSConstants.ON);
+            Assert.AreEqual(eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status, EPSConstants.ON);
 
             Assert.AreEqual(eps.SET_HEATER(0, EPSConstants.BOTH_HEATER, EPSConstants.OFF), EPSConstants.OFF + (EPSConstants.OFF << 8));
-            Assert.AreEqual(eps.BatteryHeater[EPSConstants.BP4_HEATER].Status, EPSConstants.OFF);
-            Assert.AreEqual(eps.BatteryHeater[EPSConstants.ONBOARD_HEATER].Status, EPSConstants.OFF);
-        }*/
+            Assert.AreEqual(eps.BatteryHeaters[EPSConstants.BP4_HEATER].Status, EPSConstants.OFF);
+            Assert.AreEqual(eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status, EPSConstants.OFF);
+        }
 
         [TestMethod()]
         public void RESET_COUNTERSTest()
