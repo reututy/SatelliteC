@@ -126,34 +126,39 @@ namespace DataModel.TRX
             return txFrameBuffer.addFrame(frame);
         }
 
+        public void clear()
+        {
+            txFrameBuffer.clear();
+        }
 
 
-       /* typedef union __attribute__((__packed__)) _ISIStrxvuTxTelemetry
-{
-	/** Raw value array with Tx Telemetry data*/
-    /*unsigned char raw[TRXVU_ALL_TXTELEMETRY_SIZE];
-        /** Telemetry values*/
-      /*  struct __attribute__ ((__packed__))
-    {
-        unsigned short tx_reflpwr; ///< Tx Telemetry reflected power.
-        unsigned short pa_temp; ///< Tx Telemetry power amplifier temperature.
-        unsigned short tx_fwrdpwr; ///< Tx Telemetry forward power.
-        unsigned short tx_current; ///< Tx Telemetry transmitter current.
-    }
-    fields;
-}
-ISIStrxvuTxTelemetry;
 
-    typedef union __attribute__((__packed__)) _ISIStrxvuTransmitterState
-{
-	/** Raw value that contains the current transmitter state*/
-   /* unsigned char raw;
-struct __attribute__ ((__packed__))
-    {
-        ISIStrxvuIdleState transmitter_idle_state : 1; ///< Transmitter current idle state.
-        ISIStrxvuBeacon transmitter_beacon : 1; ///< Transmitter beacon mode status.
-        ISIStrxvuBitrateStatus transmitter_bitrate : 2; ///< Transmitter current bitrate.
-    }fields;
-} ISIStrxvuTransmitterState;*/
+        /* typedef union __attribute__((__packed__)) _ISIStrxvuTxTelemetry
+ {
+     /** Raw value array with Tx Telemetry data*/
+        /*unsigned char raw[TRXVU_ALL_TXTELEMETRY_SIZE];
+            /** Telemetry values*/
+        /*  struct __attribute__ ((__packed__))
+      {
+          unsigned short tx_reflpwr; ///< Tx Telemetry reflected power.
+          unsigned short pa_temp; ///< Tx Telemetry power amplifier temperature.
+          unsigned short tx_fwrdpwr; ///< Tx Telemetry forward power.
+          unsigned short tx_current; ///< Tx Telemetry transmitter current.
+      }
+      fields;
+  }
+  ISIStrxvuTxTelemetry;
+
+      typedef union __attribute__((__packed__)) _ISIStrxvuTransmitterState
+  {
+      /** Raw value that contains the current transmitter state*/
+        /* unsigned char raw;
+     struct __attribute__ ((__packed__))
+         {
+             ISIStrxvuIdleState transmitter_idle_state : 1; ///< Transmitter current idle state.
+             ISIStrxvuBeacon transmitter_beacon : 1; ///< Transmitter beacon mode status.
+             ISIStrxvuBitrateStatus transmitter_bitrate : 2; ///< Transmitter current bitrate.
+         }fields;
+     } ISIStrxvuTransmitterState;*/
     }
 }

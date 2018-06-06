@@ -32,7 +32,6 @@ namespace DataModel.TRX
 
         public Frame()
         {
-            
         }
 
         public Frame(ISIStrxvuRxFrame frame)

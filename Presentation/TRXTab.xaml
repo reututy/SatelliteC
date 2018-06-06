@@ -23,9 +23,9 @@
         <Label Content="Select TRX by ID" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="25,72,0,0" VerticalAlignment="Top" Width="172" Height="37" FontWeight="Bold"/>
         <Label Content="Receiver" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="283,45,0,0" VerticalAlignment="Top" Width="172" Height="37" FontWeight="Bold"/>
         <Label Content="Transmitter" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="576,45,0,0" VerticalAlignment="Top" Width="172" Height="37" FontWeight="Bold"/>
-        <ListBox x:Name="receiver_buffer"  DisplayMemberPath="FrameId" HorizontalAlignment="Left" Margin="283,114,0,0" VerticalAlignment="Top" Height="109" Width="181"/>
+        <ListBox x:Name="receiver_buffer"  DisplayMemberPath="FrameId" HorizontalAlignment="Left" Margin="283,114,0,0" VerticalAlignment="Top" Height="109" Width="181" SelectionChanged="rxFrame_SelectionChanged" SelectionMode="Single"/>
         <Label Content="Receiver Buffer" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="283,72,0,0" VerticalAlignment="Top" Width="172" Height="37" FontWeight="Bold"/>
-        <ListBox x:Name="transmitter_buffer"  DisplayMemberPath="FrameId" HorizontalAlignment="Left" Margin="576,114,0,0" VerticalAlignment="Top" Height="109" Width="181"/>
+        <ListBox x:Name="transmitter_buffer"  DisplayMemberPath="FrameId" HorizontalAlignment="Left" Margin="576,114,0,0" VerticalAlignment="Top" Height="109" Width="181" SelectionChanged="txFrame_SelectionChanged" SelectionMode="Single"/>
         <Label Content="Transmitter Buffer" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="576,72,0,0" VerticalAlignment="Top" Width="191" Height="37" FontWeight="Bold"/>
         <Grid x:Name="pv1Grid" HorizontalAlignment="Left" Background="White" Height="190" Margin="283,267,0,0" VerticalAlignment="Top" Width="195">
             <Grid.RowDefinitions>
@@ -77,7 +77,7 @@
         </Grid>
         <Label Content="Transmitter Telemetry" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="576,225,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
         <Label Content="Receiver Telemetry" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="283,225,0,0" VerticalAlignment="Top" Width="195" Height="37" RenderTransformOrigin="0.483,5.459" FontWeight="Bold"/>
-        <Grid x:Name="pv1Grid_Copy1" HorizontalAlignment="Left" Background="White" Height="207" Margin="871,114,0,0" VerticalAlignment="Top" Width="276">
+        <Grid x:Name="pv1Grid_Copy1" HorizontalAlignment="Left" Background="White" Height="207" Margin="870,114,-131,0" VerticalAlignment="Top" Width="443">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -98,15 +98,15 @@
             <Label Content="Content:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="txCurrText1" Grid.Row="3" Grid.Column="1" Text="{Binding Tx_current, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Label Content="Frame" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="871,72,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
-        <Button Content="Change from feild" HorizontalAlignment="Left" Margin="871,326,0,0" VerticalAlignment="Top" Width="276" Height="33"/>
-        <Button Content="Change to feild" HorizontalAlignment="Left" Margin="871,364,0,0" VerticalAlignment="Top" Width="276" Height="33"/>
-        <Button Content="Change CheckSum" HorizontalAlignment="Left" Margin="871,402,0,0" VerticalAlignment="Top" Width="276" Height="33"/>
-        <Button Content="Change content" HorizontalAlignment="Left" Margin="871,440,0,0" VerticalAlignment="Top" Width="276" Height="33"/>
-        <Button Content="Fill Receiver Buffer" HorizontalAlignment="Left" Margin="283,580,0,-56" VerticalAlignment="Top" Width="191" Height="41"/>
-        <Button Content="Empty Receiver Buffer" HorizontalAlignment="Left" Margin="283,626,0,-102" VerticalAlignment="Top" Width="191" Height="41"/>
-        <Button Content="Fill Transmitter Buffer" HorizontalAlignment="Left" Margin="576,580,0,-56" VerticalAlignment="Top" Width="191" Height="41"/>
-        <Button Content="Empty Transmitter Buffer" HorizontalAlignment="Left" Margin="576,626,0,-102" VerticalAlignment="Top" Width="191" Height="41"/>
+        <Label Content="Frame" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="870,72,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
+        <Button Content="Change from feild" HorizontalAlignment="Left" Margin="870,329,0,0" VerticalAlignment="Top" Width="220" Height="33" Click="Button_Click"/>
+        <Button Content="Change to feild" HorizontalAlignment="Left" Margin="1095,329,-131,0" VerticalAlignment="Top" Width="218" Height="33"/>
+        <Button Content="Change CheckSum" HorizontalAlignment="Left" Margin="870,367,0,0" VerticalAlignment="Top" Width="220" Height="33"/>
+        <Button Content="Change content" HorizontalAlignment="Left" Margin="1095,367,-131,0" VerticalAlignment="Top" Width="218" Height="33"/>
+        <Button Content="Fill Receiver Buffer" HorizontalAlignment="Left" Margin="283,586,0,-62" VerticalAlignment="Top" Width="191" Height="41" Click="Button_Click_2"/>
+        <Button Content="Clear Receiver Buffer" HorizontalAlignment="Left" Margin="283,632,0,-108" VerticalAlignment="Top" Width="191" Height="41" Click="Button_Click_4"/>
+        <Button Content="Fill Transmitter Buffer" HorizontalAlignment="Left" Margin="576,540,0,-16" VerticalAlignment="Top" Width="191" Height="41" Click="Button_Click_1"/>
+        <Button Content="Clear Transmitter Buffer" HorizontalAlignment="Left" Margin="576,586,0,-62" VerticalAlignment="Top" Width="191" Height="41" Click="Button_Click_3"/>
         <Grid x:Name="pv1Grid_Copy2" HorizontalAlignment="Left" Background="White" Height="52" Margin="576,422,0,0" VerticalAlignment="Top" Width="191">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -141,5 +141,44 @@
             <TextBlock x:Name="rxBitrateText" Grid.Row="0" Grid.Column="1" Text="{Binding RxBitrate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <Label Content="Receiver More Info" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="283,462,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
+        <Grid x:Name="pv1Grid_Copy4" HorizontalAlignment="Left" Background="White" Height="52" Margin="25,269,0,0" VerticalAlignment="Top" Width="191">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="Max frame Length TX:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="maxAX25frameLengthTXText" Grid.Row="0" Grid.Column="1" Text="{Binding maxAX25frameLengthTX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="Max frame Length RX:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="maxAX25frameLengthRXText" Grid.Row="1" Grid.Column="1" Text="{Binding maxAX25frameLengthRX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Label Content="Max Frames Length" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="25,228,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
+        <Grid x:Name="pv1Grid_Copy5" HorizontalAlignment="Left" Background="White" Height="52" Margin="25,367,0,0" VerticalAlignment="Top" Width="191">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="Beacon status:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="beaconStatusText" Grid.Row="0" Grid.Column="1" Text="{Binding ISIStrxvuBeaconOn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="Interval:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="intervalText" Grid.Row="1" Grid.Column="1" Text="{Binding beaconInterval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Label Content="Beacon Info" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="25,326,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
+        <Button Content="Add Frame" HorizontalAlignment="Left" Margin="283,540,0,-16" VerticalAlignment="Top" Width="191" Height="41" Click="Button_Click_5"/>
+        <ListBox x:Name="logs"  DisplayMemberPath="LogInfo" HorizontalAlignment="Left" Margin="870,456,-131,-108" VerticalAlignment="Top" Height="217" Width="443"/>
+        <Label Content="Logs" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="870,413,0,0" VerticalAlignment="Top" Width="220" Height="37" FontWeight="Bold"/>
     </Grid>
 </UserControl>

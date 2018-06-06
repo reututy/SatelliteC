@@ -10,7 +10,7 @@ namespace Logic
 {
     public class GomEPS
     {
-        EPS[] eps_table;
+        public EPS[] eps_table;
         int eps_num; //number of EPSs
 
         /**

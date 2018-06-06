@@ -49,9 +49,9 @@ namespace DataModel.EPS
             }
         }
 
-        private sbyte _battheaterLow;
+        private byte _battheaterLow;
         //!< Turn heater on at [degC]
-        public sbyte BattheaterLow
+        public byte BattheaterLow
         {
             get { return _battheaterLow; }
             set
@@ -61,9 +61,9 @@ namespace DataModel.EPS
             }
         }
 
-        private sbyte _battheaterHigh;
+        private byte _battheaterHigh;
         //!< Turn heater off at [degC]
-        public sbyte BattheaterHigh
+        public byte BattheaterHigh
         {
             get { return _battheaterHigh; }
             set
@@ -181,7 +181,7 @@ namespace DataModel.EPS
             }
         } 
 
-        public EPSConfiguration(PPTMode mode, HeaterMode heatMode, sbyte heatLow, sbyte heatHigh, byte[] outNormal, byte[] outSafe,
+        public EPSConfiguration(PPTMode mode, HeaterMode heatMode, byte heatLow, byte heatHigh, byte[] outNormal, byte[] outSafe,
             ushort[] outOnDel, ushort[] outOffDel, ushort[] vBoost)
         {
             PptMode = mode;

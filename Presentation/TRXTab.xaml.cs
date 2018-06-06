@@ -29,6 +29,7 @@ namespace Presentation
         private Array trxesList;
         private TestThreadGui testt;
         private IsisTRXVU isisTRXVU;
+        private AX25Frame currFrame;
 
         private void initiallizeTRX()
         {
@@ -42,6 +43,7 @@ namespace Presentation
             ISIStrxvuFrameLengths[] fl = new ISIStrxvuFrameLengths[] { fls, fls2 };
             ISIStrxvuBitrate iSIStrxvuBitrate = new ISIStrxvuBitrate();
             isisTRXVU.IsisTrxvu_initialize(new ISIStrxvuI2CAddress[] { new ISIStrxvuI2CAddress(), new ISIStrxvuI2CAddress() }, fl, ISIStrxvuBitrate.trxvu_bitrate_2400, number);
+            logs.ItemsSource = isisTRXVU.logs;
         }
 
         public TRXTab(IsisTRXVU isisTRXVU)
@@ -79,11 +81,101 @@ namespace Presentation
 
             transmitter_buffer.ItemsSource = ((TRX)trxes.SelectedItem).transmitter.txFrameBuffer.frames.queueCollection;
             receiver_buffer.ItemsSource = ((TRX)trxes.SelectedItem).receiver.rxFrameBuffer.frames.queueCollection;
+
+            maxAX25frameLengthTXText.DataContext = ((TRX)trxes.SelectedItem).maxFrameLengths;
+            maxAX25frameLengthRXText.DataContext = ((TRX)trxes.SelectedItem).maxFrameLengths;
+
+            beaconStatusText.DataContext = ((TRX)trxes.SelectedItem);
+            intervalText.DataContext = ((TRX)trxes.SelectedItem);
+        }
+
+        private void txFrame_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (transmitter_buffer.SelectedItem != null)
+            {
+                currFrame = (AX25Frame)transmitter_buffer.SelectedItem;
+                txReflpwrText1.Text = Encoding.UTF8.GetString(currFrame.Header.Src);
+                paTempText2.Text = Encoding.UTF8.GetString(currFrame.Header.Dest);
+                txFwrdpwrText1.Text = Encoding.UTF8.GetString(currFrame.FrameCheckSeq);
+                txCurrText1.Text = Encoding.UTF8.GetString(currFrame.infoFeild);
+            }
+            else
+            {
+                txReflpwrText1.Text = "";
+                paTempText2.Text = "";
+                txFwrdpwrText1.Text = "";
+                txCurrText1.Text = "";
+            }
+            
+        }
+
+        private void rxFrame_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (receiver_buffer.SelectedItem != null)
+            {
+                currFrame = (AX25Frame)receiver_buffer.SelectedItem;
+                txReflpwrText1.Text = Encoding.UTF8.GetString(currFrame.Header.Src);
+                paTempText2.Text = Encoding.UTF8.GetString(currFrame.Header.Dest);
+                txFwrdpwrText1.Text = Encoding.UTF8.GetString(currFrame.FrameCheckSeq);
+                txCurrText1.Text = Encoding.UTF8.GetString(currFrame.infoFeild);
+            }
+            else
+            {
+                txReflpwrText1.Text = "";
+                paTempText2.Text = "";
+                txFwrdpwrText1.Text = "";
+                txCurrText1.Text = "";
+            }
+            
         }
 
         private void trx_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (trxes.SelectedItem != null)
+            {
+                ((TRX)trxes.SelectedItem).OverflowTransmitterBuffer();
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            if (trxes.SelectedItem != null)
+            {
+                ((TRX)trxes.SelectedItem).OverflowReceiverBuffer();
+            }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            if (trxes.SelectedItem != null)
+            {
+                ((TRX)trxes.SelectedItem).clearTransmitterBuffer();
+            }
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            if (trxes.SelectedItem != null)
+            {
+                ((TRX)trxes.SelectedItem).clearReceiverBuffer();
+            }
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (currFrame != null)
+            {
+            }
         }
 
     }
