@@ -6,10 +6,14 @@
              xmlns:local="clr-namespace:Presentation"
              mc:Ignorable="d">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="276*"/>
+            <RowDefinition Height="425*"/>
+        </Grid.RowDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="cubesat.jpg"/>
         </Grid.Background>
-        <DockPanel x:Name="menuPanel" HorizontalAlignment="Left" LastChildFill="False" VerticalAlignment="Top" Margin="0,0,0,-41" Visibility="Hidden" d:IsHidden="True">
+        <DockPanel x:Name="menuPanel" HorizontalAlignment="Left" LastChildFill="False" VerticalAlignment="Top" Margin="0,0,-0.4,0" Visibility="Hidden" d:IsHidden="True" Grid.RowSpan="2">
             <DockPanel.Background>
                 <ImageBrush ImageSource="cubesat.jpg"/>
             </DockPanel.Background>
@@ -21,8 +25,8 @@
         </DockPanel>
 
         <Button x:Name="chargeDischargeButton" Content="Charge" Foreground="White" Background="Green" FontSize="18" HorizontalAlignment="Left" Margin="1083,135,-23.4,0" VerticalAlignment="Top" Width="122" Height="43" Click="ChargeButton_Click"/>
-        <Label Content="Battery" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="350,39,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
-        <Grid x:Name="batteryGrid" HorizontalAlignment="Left" Background="White" Height="135" Margin="350,85,0,0" VerticalAlignment="Top" Width="181">
+        <Label Content="Battery" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="410,39,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
+        <Grid x:Name="batteryGrid" HorizontalAlignment="Left" Background="White" Height="135" Margin="410,85,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -45,7 +49,7 @@
             <Label Content="Battery State:" Grid.Row="4" Grid.Column="0"/>
             <TextBlock x:Name="battStateText" Grid.Row="4" Grid.Column="1" Text="{Binding BattState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="batteryHeaterGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="350,278,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="batteryHeaterGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="410,2.2,0,0" VerticalAlignment="Top" Width="181" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -105,7 +109,7 @@
             <Label Content="#Latch-up:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="ch2LatchupText" Grid.Row="3" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="channel3Grid" HorizontalAlignment="Left" Background="White" Height="109" Margin="617,278,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channel3Grid" HorizontalAlignment="Left" Background="White" Height="109" Margin="617,2,0,0" VerticalAlignment="Top" Width="181" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -125,7 +129,7 @@
             <Label Content="#Latch-up:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="ch3LatchupText" Grid.Row="3" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="channel4Grid" HorizontalAlignment="Left" Background="White" Height="109" Margin="617,394,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channel4Grid" HorizontalAlignment="Left" Background="White" Height="109" Margin="617,118,0,0" VerticalAlignment="Top" Width="181" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -145,7 +149,7 @@
             <Label Content="#Latch-up:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="ch4LatchupText" Grid.Row="3" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="channel5Grid" HorizontalAlignment="Left" Background="White" Height="109" Margin="617,508,0,-8.2" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channel5Grid" HorizontalAlignment="Left" Background="White" Height="109" Margin="617,232,0,0" VerticalAlignment="Top" Width="181" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -165,7 +169,7 @@
             <Label Content="#Latch-up:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="ch5LatchupText" Grid.Row="3" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="channel6Grid" HorizontalAlignment="Left" Background="White" Height="109" Margin="617,622,0,-30.2" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channel6Grid" HorizontalAlignment="Left" Background="White" Height="109" Margin="617,346,0,-30.2" VerticalAlignment="Top" Width="181" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -185,8 +189,8 @@
             <Label Content="#Latch-up:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="ch6LatchupText" Grid.Row="3" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Label Content="Photovolatic&#xD;&#xA;Converter" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="90,9,0,0" VerticalAlignment="Top" Width="122" Height="60"/>
-        <Grid x:Name="pv1Grid" HorizontalAlignment="Left" Background="White" Height="107" Margin="90,74,0,0" VerticalAlignment="Top" Width="181">
+        <Label Content="Photovolatic&#xD;&#xA;Converter" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="171,9,0,0" VerticalAlignment="Top" Width="122" Height="60"/>
+        <Grid x:Name="pv1Grid" HorizontalAlignment="Left" Background="White" Height="107" Margin="171,74,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -207,7 +211,7 @@
             <Label Content="Temperture [degC]:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="pv1TempText" Grid.Row="3" Grid.Column="1" Text="{Binding Path=Temperture, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="pv2Grid" HorizontalAlignment="Left" Background="White" Height="107" Margin="90,200,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="pv2Grid" HorizontalAlignment="Left" Background="White" Height="107" Margin="171,200,0,0" VerticalAlignment="Top" Width="181" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -228,7 +232,7 @@
             <Label Content="Temperture [degC]:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="pv2TempText" Grid.Row="3" Grid.Column="1" Text="{Binding Path=Temperture, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="pv3Grid" HorizontalAlignment="Left" Background="White" Height="107" Margin="90,328,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="pv3Grid" HorizontalAlignment="Left" Background="White" Height="107" Margin="171,52.2,0,0" VerticalAlignment="Top" Width="181" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -249,9 +253,9 @@
             <Label Content="Temperture [degC]:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="pv3TempText" Grid.Row="3" Grid.Column="1" Text="{Binding Path=Temperture, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Label Content="Battery Heater" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="350,232,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
+        <Label Content="Battery Heater" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="410,232,0,0" VerticalAlignment="Top" Width="149" Height="41" Grid.RowSpan="2"/>
         <Label Content="Channels" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="617,9,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
-        <Grid x:Name="confGrid" HorizontalAlignment="Left" Background="White" Height="311" Margin="869,49,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="confGrid" HorizontalAlignment="Left" Background="White" Height="311" Margin="869,49,0,0" VerticalAlignment="Top" Width="181" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -385,7 +389,7 @@
             <TextBlock x:Name="normalVoltText" Grid.Row="12" Grid.Column="1" Text="{Binding BattNormalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <Label Content="Configuration" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="869,10,0,0" VerticalAlignment="Top" Width="140" Height="41"/>
-        <Grid x:Name="wdtI2CGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="88,513,0,0" VerticalAlignment="Top" Width="149">
+        <Grid x:Name="wdtI2CGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="88,237,0,0" VerticalAlignment="Top" Width="149" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -404,8 +408,8 @@
             <Label Content="Time left [sec]:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="i2cTimeText" Grid.Row="2" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Label Content="WDTs" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="88,467,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
-        <Grid x:Name="wdtGNDGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="266,513,0,0" VerticalAlignment="Top" Width="149">
+        <Label Content="WDTs" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="113,191.2,0,0" VerticalAlignment="Top" Width="149" Height="41" Grid.Row="1"/>
+        <Grid x:Name="wdtGNDGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="266,237,0,0" VerticalAlignment="Top" Width="149" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -424,7 +428,7 @@
             <Label Content="Time left [sec]:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="gndTimeText" Grid.Row="2" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="wdtCSP1Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="266,611,0,-14.2" VerticalAlignment="Top" Width="149">
+        <Grid x:Name="wdtCSP1Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="266,335,0,-14.2" VerticalAlignment="Top" Width="149" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -445,7 +449,7 @@
             <Label Content="Time to ping [sec]:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="csp1TimeText" Grid.Row="3" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="wdtCSP0Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="88,611,0,-14.2" VerticalAlignment="Top" Width="149">
+        <Grid x:Name="wdtCSP0Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="88,335,0,-14.2" VerticalAlignment="Top" Width="149" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -467,5 +471,8 @@
             <TextBlock x:Name="csp0TimeText" Grid.Row="3" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <Button x:Name="pauseButton" Content="Pause" Foreground="White" Background="Orange" FontSize="18" HorizontalAlignment="Left" Margin="1083,48,-23.4,0" VerticalAlignment="Top" Width="122" Height="43" Click="PauseButton_Click"/>
+        <Image HorizontalAlignment="Left" Height="68" Margin="3,77,0,0" VerticalAlignment="Top" Width="66" Source="moon4.png"/>
+        <Image HorizontalAlignment="Left" Height="64" Margin="52,93,0,0" VerticalAlignment="Top" Width="98" Source="solar_panel.png" RenderTransformOrigin="0.429,0.493"/>
+        <Slider HorizontalAlignment="Left" Margin="80,255,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>

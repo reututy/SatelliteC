@@ -684,8 +684,8 @@ namespace DataModel.EPS
                 ans.output_on_delta[i] =  CurrentConfig.OutputInitialOnDelay[i];
                 ans.output_off_delta[i] =  CurrentConfig.OutputInitialOffDelay[i];
             }   
-            ans.wdt_csp_pings_left[0] =  (byte)Wdts[(int)WdtType.CSP0].TimeLeft;
-            ans.wdt_csp_pings_left[1] =  (byte)Wdts[(int)WdtType.CSP1].TimeLeft;
+            ans.wdt_csp_pings_left[0] =  (byte)Wdts[(int)WdtType.CSP0].PingLeft;
+            ans.wdt_csp_pings_left[1] =  (byte)Wdts[(int)WdtType.CSP1].PingLeft;
             ans.wdt_gnd_time_left =  Wdts[(int)WdtType.GND].TimeLeft;
             ans.wdt_i2c_time_left =  Wdts[(int)WdtType.I2C].TimeLeft;
             ans.counter_boot =  RebootCount;
