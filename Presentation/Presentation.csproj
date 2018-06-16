@@ -135,22 +135,27 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="satellitepic.jpg" />
+    <Resource Include="Images/cubesat.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="guitar.jpg" />
+    <Resource Include="Images/button.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="cubesat.jpg" />
+    <Resource Include="Images/button.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="button.jpg" />
+    <Resource Include="Images/sun.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="button.png" />
+    <Resource Include="Images/moon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images/solar_panel.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Communication\Communication.csproj">
