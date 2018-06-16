@@ -140,22 +140,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images/cubesat.jpg" />
+    <Resource Include="Images\cubesat.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images/button.jpg" />
+    <Resource Include="Images\button.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images/button.png" />
+    <Resource Include="Images\button.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images/sun.png" />
+    <Resource Include="Images\sun.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images/moon.png" />
+    <Resource Include="Images\moon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images/solar_panel.png" />
+    <Resource Include="Images\solar_panel.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Communication\Communication.csproj">
