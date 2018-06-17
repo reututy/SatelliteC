@@ -52,15 +52,18 @@ namespace Presentation
             rxBitRateSelect.ItemsSource = Enum.GetValues(typeof(ISIStrxvuBitrateStatus)).Cast<ISIStrxvuBitrateStatus>();
             txBitRateSelect.ItemsSource = Enum.GetValues(typeof(ISIStrxvuBitrateStatus)).Cast<ISIStrxvuBitrateStatus>();
 
-            var listeningThread = new Thread(() =>
+            var logThread = new Thread(() =>
             {
             while (true){
                     this.Dispatcher.Invoke(() =>
                     {
-                        logs.ItemsSource = isisTRXVU.logs;
+                        logs.Items.Refresh();
                     });
                 }
             });
+
+            logThread.IsBackground = true;
+            logThread.Start();
 
             initiallizeTRX();
             trxes.ItemsSource = isisTRXVU.tRXesCollection;

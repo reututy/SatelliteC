@@ -36,6 +36,7 @@ namespace DataModel.TRX
         trxvu_bitratestatus_4800 = 0x02, ///< Transmission Bitrate 4800 bps.
         trxvu_bitratestatus_9600 = 0x03 ///< Transmission Bitrate 9600 bps.
     }
+    
 
     /**
      * Enumeration list of TRXVU Components.
