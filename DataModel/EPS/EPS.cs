@@ -91,6 +91,7 @@ namespace DataModel.EPS
                 OnboardBattery.CurrentIn = totalCurrent;
                 //if charge
                 OnboardBattery.Vbat += increaseVoltBattery;
+
                 CheckBatteryState();
                 OnboardBattery.Temperture += increaseTempBattery;
                 OnboardBattery.CurrentOut = (ushort)(OnboardBattery.CurrentIn - dropCurrentBattery);

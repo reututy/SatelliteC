@@ -115,7 +115,7 @@ namespace Logic
          *	@param[out] data_out housekeeping output of GOMSpace EPS
          * 	@return Error code according to <hal/errors.h>
          */
-        int GomEpsGetHkData_param(byte index, Output<EPS.hkparam_t> data_out)
+        public int GomEpsGetHkData_param(byte index, Output<EPS.hkparam_t> data_out)
         {
             if (eps_table == null)
             {
@@ -331,15 +331,15 @@ namespace Logic
             }
             if (index < eps_num && index >= 0)
             {
-		        //if(eps_table[index].ppt_mode != FIXEDSWPPT)
-                //{
-			    //    return Constants.E_INVALID_ACTION;
-		        //}
-		        //else
-                //{
+		        if(eps_table[index].CurrentConfig.PptMode != PPTMode.FIXED)
+                {
+			        return Constants.E_INVALID_ACTION;
+		        }
+		        else
+                {
                     eps_table[index].SET_PV_VOLT(voltage1, voltage2, voltage3);
 			        return Constants.E_NO_SS_ERR;
-		        //}
+		        }
 
 	        }
 	        else
@@ -361,8 +361,12 @@ namespace Logic
             }
             if (index < eps_num && index >= 0)
             {
-                eps_table[index].SET_PV_AUTO(mode);
-                return Constants.E_NO_SS_ERR;
+                if  (mode == (byte)PPTMode.HARDWARE || mode == (byte)PPTMode.MPPT || mode == (byte)PPTMode.FIXED)
+                {
+                    eps_table[index].SET_PV_AUTO(mode);
+                    return Constants.E_NO_SS_ERR;
+                }
+                return Constants.E_INVALID_INPUT;
             }
             else
                 return Constants.E_INDEX_ERROR;
