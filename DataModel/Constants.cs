@@ -32,6 +32,28 @@ namespace DataModel
         public static int E_INVALID_ACTION = -37; ///< Invalid action.
 
         //public Dictionary<int, string> = {<0, "E_NO_SS_ERR">}
-
+        public static Dictionary<int, string> MapIdToError = new Dictionary<int, string>
+        {
+            {0, "No Error :E_NO_SS_ERR" },
+            {-18, "ERROR: E_NOT_INITIALIZED"},
+            {-19, "ERROR: E_IS_INITIALIZED" },
+            {-20,  "ERROR: E_GET_SEMAPHORE_FAILED"},
+            {-22,  "ERROR: E_INDEX_ERROR"},
+            {-23, "ERROR: E_BITRATE_INPUT_ERROR" },
+            {-24, "ERROR: E_CWCHAR_INPUT_ERROR" },
+            {-25, "ERROR: E_IDLE_STATE_ERROR" },
+            {-26, "ERROR: E_OUTPUT_MODE_ERROR" },
+            {-27, "ERROR: E_TRXUV_COMPONENT_ERROR" },
+            {-28, "ERROR: E_WRONG_ADC_CHANNEL" },
+            {-29, "ERROR: E_RESET_SYSTEM" },
+            {-30, "ERROR: E_MEM_ALLOC" },
+            {-31, "ERROR: E_ATT_ERROR" },
+            {-32, "ERROR: E_PARAM_OUTOFBOUNDS" },
+            {-33, "ERROR: E_TRXUV_FRAME_LENGTH" },
+            {-34, "ERROR: E_INPUT_POINTER_NULL" },
+            {-35, "ERROR: E_COMMAND_NACKED" },
+            {-36, "ERROR: E_INVALID_INPUT" },
+            {-37, "ERROR: E_INVALID_ACTION" }
+    };
     }
 }

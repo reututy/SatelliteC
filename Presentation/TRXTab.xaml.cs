@@ -41,7 +41,6 @@ namespace Presentation
             fls2.maxAX25frameLengthRX = 2048;
             fls2.maxAX25frameLengthTX = 2048;
             ISIStrxvuFrameLengths[] fl = new ISIStrxvuFrameLengths[] { fls, fls2 };
-            ISIStrxvuBitrate iSIStrxvuBitrate = new ISIStrxvuBitrate();
             isisTRXVU.IsisTrxvu_initialize(new ISIStrxvuI2CAddress[] { new ISIStrxvuI2CAddress(), new ISIStrxvuI2CAddress() }, fl, ISIStrxvuBitrate.trxvu_bitrate_2400, number);
             logs.ItemsSource = isisTRXVU.logs;
         }
@@ -50,7 +49,21 @@ namespace Presentation
         {
             InitializeComponent();
             this.isisTRXVU = isisTRXVU;
-            testt = new TestThreadGui();
+            rxBitRateSelect.ItemsSource = Enum.GetValues(typeof(ISIStrxvuBitrateStatus)).Cast<ISIStrxvuBitrateStatus>();
+            txBitRateSelect.ItemsSource = Enum.GetValues(typeof(ISIStrxvuBitrateStatus)).Cast<ISIStrxvuBitrateStatus>();
+
+            var logThread = new Thread(() =>
+            {
+            while (true){
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        logs.Items.Refresh();
+                    });
+                }
+            });
+
+            logThread.IsBackground = true;
+            logThread.Start();
 
             initiallizeTRX();
             trxes.ItemsSource = isisTRXVU.tRXesCollection;
@@ -168,6 +181,16 @@ namespace Presentation
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
+            if (trxes.SelectedItem != null)
+            {
+                currFrame = new AX25Frame("".ToCharArray(), "".ToCharArray(), Encoding.UTF8.GetBytes(""));
+                ((TRX)trxes.SelectedItem).receiver.addFrame(currFrame);
+                txReflpwrText1.Text = Encoding.UTF8.GetString(currFrame.Header.Src);
+                paTempText2.Text = Encoding.UTF8.GetString(currFrame.Header.Dest);
+                txFwrdpwrText1.Text = Encoding.UTF8.GetString(currFrame.FrameCheckSeq);
+                txCurrText1.Text = Encoding.UTF8.GetString(currFrame.infoFeild);
+            }
+            
 
         }
 
@@ -178,6 +201,283 @@ namespace Presentation
             }
         }
 
+        private void maxAX25frameLengthTXText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            uint maxLen;
+            if (uint.TryParse(maxAX25frameLengthTXText.Text, out maxLen))
+            {
+                ISIStrxvuFrameLengths fls = new ISIStrxvuFrameLengths();
+                fls.maxAX25frameLengthTX = maxLen;
+                fls.maxAX25frameLengthRX = ((TRX)trxes.SelectedItem).maxFrameLengths.maxAX25frameLengthRX;
+                ((TRX)trxes.SelectedItem).maxFrameLengths = fls;
+            }
+            else
+            {
+                maxAX25frameLengthTXText.DataContext = ((TRX)trxes.SelectedItem).maxFrameLengths;
+            }
+            
+        }
+
+        private void maxAX25frameLengthRXText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            uint maxLen;
+            if (uint.TryParse(maxAX25frameLengthRXText.Text, out maxLen))
+            {
+                ISIStrxvuFrameLengths fls = new ISIStrxvuFrameLengths();
+                fls.maxAX25frameLengthRX = maxLen;
+                fls.maxAX25frameLengthTX = ((TRX)trxes.SelectedItem).maxFrameLengths.maxAX25frameLengthTX;
+                ((TRX)trxes.SelectedItem).maxFrameLengths = fls;
+            }
+            else
+            {
+                maxAX25frameLengthRXText.DataContext = ((TRX)trxes.SelectedItem).maxFrameLengths;
+            }
+        }
+
+        private void rtxCurrText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort curr;
+            if (ushort.TryParse(rtxCurrText.Text, out curr))
+            {
+                ((TRX)trxes.SelectedItem).receiver.Tx_current = curr;
+            }
+            else
+            {
+                rtxCurrText.DataContext = ((TRX)trxes.SelectedItem).receiver;
+            }
+            
+        }
+
+        private void rxDopplerText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort doppler;
+            if (ushort.TryParse(rxDopplerText.Text, out doppler))
+            {
+                ((TRX)trxes.SelectedItem).receiver.Rx_doppler = doppler;
+            }
+            else
+            {
+                rxDopplerText.DataContext = ((TRX)trxes.SelectedItem).receiver;
+            }
+        }
+
+        private void rxCurrText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort curr;
+            if (ushort.TryParse(rxCurrText.Text, out curr))
+            {
+                ((TRX)trxes.SelectedItem).receiver.Rx_current = curr;
+            }
+            else
+            {
+                rxCurrText.DataContext = ((TRX)trxes.SelectedItem).receiver;
+            }
+        }
+
+        private void busVoltText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort busvolt;
+            if (ushort.TryParse(busVoltText.Text, out busvolt))
+            {
+                ((TRX)trxes.SelectedItem).receiver.Bus_volt = busvolt;
+            }
+            else
+            {
+                busVoltText.DataContext = ((TRX)trxes.SelectedItem).receiver;
+            }
+        }
+
+        private void boardTempText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort boardTemp;
+            if (ushort.TryParse(boardTempText.Text, out boardTemp))
+            {
+                ((TRX)trxes.SelectedItem).receiver.Board_temp = boardTemp;
+            }
+            else
+            {
+                boardTempText.DataContext = ((TRX)trxes.SelectedItem).receiver;
+            }
+        }
+
+        private void paTempText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort paTemp;
+            if (ushort.TryParse(paTempText.Text, out paTemp))
+            {
+                ((TRX)trxes.SelectedItem).receiver.Pa_temp = paTemp;
+            }
+            else
+            {
+                paTempText.DataContext = ((TRX)trxes.SelectedItem).receiver;
+            }
+        }
+
+        private void rssiText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort rssi;
+            if (ushort.TryParse(rssiText.Text, out rssi))
+            {
+                ((TRX)trxes.SelectedItem).receiver.Rx_rssi = rssi;
+            }
+            else
+            {
+                rssiText.DataContext = ((TRX)trxes.SelectedItem).receiver;
+            }
+        }
+        
+        private void rxBitRateSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ISIStrxvuBitrateStatus selected = (ISIStrxvuBitrateStatus)rxBitRateSelect.SelectedValue;
+            if (trxes.SelectedItem != null)
+            {
+                ((TRX)trxes.SelectedItem).receiver.RxBitrate = selected;
+            }
+        }
+
+        private void txBitRateSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ISIStrxvuBitrateStatus selected = (ISIStrxvuBitrateStatus)txBitRateSelect.SelectedValue;
+            if (trxes.SelectedItem != null)
+            {
+                ((TRX)trxes.SelectedItem).transmitter.TxBitrate = selected;
+            }
+        }
+
+        private void txReflpwrText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort reflpwr;
+            if (ushort.TryParse(txReflpwrText.Text, out reflpwr))
+            {
+                ((TRX)trxes.SelectedItem).transmitter.Tx_reflpwr = reflpwr;
+            }
+            else
+            {
+                txReflpwrText.DataContext = ((TRX)trxes.SelectedItem).transmitter;
+            }
+        }
+
+        private void paTempText1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort paTemp;
+            if (ushort.TryParse(paTempText1.Text, out paTemp))
+            {
+                ((TRX)trxes.SelectedItem).transmitter.Pa_temp = paTemp;
+            }
+            else
+            {
+                paTempText1.DataContext = ((TRX)trxes.SelectedItem).transmitter;
+            }
+        }
+
+        private void txFwrdpwrText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort fwrdpwr;
+            if (ushort.TryParse(txFwrdpwrText.Text, out fwrdpwr))
+            {
+                ((TRX)trxes.SelectedItem).transmitter.Tx_fwrdpwr = fwrdpwr;
+            }
+            else
+            {
+                txFwrdpwrText.DataContext = ((TRX)trxes.SelectedItem).transmitter;
+            }
+        }
+
+        private void txCurrText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ushort curr;
+            if (ushort.TryParse(txCurrText.Text, out curr))
+            {
+                ((TRX)trxes.SelectedItem).transmitter.Tx_current = curr;
+            }
+            else
+            {
+                txCurrText.DataContext = ((TRX)trxes.SelectedItem).transmitter;
+            }
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            if (currFrame != null)
+            {
+                currFrame.Header.Src = Encoding.ASCII.GetBytes(txReflpwrText1.Text);
+                currFrame.computeLength();
+                txReflpwrText1.Text = Encoding.UTF8.GetString(currFrame.Header.Src);
+                paTempText2.Text = Encoding.UTF8.GetString(currFrame.Header.Dest);
+                txFwrdpwrText1.Text = Encoding.UTF8.GetString(currFrame.FrameCheckSeq);
+                txCurrText1.Text = Encoding.UTF8.GetString(currFrame.infoFeild);
+            }
+        }
+
+        private void Button_Click_7(object sender, RoutedEventArgs e)
+        {
+            if (currFrame != null)
+            {
+                currFrame.Header.Dest = Encoding.ASCII.GetBytes(paTempText2.Text);
+                currFrame.computeLength();
+                txReflpwrText1.Text = Encoding.UTF8.GetString(currFrame.Header.Src);
+                paTempText2.Text = Encoding.UTF8.GetString(currFrame.Header.Dest);
+                txFwrdpwrText1.Text = Encoding.UTF8.GetString(currFrame.FrameCheckSeq);
+                txCurrText1.Text = Encoding.UTF8.GetString(currFrame.infoFeild);
+            }
+        }
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            if (currFrame != null)
+            {
+                currFrame.FrameCheckSeq = Encoding.ASCII.GetBytes(txFwrdpwrText1.Text);
+                currFrame.computeLength();
+                txReflpwrText1.Text = Encoding.UTF8.GetString(currFrame.Header.Src);
+                paTempText2.Text = Encoding.UTF8.GetString(currFrame.Header.Dest);
+                txFwrdpwrText1.Text = Encoding.UTF8.GetString(currFrame.FrameCheckSeq);
+                txCurrText1.Text = Encoding.UTF8.GetString(currFrame.infoFeild);
+            }
+        }
+
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            if (currFrame != null)
+            {
+                byte[] data = Encoding.ASCII.GetBytes(txCurrText1.Text);
+                currFrame.infoFeild = data;
+                currFrame.FrameCheckSeq = currFrame.calculateCheckSum(data);
+                currFrame.computeLength();
+                txReflpwrText1.Text = Encoding.UTF8.GetString(currFrame.Header.Src);
+                paTempText2.Text = Encoding.UTF8.GetString(currFrame.Header.Dest);
+                txFwrdpwrText1.Text = Encoding.UTF8.GetString(currFrame.FrameCheckSeq);
+                txCurrText1.Text = Encoding.UTF8.GetString(currFrame.infoFeild);
+            }
+        }
+
+        private void Button_Click_10(object sender, RoutedEventArgs e)
+        {
+            string path = load_file.Text;
+            try
+            {
+                string text = System.IO.File.ReadAllText(path);
+                txCurrText1.Text = text;
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("File does not exist");
+            }
+            
+        }
+
+        private void Button_Click_11(object sender, RoutedEventArgs e)
+        {
+            string path = extract_file.Text;
+            try
+            {
+                System.IO.File.WriteAllLines(path, isisTRXVU.logs.ToArray<String>());
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("File does not exist");
+            }
+        }
     }
 
     

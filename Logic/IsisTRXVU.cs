@@ -12,34 +12,12 @@ using static System.Net.Mime.MediaTypeNames;
 namespace Logic
 {
 
-    public class Log : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private String logInfo;
-        public String LogInfo
-        {
-            get { return this.logInfo; }
-            set
-            {
-                if (this.logInfo != value)
-                {
-                    this.logInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LogInfo"));
-                }
-            }
-        }
-
-        public Log(String log)
-        {
-            LogInfo = log;
-        }
-    }
     public class IsisTRXVU
     {
         
 
         private TRX[] tRXes;
-        public ObservableCollection<Log> logs = new ObservableCollection<Log>();
+        public List<String> logs = new List<String>();
         public ObservableCollection<TRX> tRXesCollection = new ObservableCollection<TRX>();
 
         public IsisTRXVU()
@@ -57,20 +35,21 @@ namespace Logic
          */
         public int IsisTrxvu_initialize(ISIStrxvuI2CAddress[] address, ISIStrxvuFrameLengths[] maxFrameLengths, ISIStrxvuBitrate default_bitrates, byte number)
         {
-            logs.Add(new Log("IsisTrxvu_initialize"));
+            logs.Add(DateTime.Now + " IsisTrxvu_initialize");
             if (tRXes == null)
             {
                 tRXes = new TRX[number];
                 for (int i = 0; i < number; i++)
                 {
+                    logs.Add("TRX -> address: " + address[i].ToString() + ", maxFrameLength: " + maxFrameLengths[i].ToString() + " ,default bitrates: " + default_bitrates + " ,index: " + i);
                     TRX trx = new TRX(i, address[i], maxFrameLengths[i], default_bitrates) { Name = i.ToString() };
                     tRXes[i] = trx;
                     tRXesCollection.Add(trx);
                 }
-                logs.Add(new Log("No Error"));
+                logs.Add(DateTime.Now + " Exit Status: No Error");
                 return Constants.E_NO_SS_ERR;
             }
-            logs.Add(new Log("IsisTRXVU allready initiallized"));
+            logs.Add(DateTime.Now + " ERROR: IsisTRXVU allready initiallized");
             return Constants.E_IS_INITIALIZED;
         }
 
@@ -82,11 +61,15 @@ namespace Logic
          */
         public int IsisTrxvu_componentSoftReset(byte index, ISIStrxvuComponent component)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_componentSoftReset");
+            logs.Add("index: " + index + " ,component" + component);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_componentSoftReset(component);
+                logs.Add(DateTime.Now + " Exit Status: No Error");
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -98,11 +81,15 @@ namespace Logic
          */
         public int IsisTrxvu_componentHardReset(byte index, ISIStrxvuComponent component)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_componentHardReset");
+            logs.Add("index: " + index + " ,component" + component);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_componentHardReset(component);
+                logs.Add(DateTime.Now + " Exit Status: No Error");
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -113,11 +100,15 @@ namespace Logic
          */
         public int IsisTrxvu_softReset(byte index)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_softReset");
+            logs.Add("index: " + index);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_softReset();
+                logs.Add(DateTime.Now + " Exit Status: No Error");
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -128,11 +119,15 @@ namespace Logic
          */
         public int IsisTrxvu_hardReset(byte index)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_hardReset");
+            logs.Add("index: " + index);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_hardReset();
+                logs.Add(DateTime.Now + " Exit Status: No Error");
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -146,10 +141,16 @@ namespace Logic
          */
         public int IsisTrxvu_tcSendAX25DefClSign(byte index, byte[] data, byte length, Output<Byte> avail) 
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcSendAX25DefClSign");
+            logs.Add("index: " + index + " ,data: " + data + " ,length: " + length);
             if (index < tRXes.Length)
             {
-                return tRXes[index].IsisTrxvu_tcSendAX25DefClSign(data, length, avail);
+                int result = tRXes[index].IsisTrxvu_tcSendAX25DefClSign(data, length, avail);
+                logs.Add("output : " + avail.output);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[result]);
+                return result;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -165,10 +166,16 @@ namespace Logic
          */
         public int IsisTrxvu_tcSendAX25OvrClSign(byte index, char[] fromCallsign, char[] toCallsign, byte[] data, byte length, Output<Byte> avail)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcSendAX25OvrClSign");
+            logs.Add("index: " + index + " ,fromCallsign: "+ fromCallsign + " ,toCallsign: " + toCallsign + ", data: " + data + " ,length: " + length);
             if (index < tRXes.Length)
             {
-                return tRXes[index].IsisTrxvu_tcSendAX25OvrClSign(fromCallsign, toCallsign, data, length, avail);
+                int result = tRXes[index].IsisTrxvu_tcSendAX25OvrClSign(fromCallsign, toCallsign, data, length, avail);
+                logs.Add("output : " + avail.output);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[result]);
+                return result;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -182,11 +189,15 @@ namespace Logic
          */
         public int IsisTrxvu_tcSetAx25BeaconDefClSign(byte index, byte[] data, byte length, ushort interval)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcSendAX25OvrClSign");
+            logs.Add("index: " + ", data: " + data + " ,length: " + length + " ,interval: " + interval);
             if (index < tRXes.Length)
             {
-                tRXes[index].IsisTrxvu_tcSetAx25BeaconDefClSign(data, length, interval);
-                return Constants.E_NO_SS_ERR;
+                int result = tRXes[index].IsisTrxvu_tcSetAx25BeaconDefClSign(data, length, interval);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[result]);
+                return result;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -281,12 +292,15 @@ namespace Logic
          */
         public int IsisTrxvu_tcSetAx25Bitrate(byte index, ISIStrxvuBitrate bitrate)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcSetAx25Bitrate");
+            logs.Add("index: " + index + " ,bitrate: " + bitrate);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_tcSetAx25Bitrate(bitrate);
+                logs.Add(DateTime.Now + "Exit Status: " + "No Error");
                 return Constants.E_NO_SS_ERR;
             }
-            logs.Add(new Log("Index Error"));
+            logs.Add("Index Error");
             return Constants.E_INDEX_ERROR;
         }
 

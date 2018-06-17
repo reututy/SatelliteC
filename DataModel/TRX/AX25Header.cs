@@ -20,8 +20,8 @@ namespace DataModel.TRX
             // check length dest, src = 7
             this.Dest = Encoding.UTF8.GetBytes(dest);
             this.Src = Encoding.UTF8.GetBytes(src);
-            System.Buffer.BlockCopy(Dest, 0, data, 0, 7);
-            System.Buffer.BlockCopy(Src, 0, data, 8, 7);
+            System.Buffer.BlockCopy(Dest, 0, data, 0, src.Length);
+            System.Buffer.BlockCopy(Src, 0, data, 8, dest.Length);
             data[14] = ControlBits;
             data[15] = ProtocolId;
         }

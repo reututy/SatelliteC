@@ -93,6 +93,14 @@ namespace DataModel.TRX
             transmitter.clear();
         }
 
+        public static Dictionary<ISIStrxvuBitrate, ISIStrxvuBitrateStatus> MapBitrateToState = new Dictionary<ISIStrxvuBitrate, ISIStrxvuBitrateStatus>()
+    {
+        { ISIStrxvuBitrate.trxvu_bitrate_1200, ISIStrxvuBitrateStatus.trxvu_bitratestatus_1200},
+        { ISIStrxvuBitrate.trxvu_bitrate_2400, ISIStrxvuBitrateStatus.trxvu_bitratestatus_2400},
+        { ISIStrxvuBitrate.trxvu_bitrate_4800, ISIStrxvuBitrateStatus.trxvu_bitratestatus_4800},
+        { ISIStrxvuBitrate.trxvu_bitrate_9600, ISIStrxvuBitrateStatus.trxvu_bitratestatus_9600}
+    };
+
         public TRX(int trxId, ISIStrxvuI2CAddress address, ISIStrxvuFrameLengths maxFrameLengths, ISIStrxvuBitrate default_bitrates)
         {
             this.trxId = trxId;
@@ -101,7 +109,9 @@ namespace DataModel.TRX
             this.default_bitrates = default_bitrates;
             this.ISIStrxvuBeaconOn = ISIStrxvuBeacon.trxvu_beacon_none;
             transmitter = new Transmitter();
+            transmitter.bitrate = MapBitrateToState[default_bitrates];
             receiver = new Receiver();
+            receiver.bitrate = MapBitrateToState[default_bitrates];
         }
 
         /**
