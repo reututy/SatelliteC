@@ -1,4 +1,5 @@
-﻿using DemoService;
+﻿using DataModel.EPS;
+using DemoService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace Presentation
         public StartPage()
         {
             InitializeComponent();
+            InitEPSVals();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -34,7 +36,6 @@ namespace Presentation
             Logic.FRAMLogic fram = new Logic.FRAMLogic();
             try
             {
-                int port = 4444;
                 AsyncService service = new AsyncService();
                 AsyncService.eps = eps;
                 AsyncService.trx = trx;
@@ -48,6 +49,24 @@ namespace Presentation
             }
             MainWindow.ChangePanel(new ComponentsTabs(eps, trx));
             // number of trxes.. defaults..
+        }
+
+        private void InitEPSVals()
+        {
+            pvTempText.Text = Convert.ToString(EPSStartValues.PVTemp);
+        }
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            short res;
+            if (Int16.TryParse(pvTempText.Text, out res))
+            {
+                EPSStartValues.PVTemp = res;
+            }
+            else
+            {
+                //error
+            }
         }
     }
 }

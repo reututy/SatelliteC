@@ -126,17 +126,7 @@ namespace DataModel.EPS
             CurrentOut = currOut;
             Temperture = temp;
             BattState = state;
-        }
-
-
-        public void Run()
-        {
-            while (true)
-            {
-
-            }
-        }
-
+        }        
 
     }
 }

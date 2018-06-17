@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation"
              mc:Ignorable="d">
-    
+
     <Grid Margin="0,0,0,-96">
         <Grid.Background>
             <ImageBrush ImageSource="Images/cubesat.jpg"/>
@@ -20,7 +20,7 @@
                 </Image.OpacityMask>
             </Image>
         </DockPanel>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="589,447,0,0" VerticalAlignment="Top" Width="132" Click="Button_Click" Height="60" FontSize="22" FontFamily="Showcard Gothic">
+        <Button Content="Start" HorizontalAlignment="Left" Margin="939,418,0,0" VerticalAlignment="Top" Width="132" Click="Button_Click" Height="60" FontSize="22" FontFamily="Showcard Gothic">
             <Button.BorderBrush>
                 <ImageBrush Stretch="None"/>
             </Button.BorderBrush>
@@ -28,6 +28,28 @@
                 <ImageBrush ImageSource="Images/button.png"/>
             </Button.Background>
         </Button>
+        <Button Content="EPS configuration" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="129" Height="38"/>
+        <Button Content="TRX configuration" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" Width="129" Height="38"/>
+        <Grid x:Name="epsGrid" HorizontalAlignment="Left" Height="376" Margin="178,35,0,0" VerticalAlignment="Top" Width="244" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="Photovolatic converters" Grid.Row="0" Grid.Column="0"/>
+            <Label Content="Initial Temperture:" Grid.Row="1" Grid.Column="0"/>
+            <TextBox x:Name="pvTempText" Grid.Row="1" Grid.Column="1" />
+            <Label Content="PPTmode:" Grid.Row="2" Grid.Column="0"/>
+            <TextBox x:Name="pptModeText" Grid.Row="2" Grid.Column="1" Text="{Binding PPTmode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        </Grid>
+        <Button Content="UPDATE" HorizontalAlignment="Left" Margin="532,233,0,0" VerticalAlignment="Top" Width="96" Click="Update_Click" Height="42"/>
 
     </Grid>
 </UserControl>

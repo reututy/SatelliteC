@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace DataModel.EPS
         public static ushort OutputInitialOnDelay = EPSConstants.DEFAULT_CONFIG_OUTPUT_ON_DELAY;
 
         //boost converter
-        public static short PVTemp = EPSConstants.DEFAULT_TEMP; //configurable
+        public static short PVTemp = EPSConstants.DEFAULT_TEMP; //configurable        
         public static ushort PVVolt = EPSConstants.SOFTWARE_PPT_DEFAULT_V; //configurable
         public static ushort PVCurrentIn = EPSConstants.PV_IN_I_CHARGE_MIN; //configurable or depand on sunny/not
         public static ushort PVVboost = EPSConstants.DEFAULT_CONFIG_VBOOST;
@@ -30,6 +31,11 @@ namespace DataModel.EPS
         public static ushort BattVoltBat = EPSConstants.BAT_CONNECT_V_TYP; //configurable
         //ushort BattCurrentInBat ; //configurable or depand on sunny/not
         public static ushort BattCurrentOutBat = EPSConstants.V_BAT_I_OUT_TYP; //calculated
+
+        public static ushort BattSafeVolt = EPSConstants.SAFE_VBAT;
+        public static ushort BattNormalVolt = EPSConstants.NORMAL_VBAT;
+        public static ushort BattMaxVolt = EPSConstants.MAX_VBAT;
+        public static ushort BattCriticalVolt = EPSConstants.CRITICAL_VBAT;
 
         //battery heater 
         public static HeaterMode BattHeaterMode = HeaterMode.AUTO; //configurable 0 = Manual, 1 = Auto]
