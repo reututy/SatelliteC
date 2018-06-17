@@ -37,14 +37,14 @@ namespace Presentation
             BoostConverter converter1 = eps.BoostConverters[0];
             BoostConverter converter2 = eps.BoostConverters[1];
             BoostConverter converter3 = eps.BoostConverters[2];
-            Channel channel1 = (Channel)eps.Outputs[3];
-            Channel channel2 = (Channel)eps.Outputs[4];
-            Channel channel3 = (Channel)eps.Outputs[5];
-            Channel channel4 = (Channel)eps.Outputs[0];
-            Channel channel5 = (Channel)eps.Outputs[1];
-            Channel channel6 = (Channel)eps.Outputs[2];
-            Output qs = eps.Outputs[6];
-            Output qh = eps.Outputs[7];
+            Channel channel1 = (Channel)eps.Outputs[(int)OutputType.T_3_3V1];
+            Channel channel2 = (Channel)eps.Outputs[(int)OutputType.T_3_3V2];
+            Channel channel3 = (Channel)eps.Outputs[(int)OutputType.T_3_3V3];
+            Channel channel4 = (Channel)eps.Outputs[(int)OutputType.T_5V1];
+            Channel channel5 = (Channel)eps.Outputs[(int)OutputType.T_5V2];
+            Channel channel6 = (Channel)eps.Outputs[(int)OutputType.T_5V3];
+            Output qs = eps.Outputs[(int)OutputType.T_QS];
+            Output qh = eps.Outputs[(int)OutputType.T_QH];
             EPSConfiguration currConfig = eps.CurrentConfig;
             BatteryHeater heater = eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER];
             WDT i2c = eps.Wdts[(int)WdtType.I2C];
@@ -143,5 +143,178 @@ namespace Presentation
                 myTimer.Start();
             }
         }
+
+        private void Panel1Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (panel1Button.Content.Equals("ON"))
+            {
+                panel1Button.Content = "OFF";
+                sunmoon1Pic.Source = new BitmapImage(new Uri("Images/sun.png", UriKind.Relative));
+                eps.BoostConverters[0].IsSun = true;
+            }
+            else
+            {
+                panel1Button.Content = "ON";
+                sunmoon1Pic.Source = new BitmapImage(new Uri("Images/moon.png", UriKind.Relative));
+                eps.BoostConverters[0].IsSun = false;
+            }
+        }
+
+        private void Panel2Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (panel2Button.Content.Equals("ON"))
+            {
+                panel2Button.Content = "OFF";
+                sunmoon2Pic.Source = new BitmapImage(new Uri("Images/sun.png", UriKind.Relative));
+                eps.BoostConverters[1].IsSun = true;
+            }
+            else
+            {
+                panel2Button.Content = "ON";
+                sunmoon2Pic.Source = new BitmapImage(new Uri("Images/moon.png", UriKind.Relative));
+                eps.BoostConverters[1].IsSun = false;
+            }
+        }
+
+        private void Panel3Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (panel3Button.Content.Equals("ON"))
+            {
+                panel3Button.Content = "OFF";
+                sunmoon3Pic.Source = new BitmapImage(new Uri("Images/sun.png", UriKind.Relative));
+                eps.BoostConverters[2].IsSun = true;
+            }
+            else
+            {
+                panel3Button.Content = "ON";
+                sunmoon3Pic.Source = new BitmapImage(new Uri("Images/moon.png", UriKind.Relative));
+                eps.BoostConverters[2].IsSun = false;
+            }
+        }
+
+        private void BattHeaterButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (battHeaterButton.Content.Equals("ON"))
+            {
+                battHeaterButton.Content = "OFF";
+                eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = EPSConstants.ON;
+            }
+            else
+            {
+                battHeaterButton.Content = "ON";
+                eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = EPSConstants.OFF;
+            }
+        }
+
+        private void Ch1Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ch1Button.Content.Equals("ON"))
+            {
+                ch1Button.Content = "OFF";
+                eps.Outputs[(int)OutputType.T_3_3V1].Status = EPSConstants.ON;
+            }
+            else
+            {
+                ch1Button.Content = "ON";
+                eps.Outputs[(int)OutputType.T_3_3V1].Status = EPSConstants.OFF;
+            }
+            
+        }
+
+        private void Ch2Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ch2Button.Content.Equals("ON"))
+            {
+                ch2Button.Content = "OFF";
+                eps.Outputs[(int)OutputType.T_3_3V2].Status = EPSConstants.ON;
+            }
+            else
+            {
+                ch2Button.Content = "ON";
+                eps.Outputs[(int)OutputType.T_3_3V2].Status = EPSConstants.OFF;
+            }
+        }
+        private void Ch3Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ch3Button.Content.Equals("ON"))
+            {
+                ch3Button.Content = "OFF";
+                eps.Outputs[(int)OutputType.T_3_3V3].Status = EPSConstants.ON;
+            }
+            else
+            {
+                ch3Button.Content = "ON";
+                eps.Outputs[(int)OutputType.T_3_3V3].Status = EPSConstants.OFF;
+            }
+        }
+        private void Ch4Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ch4Button.Content.Equals("ON"))
+            {
+                ch4Button.Content = "OFF";
+                eps.Outputs[(int)OutputType.T_5V1].Status = EPSConstants.ON;
+            }
+            else
+            {
+                ch4Button.Content = "ON";
+                eps.Outputs[(int)OutputType.T_5V1].Status = EPSConstants.OFF;
+            }
+        }
+        private void Ch5Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ch5Button.Content.Equals("ON"))
+            {
+                ch5Button.Content = "OFF";
+                eps.Outputs[(int)OutputType.T_5V2].Status = EPSConstants.ON;
+            }
+            else
+            {
+                ch5Button.Content = "ON";
+                eps.Outputs[(int)OutputType.T_5V2].Status = EPSConstants.OFF;
+            }
+        }
+
+        private void Ch6Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ch6Button.Content.Equals("ON"))
+            {
+                ch6Button.Content = "OFF";
+                eps.Outputs[(int)OutputType.T_5V3].Status = EPSConstants.ON;
+            }
+            else
+            {
+                ch6Button.Content = "ON";
+                eps.Outputs[(int)OutputType.T_5V3].Status = EPSConstants.OFF;
+            }
+        }
+
+        private void QsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (qsButton.Content.Equals("ON"))
+            {
+                qsButton.Content = "OFF";
+                eps.Outputs[(int)OutputType.T_QS].Status = EPSConstants.ON;
+            }
+            else
+            {
+                qsButton.Content = "ON";
+                eps.Outputs[(int)OutputType.T_QS].Status = EPSConstants.OFF;
+            }
+        }
+
+        private void QhButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (qhButton.Content.Equals("ON"))
+            {
+                qhButton.Content = "OFF";
+                eps.Outputs[(int)OutputType.T_QH].Status = EPSConstants.ON;
+            }
+            else
+            {
+                qhButton.Content = "ON";
+                eps.Outputs[(int)OutputType.T_QH].Status = EPSConstants.OFF;
+            }
+        }
     }
+
 }

@@ -37,7 +37,10 @@ namespace DataModel.EPS
             }
             set
             {
-                _volt = value;
+                if (value >= EPSConstants.PV_IN_V_MIN && value <= EPSConstants.PV_IN_V_MAX)
+                {
+                    _volt = value;
+                }
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("Volt"));
@@ -54,7 +57,10 @@ namespace DataModel.EPS
             }
             set
             {
-                _currentIn = value;
+                if (value >= EPSConstants.PV_IN_I_CHARGE_MIN && value <= EPSConstants.PV_IN_I_CHARGE_MAX)
+                {
+                    _currentIn = value;
+                }
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("CurrentIn"));
@@ -71,7 +77,10 @@ namespace DataModel.EPS
             }
             set
             {
-                _currentOut = value;
+                if (value >= EPSConstants.PV_IN_I_CHARGE_MIN && value <= EPSConstants.PV_IN_I_CHARGE_MAX)
+                {
+                    _currentOut = value;
+                }
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("CurrentOut"));
@@ -120,7 +129,7 @@ namespace DataModel.EPS
             Temperture = temp;
             Volt = vol;
             CurrentIn = currIn;
-            IsSun = true;
+            IsSun = false;
         }
 
         /*public void run()

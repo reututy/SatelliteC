@@ -22,7 +22,10 @@ namespace DataModel.EPS
             }
             set
             {
-                _vbat = value;
+                if (value >= EPSConstants.BAT_CONNECT_V_MIN && value <= EPSConstants.BAT_CONNECT_V_MAX)
+                {
+                    _vbat = value;
+                }
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("Vbat"));

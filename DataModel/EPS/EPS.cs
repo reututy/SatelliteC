@@ -46,6 +46,7 @@ namespace DataModel.EPS
 
         public void ChargingFlow()
         {
+            IsCharging = BoostConverters[0].IsSun || BoostConverters[1].IsSun || BoostConverters[2].IsSun;
             if (IsCharging && !IsFull)
             {
                 ushort[] increaseCurrentPV = { 10, 10, 10 }; //change
@@ -71,19 +72,11 @@ namespace DataModel.EPS
                         else //if (CurrentConfig.PptMode == EPSConstants.MPPT) or Hardware
                         {
                             BoostConverters[i].CurrentIn += increaseCurrentPV[i];
-                            if (BoostConverters[i].CurrentIn > EPSConstants.PV_IN_I_CHARGE_MAX)
-                            {
-                                BoostConverters[i].CurrentIn = EPSConstants.PV_IN_I_CHARGE_MAX;
-                            }
                         }
                     }
                     else //no sun - no charging
                     {
                         BoostConverters[i].CurrentIn -= dropCurrentInPV[i];
-                        if (BoostConverters[i].CurrentIn < EPSConstants.PV_IN_I_CHARGE_MIN)
-                        {
-                            BoostConverters[i].CurrentIn = EPSConstants.PV_IN_I_CHARGE_MIN;
-                        }
                     }
                     BoostConverters[i].Volt = (ushort)(BoostConverters[i].CurrentIn * resistancePV);
                     BoostConverters[i].Temperture = (short)(BoostConverters[i].Volt / 1000);
@@ -98,10 +91,6 @@ namespace DataModel.EPS
                 OnboardBattery.CurrentIn = totalCurrent;
                 //if charge
                 OnboardBattery.Vbat += increaseVoltBattery;
-                if (OnboardBattery.Vbat > EPSConstants.MAX_VBAT)
-                {
-                    OnboardBattery.Vbat = EPSConstants.MAX_VBAT;
-                }
                 CheckBatteryState();
                 OnboardBattery.Temperture += increaseTempBattery;
                 OnboardBattery.CurrentOut = (ushort)(OnboardBattery.CurrentIn - dropCurrentBattery);
@@ -241,7 +230,7 @@ namespace DataModel.EPS
 
         public void CheckBatteryHeater()
         {
-            short tempChanged = 1;
+            short tempChanged = 2;
             if (CurrentConfig.BattheaterMode == HeaterMode.AUTO)
             {
                 byte high = CurrentConfig.BattheaterHigh;
