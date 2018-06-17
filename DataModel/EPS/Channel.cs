@@ -48,10 +48,10 @@ namespace DataModel.EPS
             }
         }
 
-        public Channel(byte stat, OutputType type, ushort vol, ushort currOut, ushort latch) : base(stat, type, vol)
+        public Channel(byte state, OutputType type, ushort vol, ushort currOut) : base(state, type, vol)
         {
             CurrentOut = currOut;
-            LatchupNum = latch;
+            LatchupNum = 0;
         }
     }
 }

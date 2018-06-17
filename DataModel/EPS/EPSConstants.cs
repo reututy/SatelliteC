@@ -27,6 +27,11 @@ namespace DataModel.EPS
         public const int ONBOARD_BATT = 0;
         public const int EXTERNAL_BATT = 1;
 
+        /*bttery mode*/
+        public const int BATT_NORMAL_MODE = 0;
+        public const int BATT_UNDERVOLTAGE_MODE = 1;
+        public const int BATT_OVERVOLTAGE_MODE = 2;
+
         /* battery heater mode */
         public const int MANUAL = 0;
         public const int AUTO = 1;

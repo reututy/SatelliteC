@@ -95,13 +95,13 @@ namespace DataModel.EPS
             }
         } 
 
-        public WDT(WdtType type, uint reboot, uint time, uint ping, uint dat)
+        public WDT(WdtType type, uint time, uint ping, uint data)
         {
             WdtType = type;
-            RebootCounter = reboot;
+            RebootCounter = 0;
             TimeLeft = time;
             PingLeft = ping;
-            Data = dat;
+            Data = data;
         }
     }
 }

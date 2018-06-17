@@ -108,11 +108,11 @@ namespace DataModel.EPS
 
         
 
-        public BatteryHeater(HeaterType typ, byte stat)
+        public BatteryHeater(HeaterType type, byte status)
         {
             //Mode = mod;
-            Type = typ;
-            Status = stat;
+            Type = type;
+            Status = status;
             //BattHeaterLow = low;
             //BattHeaterHigh = high;
         }
