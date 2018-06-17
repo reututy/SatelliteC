@@ -37,12 +37,14 @@ namespace Presentation
             BoostConverter converter1 = eps.BoostConverters[0];
             BoostConverter converter2 = eps.BoostConverters[1];
             BoostConverter converter3 = eps.BoostConverters[2];
-            Channel channel1 = (Channel)eps.Outputs[0];
-            Channel channel2 = (Channel)eps.Outputs[1];
-            Channel channel3 = (Channel)eps.Outputs[2];
-            Channel channel4 = (Channel)eps.Outputs[3];
-            Channel channel5 = (Channel)eps.Outputs[4];
-            Channel channel6 = (Channel)eps.Outputs[5];
+            Channel channel1 = (Channel)eps.Outputs[3];
+            Channel channel2 = (Channel)eps.Outputs[4];
+            Channel channel3 = (Channel)eps.Outputs[5];
+            Channel channel4 = (Channel)eps.Outputs[0];
+            Channel channel5 = (Channel)eps.Outputs[1];
+            Channel channel6 = (Channel)eps.Outputs[2];
+            Output qs = eps.Outputs[6];
+            Output qh = eps.Outputs[7];
             EPSConfiguration currConfig = eps.CurrentConfig;
             BatteryHeater heater = eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER];
             WDT i2c = eps.Wdts[(int)WdtType.I2C];
@@ -51,10 +53,18 @@ namespace Presentation
             WDT csp1 = eps.Wdts[(int)WdtType.CSP1];
             //Battery
             batteryGrid.DataContext = batt;
+            battCurrInText.DataContext = batt;
+            battCurrOutText.DataContext = batt;
             //pv
             pv1Grid.DataContext = converter1;
-            pv2Grid.DataContext = converter2;           
+            pv1CurrInText.DataContext = converter1;
+            pv1CurrOutText.DataContext = converter1;
+            pv2Grid.DataContext = converter2;
+            pv2CurrInText.DataContext = converter2;
+            pv2CurrOutText.DataContext = converter2;
             pv3Grid.DataContext = converter3;
+            pv3CurrInText.DataContext = converter3;
+            pv3CurrOutText.DataContext = converter3;
             //channels
             channel1Grid.DataContext = channel1;
             channel2Grid.DataContext = channel2;
@@ -62,6 +72,8 @@ namespace Presentation
             channel4Grid.DataContext = channel4;
             channel5Grid.DataContext = channel5;
             channel6Grid.DataContext = channel6;
+            channelQSGrid.DataContext = qs;
+            channelQHGrid.DataContext = qh;
             //current config
             confGrid.DataContext = currConfig;
             //battery heater
