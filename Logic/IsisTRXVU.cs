@@ -12,34 +12,12 @@ using static System.Net.Mime.MediaTypeNames;
 namespace Logic
 {
 
-    public class Log : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private String logInfo;
-        public String LogInfo
-        {
-            get { return this.logInfo; }
-            set
-            {
-                if (this.logInfo != value)
-                {
-                    this.logInfo = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LogInfo"));
-                }
-            }
-        }
-
-        public Log(String log)
-        {
-            LogInfo = log;
-        }
-    }
     public class IsisTRXVU
     {
         
 
         private TRX[] tRXes;
-        public ObservableCollection<Log> logs = new ObservableCollection<Log>();
+        public List<String> logs = new List<String>();
         public ObservableCollection<TRX> tRXesCollection = new ObservableCollection<TRX>();
 
         public IsisTRXVU()
@@ -57,7 +35,7 @@ namespace Logic
          */
         public int IsisTrxvu_initialize(ISIStrxvuI2CAddress[] address, ISIStrxvuFrameLengths[] maxFrameLengths, ISIStrxvuBitrate default_bitrates, byte number)
         {
-            logs.Add(new Log("IsisTrxvu_initialize"));
+            logs.Add("IsisTrxvu_initialize");
             if (tRXes == null)
             {
                 tRXes = new TRX[number];
@@ -67,10 +45,10 @@ namespace Logic
                     tRXes[i] = trx;
                     tRXesCollection.Add(trx);
                 }
-                logs.Add(new Log("No Error"));
+                logs.Add("No Error");
                 return Constants.E_NO_SS_ERR;
             }
-            logs.Add(new Log("IsisTRXVU allready initiallized"));
+            logs.Add("IsisTRXVU allready initiallized");
             return Constants.E_IS_INITIALIZED;
         }
 
@@ -286,7 +264,7 @@ namespace Logic
                 tRXes[index].IsisTrxvu_tcSetAx25Bitrate(bitrate);
                 return Constants.E_NO_SS_ERR;
             }
-            logs.Add(new Log("Index Error"));
+            logs.Add("Index Error");
             return Constants.E_INDEX_ERROR;
         }
 

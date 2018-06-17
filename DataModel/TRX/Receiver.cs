@@ -131,7 +131,7 @@ namespace DataModel.TRX
          */
          public int GetNumberOfFramesInReceiverBuffer()
         {
-            return 0;
+            return rxFrameBuffer.count();
         }
 
         /**
@@ -192,6 +192,11 @@ namespace DataModel.TRX
         public void clear()
         {
             rxFrameBuffer.clear();
+        }
+
+        public void addFrame(Frame frame)
+        {
+            rxFrameBuffer.addFrame(frame);
         }
 
         /*private byte[] buffer;

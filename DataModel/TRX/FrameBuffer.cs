@@ -49,5 +49,10 @@ namespace DataModel.TRX
         {
             frames.clear();
         }
+
+        public int count()
+        {
+            return frames.count();
+        }
     }
 }
