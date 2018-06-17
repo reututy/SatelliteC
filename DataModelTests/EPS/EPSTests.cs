@@ -92,7 +92,7 @@ namespace DataModel.EPS.Tests
             Assert.AreEqual(ans.temp[4], eps.OnboardBattery.Temperture);
             Assert.AreEqual(ans.temp[5], eps.OnboardBattery.Temperture); // external - need to change
             Assert.AreEqual(ans.bootcause, eps.LastResetCause);
-            Assert.AreEqual(ans.battmode, (byte)eps.OnboardBattery.BattMode);
+            Assert.AreEqual(ans.battmode, (byte)eps.OnboardBattery.BattState);
             Assert.AreEqual(ans.pptmode, (byte)eps.CurrentConfig.PptMode);
         }
 
@@ -188,7 +188,7 @@ namespace DataModel.EPS.Tests
             Assert.AreEqual(ans.counter_boot, eps.RebootCount);
             Assert.AreEqual(ans.bootcause, eps.LastResetCause);
             Assert.AreEqual(ans.pptmode, (byte)eps.CurrentConfig.PptMode);
-            Assert.AreEqual(ans.battmode, (byte)eps.OnboardBattery.BattMode);
+            Assert.AreEqual(ans.battmode, (byte)eps.OnboardBattery.BattState);
             int i;
             for (i = 0; i < 3; i++)
             {
@@ -256,9 +256,9 @@ namespace DataModel.EPS.Tests
             eps.SET_PV_AUTO(EPSConstants.HARDWARE);
             Assert.AreEqual((byte)eps.CurrentConfig.PptMode, EPSConstants.HARDWARE);
             eps.SET_PV_AUTO(EPSConstants.MPPT);
-            Assert.AreEqual(eps.CurrentConfig.PptMode, EPSConstants.MPPT);
+            Assert.AreEqual((byte)eps.CurrentConfig.PptMode, EPSConstants.MPPT);
             eps.SET_PV_AUTO(EPSConstants.FIXEDSWPPT);
-            Assert.AreEqual(eps.CurrentConfig.PptMode, EPSConstants.FIXEDSWPPT);
+            Assert.AreEqual((byte)eps.CurrentConfig.PptMode, EPSConstants.FIXEDSWPPT);
         }
 
         [TestMethod()]
@@ -312,7 +312,7 @@ namespace DataModel.EPS.Tests
             EPS eps = new EPS();
             eps.CONFIG_CMD(1);
             Assert.AreEqual((byte)eps.CurrentConfig.PptMode, EPSConstants.FIXEDSWPPT);
-            Assert.AreEqual(eps.CurrentConfig.BattheaterMode, EPSConstants.AUTO);
+            Assert.AreEqual((byte)eps.CurrentConfig.BattheaterMode, EPSConstants.AUTO);
             Assert.AreEqual(eps.CurrentConfig.BattheaterHigh, 100); //to change
             Assert.AreEqual(eps.CurrentConfig.BattheaterLow, 0); //to change
             int i;
@@ -333,10 +333,10 @@ namespace DataModel.EPS.Tests
             EPS eps = new EPS();
             EPS.eps_config_t config = eps.CONFIG_GET();
             Assert.AreEqual((byte)eps.CurrentConfig.PptMode, config.ppt_mode);
-            Assert.AreEqual(eps.CurrentConfig.BattheaterMode, config.battheater_mode);
+            Assert.AreEqual((byte)eps.CurrentConfig.BattheaterMode, config.battheater_mode);
             Assert.AreEqual(eps.CurrentConfig.BattheaterLow, config.battheater_low);
             Assert.AreEqual(eps.CurrentConfig.BattheaterHigh, config.battheater_high);
-            Assert.AreEqual(eps.CurrentConfig.BattheaterMode, config.battheater_mode);
+            Assert.AreEqual((byte)eps.CurrentConfig.BattheaterMode, config.battheater_mode);
             int i;
             for (i = 0; i < 8; i++)
             {
@@ -376,10 +376,10 @@ namespace DataModel.EPS.Tests
 
             eps.CONFIG_SET(config);
             Assert.AreEqual((byte)eps.CurrentConfig.PptMode, config.ppt_mode);
-            Assert.AreEqual(eps.CurrentConfig.BattheaterMode, config.battheater_mode);
+            Assert.AreEqual((byte)eps.CurrentConfig.BattheaterMode, config.battheater_mode);
             Assert.AreEqual(eps.CurrentConfig.BattheaterLow, config.battheater_low);
             Assert.AreEqual(eps.CurrentConfig.BattheaterHigh, config.battheater_high);
-            Assert.AreEqual(eps.CurrentConfig.BattheaterMode, config.battheater_mode);
+            Assert.AreEqual((byte)eps.CurrentConfig.BattheaterMode, config.battheater_mode);
 
             for (int i = 0; i < 8; i++)
             {

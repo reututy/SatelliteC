@@ -357,43 +357,39 @@ namespace DataModel.EPS
                 switch (i)
                 {
                     case (int)OutputType.T_5V1:
-                        Outputs[i] = new Channel(EPSConstants.ON, OutputType.T_5V1, EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP, EPSConstants.OUT_LATCHUP_PROTEC_I_MAX, 0);
+                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_5V1, EPSStartValues.OutputVolt5V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_5V2:
-                        Outputs[i] = new Channel(EPSConstants.ON, OutputType.T_5V2, EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP, EPSConstants.OUT_LATCHUP_PROTEC_I_MAX, 0);
+                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_5V2, EPSStartValues.OutputVolt5V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_5V3:
-                        Outputs[i] = new Channel(EPSConstants.ON, OutputType.T_5V3, EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP, EPSConstants.OUT_LATCHUP_PROTEC_I_MAX, 0);
+                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_5V3, EPSStartValues.OutputVolt5V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_3_3V1:
-                        Outputs[i] = new Channel(EPSConstants.ON, OutputType.T_3_3V1, EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP, EPSConstants.OUT_LATCHUP_PROTEC_I_MAX, 0);
+                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_3_3V1, EPSStartValues.OutputVolt3_3V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_3_3V2:
-                        Outputs[i] = new Channel(EPSConstants.ON, OutputType.T_3_3V2, EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP, EPSConstants.OUT_LATCHUP_PROTEC_I_MAX, 0);
+                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_3_3V2, EPSStartValues.OutputVolt3_3V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_3_3V3:
-                        Outputs[i] = new Channel(EPSConstants.ON, OutputType.T_3_3V3, EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP, EPSConstants.OUT_LATCHUP_PROTEC_I_MAX, 0);
+                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_3_3V3, EPSStartValues.OutputVolt3_3V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_QS:
-                        Outputs[i] = new Output(EPSConstants.ON, OutputType.T_QS, 0);
+                        Outputs[i] = new Output(EPSStartValues.OutputState, OutputType.T_QS, 0);
                         break;
                     case (int)OutputType.T_QH:
-                        Outputs[i] = new Output(EPSConstants.ON, OutputType.T_QH, 0);
+                        Outputs[i] = new Output(EPSStartValues.OutputState, OutputType.T_QH, 0);
                         break;
                 }
             }
             BoostConverters = new BoostConverter[3];
             for (i = 0; i < 3; i++)
             {
-                BoostConverters[i] = new BoostConverter(EPSConstants.DEFAULT_TEMP, EPSConstants.SOFTWARE_PPT_DEFAULT_V, EPSConstants.PV_IN_I_CHARGE_MIN);
+                BoostConverters[i] = new BoostConverter(EPSStartValues.PVTemp, EPSStartValues.PVVolt, EPSStartValues.PVCurrentIn);
             }
 
-            OnboardBattery = new Battery(EPSConstants.ONBOARD_BATT, EPSConstants.BAT_CONNECT_V_TYP, 0, EPSConstants.V_BAT_I_OUT_TYP, EPSConstants.DEFAULT_TEMP, BattState.INITIAL, BattMode.NORMAL);
+            OnboardBattery = new Battery(EPSConstants.ONBOARD_BATT, EPSStartValues.BattVoltBat, 0, EPSStartValues.BattCurrentOutBat, EPSStartValues.BattTemp, BattState.INITIAL);
 
-            
-
-            //photo_current = EPSConstants.BAT_CONNECT_I_CHARGE_MAX;
-            //system_current = EPSConstants.V_BAT_I_OUT_TYP;
             RebootCount = 0;
             SwErrors = 0;
             LastResetCause = EPSConstants.UNKNOWN_RESET_R;
@@ -404,16 +400,16 @@ namespace DataModel.EPS
                 switch (i)
                 {
                     case (int)WdtType.I2C:
-                        Wdts[i] = new WDT(WdtType.I2C, 0, EPSConstants.WDT_I2C_INIT_TIME, 0, EPSConstants.I2C_WDT_RESET_0);
+                        Wdts[i] = new WDT(WdtType.I2C, EPSStartValues.I2CTimeLeft, 0, EPSStartValues.I2CData);
                         break;
                     case (int)WdtType.GND:
-                        Wdts[i] = new WDT(WdtType.GND, 0, EPSConstants.WDT_GND_INIT_TIME, 0, EPSConstants.WDT_GND_INIT_TIME);
+                        Wdts[i] = new WDT(WdtType.GND, EPSStartValues.GNDTimeLeft, 0, EPSStartValues.GNDData);
                         break;
                     case (int)WdtType.CSP0:
-                        Wdts[i] = new WDT(WdtType.CSP0, 0, EPSConstants.WDT_CSP_INIT_TIME, EPSConstants.WDT_CSP_INIT_PING, (int)OutputType.T_5V1);
+                        Wdts[i] = new WDT(WdtType.CSP0, EPSStartValues.CSPTimeLeft, EPSStartValues.CSPPingLeft, EPSStartValues.CSP0Data);
                         break;
                     case (int)WdtType.CSP1:
-                        Wdts[i] = new WDT(WdtType.CSP1, 0, EPSConstants.WDT_CSP_INIT_TIME, EPSConstants.WDT_CSP_INIT_PING, (int)OutputType.T_3_3V1);
+                        Wdts[i] = new WDT(WdtType.CSP1, EPSStartValues.CSPTimeLeft, EPSStartValues.CSPPingLeft, EPSStartValues.CSP1Data);
                         break;
                 }
             }
@@ -421,7 +417,7 @@ namespace DataModel.EPS
 
             ushort[] vboost = new ushort[3];
             for (i = 0; i < 3; i++)
-                vboost[i] = EPSConstants.DEFAULT_CONFIG_VBOOST;
+                vboost[i] = EPSStartValues.PVVboost;
 
             ushort[] output_initial_off_delay = new ushort[8];
             ushort[] output_initial_on_delay = new ushort[8];
@@ -430,14 +426,14 @@ namespace DataModel.EPS
 
             for (i = 0; i < 8; i++)
             {
-                output_initial_off_delay[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_ON_DELAY;
-                output_initial_on_delay[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_OFF_DELAY;
-                output_normal_value[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_NORMAL; //need to change
-                output_safe_value[i] = EPSConstants.DEFAULT_CONFIG_OUTPUT_SAFE; //need to change
+                output_initial_off_delay[i] = EPSStartValues.OutputInitialOffDelay;
+                output_initial_on_delay[i] = EPSStartValues.OutputInitialOnDelay;
+                output_normal_value[i] = EPSStartValues.OutputNormal; //need to change
+                output_safe_value[i] = EPSStartValues.OutputSafe; //need to change
             }
 
-            CurrentConfig = new EPSConfiguration(PPTMode.FIXED,HeaterMode.AUTO,
-                EPSConstants.DEFAULT_CONFIG_BATTHEAT_LOW, EPSConstants.DEFAULT_CONFIG_BATTHEAT_HIGH, output_normal_value, output_safe_value,
+            CurrentConfig = new EPSConfiguration(EPSStartValues.PPTmode, EPSStartValues.BattHeaterMode,
+                EPSStartValues.BattHeaterLow, EPSStartValues.BattHeaterHigh, output_normal_value, output_safe_value,
                 output_initial_on_delay, output_initial_off_delay, vboost);
 
             CurrentConfig.BattSafeVoltage = EPSConstants.SAFE_VBAT;
@@ -446,7 +442,7 @@ namespace DataModel.EPS
             CurrentConfig.BattCriticalVoltage = EPSConstants.CRITICAL_VBAT;
 
             BatteryHeaters = new BatteryHeater[2];
-            BatteryHeaters[EPSConstants.ONBOARD_HEATER] = new BatteryHeater(HeaterType.ONBOARD, EPSConstants.OFF);
+            BatteryHeaters[EPSConstants.ONBOARD_HEATER] = new BatteryHeater(HeaterType.ONBOARD, EPSStartValues.BattHeaterStatus);
             BatteryHeaters[EPSConstants.BP4_HEATER] = new BatteryHeater(HeaterType.BP4, EPSConstants.OFF);
             //curout = new ushort[6];
             //for (i = 0; i < 6; i++)
@@ -689,7 +685,18 @@ namespace DataModel.EPS
             ans.temp[4] =  OnboardBattery.Temperture; // external - need to change
             ans.temp[5] =  OnboardBattery.Temperture; // external - need to change
             ans.bootcause =  LastResetCause;
-            ans.battmode =  (byte)OnboardBattery.BattMode;
+            switch (OnboardBattery.BattState)
+            {
+                case BattState.CRITICAL:
+                    ans.battmode = EPSConstants.BATT_UNDERVOLTAGE_MODE;
+                    break;
+                case BattState.FULL:
+                    ans.battmode = EPSConstants.BATT_OVERVOLTAGE_MODE;
+                    break;
+                default:
+                    ans.battmode = EPSConstants.BATT_NORMAL_MODE;
+                    break;
+            }
             ans.pptmode =  (byte)CurrentConfig.PptMode;
             return ans;
         }
@@ -762,7 +769,7 @@ namespace DataModel.EPS
             ans.counter_boot = RebootCount;
 	        ans.bootcause = LastResetCause;
 	        ans.pptmode = (byte)CurrentConfig.PptMode;
-	        ans.battmode = (byte)OnboardBattery.BattMode;
+	        ans.battmode = (byte)OnboardBattery.BattState;
             ans.temp = new short[6];
 	        for (int i = 0; i< 3; i++)
             {   

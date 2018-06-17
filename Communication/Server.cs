@@ -628,8 +628,8 @@ namespace DemoService
                     }
                 case "GomEpsConfigSet":
                     {
-                        Output<EPS.eps_config_t> config_data = new Output<EPS.eps_config_t>();
-                        config_data.output = convertToSturcteps_config_t(args[2]);
+                        EPS.eps_config_t config_data = new EPS.eps_config_t();
+                        config_data = convertToSturcteps_config_t(args[2]);
                         response = convertErrorToByteArr(eps.GomEpsConfigSet(index, config_data));
                         break;
                     }
@@ -650,8 +650,8 @@ namespace DemoService
                     }
                 case "GomEpsConfig2Set":
                     {
-                        Output<EPS.eps_config2_t> config_data = new Output<EPS.eps_config2_t>();
-                        config_data.output = convertToSturcteps_config2_t(args[2]);
+                        EPS.eps_config2_t config_data = new EPS.eps_config2_t();
+                        config_data = convertToSturcteps_config2_t(args[2]);
                         response = convertErrorToByteArr(eps.GomEpsConfig2Set(index, config_data));
                         break;
                     }

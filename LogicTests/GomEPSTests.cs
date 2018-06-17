@@ -423,7 +423,7 @@ namespace Logic.Tests
         {
             GomEPS gom = new GomEPS();
             gom.GomEpsInitialize(add, 1);
-            Output<EPS.eps_config_t> conf = new Output<EPS.eps_config_t>();
+            EPS.eps_config_t conf = new EPS.eps_config_t();
             Assert.AreEqual(Constants.E_INDEX_ERROR, gom.GomEpsConfigSet(1, conf));
         }
 
@@ -432,28 +432,29 @@ namespace Logic.Tests
         {
             GomEPS gom = new GomEPS();
             gom.GomEpsInitialize(add, 1);
-            Output<EPS.eps_config_t> conf = new Output<EPS.eps_config_t>();
-            /*conf.output = new EPS.eps_config_t();
-            conf.output.ppt_mode = (byte)CurrentConfig.PptMode;
-            ans.battheater_mode = (byte)CurrentConfig.BattheaterMode;
-            ans.battheater_low = CurrentConfig.BattheaterLow;
-            ans.battheater_high = CurrentConfig.BattheaterHigh;
-            ans.output_initial_off_delay = new ushort[8];
-            ans.output_initial_on_delay = new ushort[8];
-            ans.output_normal_value = new byte[8];
-            ans.output_safe_value = new byte[8];
+            EPS.eps_config_t conf = new EPS.eps_config_t();
+            //conf.output = new EPS.eps_config_t();
+            EPS eps = gom.eps_table[0];
+            conf.ppt_mode = (byte)eps.CurrentConfig.PptMode;
+            conf.battheater_mode = (byte)eps.CurrentConfig.BattheaterMode;
+            conf.battheater_low = eps.CurrentConfig.BattheaterLow;
+            conf.battheater_high = eps.CurrentConfig.BattheaterHigh;
+            conf.output_initial_off_delay = new ushort[8];
+            conf.output_initial_on_delay = new ushort[8];
+            conf.output_normal_value = new byte[8];
+            conf.output_safe_value = new byte[8];
             for (int i = 0; i < 8; i++)
             {
-                ans.output_initial_off_delay[i] = CurrentConfig.OutputInitialOffDelay[i];
-                ans.output_initial_on_delay[i] = CurrentConfig.OutputInitialOnDelay[i];
-                ans.output_normal_value[i] = CurrentConfig.OutputNormalValue[i];
-                ans.output_safe_value[i] = CurrentConfig.OutputSafeValue[i];
+                conf.output_initial_off_delay[i] = eps.CurrentConfig.OutputInitialOffDelay[i];
+                conf.output_initial_on_delay[i] = eps.CurrentConfig.OutputInitialOnDelay[i];
+                conf.output_normal_value[i] = eps.CurrentConfig.OutputNormalValue[i];
+                conf.output_safe_value[i] = eps.CurrentConfig.OutputSafeValue[i];
             }
-            ans.vboost = new ushort[3];
+            conf.vboost = new ushort[3];
             for (int i = 0; i < 3; i++)
             {
-                ans.vboost[i] = CurrentConfig.Vboost[i];
-            }*/
+                conf.vboost[i] = eps.CurrentConfig.Vboost[i];
+            }
             Assert.AreEqual(Constants.E_NO_SS_ERR, gom.GomEpsConfigSet(0, conf));
         }
 
@@ -504,7 +505,7 @@ namespace Logic.Tests
         {
             GomEPS gom = new GomEPS();
             gom.GomEpsInitialize(add, 1);
-            Output<EPS.eps_config2_t> conf = new Output<EPS.eps_config2_t>();
+            EPS.eps_config2_t conf = new EPS.eps_config2_t();
             Assert.AreEqual(Constants.E_INDEX_ERROR, gom.GomEpsConfig2Set(1, conf));
         }
 
@@ -513,7 +514,7 @@ namespace Logic.Tests
         {
             GomEPS gom = new GomEPS();
             gom.GomEpsInitialize(add, 1);
-            Output<EPS.eps_config2_t> conf = new Output<EPS.eps_config2_t>();
+            EPS.eps_config2_t conf = new EPS.eps_config2_t();
             Assert.AreEqual(Constants.E_NO_SS_ERR, gom.GomEpsConfig2Set(0, conf));
         }
     }

@@ -498,7 +498,7 @@ namespace Logic
          *	@param[in] config_data configuration 1 data.
          * 	@return Error code according to <hal/errors.h>
          */
-        public int GomEpsConfigSet(byte index, Output<EPS.eps_config_t> config_data)
+        public int GomEpsConfigSet(byte index, EPS.eps_config_t config_data)
         {
             if (eps_table == null)
             {
@@ -506,7 +506,7 @@ namespace Logic
             }
             if (index < eps_num && index >= 0)
             {
-                eps_table[index].CONFIG_SET(config_data.output);
+                eps_table[index].CONFIG_SET(config_data);
                 return Constants.E_NO_SS_ERR;
             }
             else
@@ -569,7 +569,7 @@ namespace Logic
          *	@param[in] config_data configuration 1 data.
          * 	@return Error code according to <hal/errors.h>
          */
-        public int GomEpsConfig2Set(byte index, Output<EPS.eps_config2_t> config_data)
+        public int GomEpsConfig2Set(byte index, EPS.eps_config2_t config_data)
         {
             if (eps_table == null)
             {
@@ -577,7 +577,7 @@ namespace Logic
             }
             if (index < eps_num && index >= 0)
             {
-                eps_table[index].CONFIG2_SET(config_data.output);
+                eps_table[index].CONFIG2_SET(config_data);
                 return Constants.E_NO_SS_ERR;
             }
             else
