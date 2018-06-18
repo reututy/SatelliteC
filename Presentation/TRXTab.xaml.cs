@@ -31,20 +31,6 @@ namespace Presentation
         private IsisTRXVU isisTRXVU;
         private AX25Frame currFrame;
 
-        private void initiallizeTRX()
-        {
-            byte number = Convert.ToByte(2);
-            ISIStrxvuFrameLengths fls = new ISIStrxvuFrameLengths();
-            fls.maxAX25frameLengthRX = 2048;
-            fls.maxAX25frameLengthTX = 2048;
-            ISIStrxvuFrameLengths fls2 = new ISIStrxvuFrameLengths();
-            fls2.maxAX25frameLengthRX = 2048;
-            fls2.maxAX25frameLengthTX = 2048;
-            ISIStrxvuFrameLengths[] fl = new ISIStrxvuFrameLengths[] { fls, fls2 };
-            isisTRXVU.IsisTrxvu_initialize(new ISIStrxvuI2CAddress[] { new ISIStrxvuI2CAddress(), new ISIStrxvuI2CAddress() }, fl, ISIStrxvuBitrate.trxvu_bitrate_2400, number);
-            logs.ItemsSource = isisTRXVU.logs;
-        }
-
         public TRXTab(IsisTRXVU isisTRXVU)
         {
             InitializeComponent();
@@ -64,8 +50,7 @@ namespace Presentation
 
             logThread.IsBackground = true;
             logThread.Start();
-
-            initiallizeTRX();
+            
             trxes.ItemsSource = isisTRXVU.tRXesCollection;
         }
 
