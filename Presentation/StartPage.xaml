@@ -28,9 +28,7 @@
                 <ImageBrush ImageSource="Images/button.png"/>
             </Button.Background>
         </Button>
-        <Button Content="EPS configuration" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="129" Height="38"/>
-        <Button Content="TRX configuration" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" Width="129" Height="38"/>
-        <Grid x:Name="epsGrid" HorizontalAlignment="Left" Height="376" Margin="178,35,0,0" VerticalAlignment="Top" Width="244" Background="White">
+        <Grid x:Name="epsGrid" HorizontalAlignment="Left" Height="219" Margin="174,62,0,0" VerticalAlignment="Top" Width="244" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -39,17 +37,49 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" MinWidth="156" />
+                <ColumnDefinition Width="Auto" MinWidth="13" />
             </Grid.ColumnDefinitions>
-            <Label Content="Photovolatic converters" Grid.Row="0" Grid.Column="0"/>
-            <Label Content="Initial Temperature:" Grid.Row="1" Grid.Column="0"/>
-            <TextBox x:Name="pvTempText" Grid.Row="1" Grid.Column="1" />
+            <Label Content="Photovolatic converters" Grid.Row="0" Grid.Column="0" FontWeight="Bold"/>
+            <Label Content="Initial PV Temperature:" Grid.Row="1" Grid.Column="0"/>
             <Label Content="PPTmode:" Grid.Row="2" Grid.Column="0"/>
-            <TextBox x:Name="pptModeText" Grid.Row="2" Grid.Column="1"/>
+            <TextBox x:Name="pvTempText" Grid.Column="1" Grid.Row="1" />
+            <Label Content="Battery initial Temperature:" Grid.Row="4" Grid.Column="0" Margin="0,29,0,-55"/>
+            <Label Content="Battery Heater Low:" Grid.Row="4" Grid.Column="0" Margin="0,56,0,-82"/>
+            <Label Content="Battery Heater High:" Grid.Row="4" Grid.Column="0" Margin="0,83,0,-109"/>
+            <Label Content="Heater Mode:" Grid.Row="4" Grid.Column="0" Margin="0,110,0,-136"/>
+            <TextBox x:Name="batt_temp" Grid.Row="4" Grid.Column="1" Margin="0,28,0,-54"/>
+            <TextBox x:Name="batt_heat_low" Grid.Row="4" Grid.Column="1" Margin="0,56,0,-82"/>
+            <TextBox x:Name="batt_heat_high" Grid.Row="4" Grid.Column="1" Margin="0,83,0,-109"/>
+            <Label Content="Battery" Grid.Row="4" Grid.Column="0" Margin="0,1,0,-27" FontWeight="Bold"/>
 
         </Grid>
-        <Button Content="UPDATE" HorizontalAlignment="Left" Margin="532,233,0,0" VerticalAlignment="Top" Width="96" Click="Update_Click" Height="42"/>
+        <Button Content="UPDATE" HorizontalAlignment="Left" Margin="406,478,0,0" VerticalAlignment="Top" Width="96" Click="Update_Click" Height="42"/>
+        <Label Content="EPS Configuration" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="174,16,0,0" VerticalAlignment="Top" Width="184" Height="41"/>
+        <Label Content="TRX Configuration" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="502,16,0,0" VerticalAlignment="Top" Width="184" Height="41"/>
+        <Grid x:Name="epsGrid_Copy" HorizontalAlignment="Left" Height="120" Margin="502,62,0,0" VerticalAlignment="Top" Width="244" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="213" />
+                <ColumnDefinition Width="Auto" MinWidth="26" />
+            </Grid.ColumnDefinitions>
+            <Label Content="Number of trx units:" Grid.Row="0" Grid.Column="0"/>
+            <Label Content="Max AX25 frame length receiver:" Grid.Row="1" Grid.Column="0"/>
+            <TextBox x:Name="max_rx" Grid.Row="1" Grid.Column="1" Text="2048"/>
+            <Label Content="Max AX25 frame length transmitter:" Grid.Row="2" Grid.Column="0"/>
+            <TextBox x:Name="max_tx" Grid.Row="2" Grid.Column="1" Text="2048"/>
+            <TextBox x:Name="num_of_trx" Grid.Column="1" Text="1"/>
+
+        </Grid>
+        <ComboBox x:Name="bitRateSelect"  HorizontalAlignment="Left" Margin="502,149,0,0" VerticalAlignment="Top" Width="244" Height="33"/>
+        <ComboBox x:Name="heater_mode"  HorizontalAlignment="Left" Margin="331,253,0,0" VerticalAlignment="Top" Width="87" Height="28"/>
+        <ComboBox x:Name="pptModeText"  HorizontalAlignment="Left" Margin="331,116,0,0" VerticalAlignment="Top" Width="87" Height="28"/>
 
     </Grid>
 </UserControl>

@@ -24,7 +24,7 @@ namespace DataModel.EPS
         public static ushort PVVolt = EPSConstants.SOFTWARE_PPT_DEFAULT_V; 
         public static ushort PVCurrentIn = EPSConstants.PV_IN_I_CHARGE_MIN;
         public static ushort PVVboost = EPSConstants.DEFAULT_CONFIG_VBOOST;
-        public static PPTMode PPTmode = PPTMode.FIXED; //TODO
+        public static PPTMode PPTmode = PPTMode.FIXED; //TODO - done
 
         //battery
         public static short BattTemp = EPSConstants.DEFAULT_TEMP; //TODO
