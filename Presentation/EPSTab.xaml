@@ -40,8 +40,8 @@
             <TextBlock x:Name="battStateText" Grid.Row="2" Grid.Column="1" Text="{Binding BattState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <TextBlock x:Name="battCurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="444,101,0,0" TextWrapping="Wrap" Background="Aqua" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <TextBlock x:Name="battCurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="685,101,0,0" TextWrapping="Wrap" Background="Aqua" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" RenderTransformOrigin="0.344,0.63" />
-        <Grid x:Name="batteryHeaterGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="499,269,0,0" VerticalAlignment="Top" Width="181">
+        <TextBlock x:Name="battCurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="67" Margin="685,101,0,0" TextWrapping="Wrap" Background="Aqua" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" RenderTransformOrigin="0.344,0.63" />
+        <Grid x:Name="batteryHeaterGrid" HorizontalAlignment="Left" Background="White" Height="79" Margin="499,269,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -55,13 +55,13 @@
             </Grid.ColumnDefinitions>
             <Label Content="Mode:" Grid.Row="0" Grid.Column="0"/>
             <TextBlock x:Name="heaterModeText" Grid.Row="0" Grid.Column="1" Text="{Binding BattheaterMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Content="Type:" Grid.Row="1" Grid.Column="0"/>
-            <TextBlock x:Name="heaterTypeText" Grid.Row="1" Grid.Column="1" Text="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Status:" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock x:Name="heaterStatusText" Grid.Row="2" Grid.Column="1" Text="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Heater low [degC]:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="heatLowText" Grid.Row="2" Grid.Column="1" Text="{Binding BattheaterLow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Heater high [degC]:" Grid.Row="3" Grid.Column="0"/>
+            <TextBlock x:Name="heatHighText" Grid.Row="3" Grid.Column="1" Text="{Binding BattheaterHigh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
-        <Grid x:Name="channel1Grid" HorizontalAlignment="Left" Background="White" Height="57" Margin="1133,66,-25.2,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channel1Grid" HorizontalAlignment="Left" Background="White" Height="57" Margin="1133,66,-53.2,0" VerticalAlignment="Top" Width="209">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -69,13 +69,19 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Label Content="Voltage:" Grid.Row="0" Grid.Column="0"/>
             <TextBlock x:Name="ch1VoltText" Grid.Row="0" Grid.Column="1" Text="{Binding Path=Volt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
             <Label Content="#Latch-up:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="ch1LatchupText" Grid.Row="1" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="On Delay:" Grid.Row="0" Grid.Column="2"/>
+            <TextBlock x:Name="ch1OnDelText" Grid.Row="0" Grid.Column="3" Text="{Binding OutputInitialOnDelay[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} sec}"/>
+            <Label Content="Off Delay:" Grid.Row="1" Grid.Column="2"/>
+            <TextBlock x:Name="ch1OffDelText" Grid.Row="1" Grid.Column="3" Text="{Binding OutputInitialOffDelay[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} sec}"/>
         </Grid>
-        <Grid x:Name="channel2Grid" HorizontalAlignment="Left" Background="White" Height="55" Margin="1133,172,-25.2,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channel2Grid" HorizontalAlignment="Left" Background="White" Height="55" Margin="1133,172,-53.2,0" VerticalAlignment="Top" Width="209">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -90,7 +96,7 @@
             <Label Content="#Latch-up:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="ch2LatchupText" Grid.Row="1" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="channel3Grid" HorizontalAlignment="Left" Background="White" Height="54" Margin="1133,280,-25.2,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channel3Grid" HorizontalAlignment="Left" Background="White" Height="54" Margin="1133,280,-53.2,0" VerticalAlignment="Top" Width="209">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -104,7 +110,7 @@
             <Label Content="#Latch-up:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="ch3LatchupText" Grid.Row="1" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="channel4Grid" HorizontalAlignment="Left" Background="White" Height="55" Margin="1133,382,-25.2,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channel4Grid" HorizontalAlignment="Left" Background="White" Height="55" Margin="1133,382,-53.2,0" VerticalAlignment="Top" Width="209">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -119,7 +125,7 @@
             <Label Content="#Latch-up:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="ch4LatchupText" Grid.Row="1" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="channel5Grid" HorizontalAlignment="Left" Background="White" Height="53" Margin="1133,481,-25.2,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channel5Grid" HorizontalAlignment="Left" Background="White" Height="53" Margin="1133,481,-53.2,0" VerticalAlignment="Top" Width="209">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -134,7 +140,7 @@
             <Label Content="#Latch-up:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="ch5LatchupText" Grid.Row="1" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="channel6Grid" HorizontalAlignment="Left" Background="White" Height="55" Margin="1133,576,-25.2,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channel6Grid" HorizontalAlignment="Left" Background="White" Height="55" Margin="1133,576,-53.2,0" VerticalAlignment="Top" Width="209">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -149,8 +155,9 @@
             <TextBlock x:Name="ch6LatchupText" Grid.Row="1" Grid.Column="1" Text="{Binding Path=LatchupNum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <Label Content="Photovolatic&#xD;&#xA;Converter" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="196,9,0,0" VerticalAlignment="Top" Width="122" Height="60"/>
-        <Grid x:Name="pv1Grid" HorizontalAlignment="Left" Background="White" Height="54" Margin="196,74,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="pv1Grid" HorizontalAlignment="Left" Background="White" Height="80" Margin="196,101,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -158,19 +165,18 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <!--<Label Content="Current in [mA]:" Grid.Row="0" Grid.Column="0"/>-->
-
-            <!--<Label Content="Current out [mA]:" Grid.Row="1" Grid.Column="0"/>-->
-
             <Label Content="Voltage:" Grid.Row="0" Grid.Column="0"/>
             <TextBlock x:Name="pv1VoltText" Grid.Row="0" Grid.Column="1" Text="{Binding Path=Volt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
             <Label Content="Temperture:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="pv1TempText" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Temperture, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} degC}"/>
+            <Label Content="Vboost:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="pv1VboostText" Grid.Row="2" Grid.Column="1" Text="{Binding Vboost[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
         </Grid>
         <TextBlock x:Name="pv1CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="133,101,0,0" TextWrapping="Wrap" Background="Aqua" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
         <TextBlock x:Name="pv1CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,101,0,0" TextWrapping="Wrap" Background="Aqua" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}"/>
-        <Grid x:Name="pv2Grid" HorizontalAlignment="Left" Background="White" Height="52" Margin="196,200,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="pv2Grid" HorizontalAlignment="Left" Background="White" Height="79" Margin="196,214,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -178,16 +184,18 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-
             <Label Content="Voltage:" Grid.Row="0" Grid.Column="0"/>
             <TextBlock x:Name="pv2VoltText" Grid.Row="0" Grid.Column="1" Text="{Binding Path=Volt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
             <Label Content="Temperture:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="pv2TempText" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Temperture, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} degC}"/>
+            <Label Content="Vboost:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="pv2VboostText" Grid.Row="2" Grid.Column="1" Text="{Binding Vboost[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
         </Grid>
-        <TextBlock x:Name="pv2CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="133,219,0,0" TextWrapping="Wrap" Background="Aqua" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <TextBlock x:Name="pv2CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="133,233,0,0" TextWrapping="Wrap" Background="Aqua" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
         <TextBlock x:Name="pv2CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,219,0,0" TextWrapping="Wrap" Background="Aqua" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <Grid x:Name="pv3Grid" HorizontalAlignment="Left" Background="White" Height="55" Margin="196,330,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="pv3Grid" HorizontalAlignment="Left" Background="White" Height="79" Margin="196,330,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -199,12 +207,14 @@
             <TextBlock x:Name="pv3VoltText" Grid.Row="0" Grid.Column="1" Text="{Binding Path=Volt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
             <Label Content="Temperture:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="pv3TempText" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Temperture, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} degC}"/>
+            <Label Content="Vboost:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="pv3VboostText" Grid.Row="2" Grid.Column="1" Text="{Binding Vboost[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
         </Grid>
         <TextBlock x:Name="pv3CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="133,329,0,0" TextWrapping="Wrap" Background="Aqua" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
         <TextBlock x:Name="pv3CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="383,329,0,0" TextWrapping="Wrap" Background="Aqua" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
         <Label Content="Battery Heater" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="499,221,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
         <Label Content="Channels" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="1133,0,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
-        <Grid x:Name="confGrid" HorizontalAlignment="Left" Background="White" Height="311" Margin="444,472,0,-66.2" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="confGrid" HorizontalAlignment="Left" Background="White" Margin="444,446,0,-42.2" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -227,14 +237,14 @@
             </Grid.ColumnDefinitions>
             <Label Content="PPT mode:" Grid.Row="0" Grid.Column="0"/>
             <TextBlock x:Name="pptModeText" Grid.Row="0" Grid.Column="1" Text="{Binding PptMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Content="Heater mode:" Grid.Row="1" Grid.Column="0"/>
+            <!--<Label Content="Heater mode:" Grid.Row="1" Grid.Column="0"/>
             <TextBlock x:Name="heatModeText" Grid.Row="1" Grid.Column="1" Text="{Binding BattheaterMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Heater low [degC]:" Grid.Row="2" Grid.Column="0"/>
+            <<Label Content="Heater low [degC]:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="heatLowText" Grid.Row="2" Grid.Column="1" Text="{Binding BattheaterLow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Heater high [degC]:" Grid.Row="3" Grid.Column="0"/>
-            <TextBlock x:Name="heatHighText" Grid.Row="3" Grid.Column="1" Text="{Binding BattheaterHigh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Normal output:" Grid.Row="4" Grid.Column="0"/>
-            <Grid x:Name="normalOutGrid" Grid.Row="4" Grid.Column="1">
+            <TextBlock x:Name="heatHighText" Grid.Row="3" Grid.Column="1" Text="{Binding BattheaterHigh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+            <Label Content="Normal output:" Grid.Row="1" Grid.Column="0"/>
+            <Grid x:Name="normalOutGrid" Grid.Row="1" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -245,17 +255,17 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding OutputNormalValue[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding OutputNormalValue[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding OutputNormalValue[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding OutputNormalValue[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding OutputNormalValue[4], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding OutputNormalValue[5], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding OutputNormalValue[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="7" Text="{Binding OutputNormalValue[7], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding OutputNormalValue[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding OutputNormalValue[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding OutputNormalValue[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
+                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding OutputNormalValue[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
+                <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding OutputNormalValue[4], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
+                <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding OutputNormalValue[5], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
+                <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding OutputNormalValue[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
+                <TextBlock Grid.Row="0" Grid.Column="7" Text="{Binding OutputNormalValue[7], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
             </Grid>
-            <Label Content="Safe output:" Grid.Row="5" Grid.Column="0"/>
-            <Grid x:Name="safeOutGrid" Grid.Row="5" Grid.Column="1">
+            <Label Content="Safe output:" Grid.Row="2" Grid.Column="0"/>
+            <Grid x:Name="safeOutGrid" Grid.Row="2" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -275,8 +285,8 @@
                 <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding OutputSafeValue[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Row="0" Grid.Column="7" Text="{Binding OutputSafeValue[7], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
-            <Label Content="On delays [sec]:" Grid.Row="6" Grid.Column="0"/>
-            <Grid x:Name="onDelaysGrid" Grid.Row="6" Grid.Column="1">
+            <Label Content="On delays [sec]:" Grid.Row="3" Grid.Column="0"/>
+            <Grid x:Name="onDelaysGrid" Grid.Row="3" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -296,8 +306,8 @@
                 <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding OutputInitialOnDelay[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Row="0" Grid.Column="7" Text="{Binding OutputInitialOnDelay[7], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
-            <Label Content="Off delays [sec]:" Grid.Row="7" Grid.Column="0"/>
-            <Grid x:Name="offDelaysGrid" Grid.Row="7" Grid.Column="1">
+            <Label Content="Off delays [sec]:" Grid.Row="4" Grid.Column="0"/>
+            <Grid x:Name="offDelaysGrid" Grid.Row="4" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
@@ -328,16 +338,22 @@
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Vboost[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Vboost[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>-->
-            <Label Content="Max voltage [mV]:" Grid.Row="9" Grid.Column="0"/>
-            <TextBlock x:Name="maxVoltText" Grid.Row="9" Grid.Column="1" Text="{Binding BattMaxVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Safe voltage [mV]:" Grid.Row="10" Grid.Column="0"/>
-            <TextBlock x:Name="safeVoltText" Grid.Row="10" Grid.Column="1" Text="{Binding BattSafeVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Critical voltage [mV]:" Grid.Row="11" Grid.Column="0"/>
-            <TextBlock x:Name="criticalVoltText" Grid.Row="11" Grid.Column="1" Text="{Binding BattCriticalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Normal voltage [mV]:" Grid.Row="12" Grid.Column="0"/>
-            <TextBlock x:Name="normalVoltText" Grid.Row="12" Grid.Column="1" Text="{Binding BattNormalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Max voltage [mV]:" Grid.Row="5" Grid.Column="0"/>
+            <TextBlock x:Name="maxVoltText" Grid.Row="5" Grid.Column="1" Text="{Binding BattMaxVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Safe voltage [mV]:" Grid.Row="6" Grid.Column="0"/>
+            <TextBlock x:Name="safeVoltText" Grid.Row="6" Grid.Column="1" Text="{Binding BattSafeVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Critical voltage [mV]:" Grid.Row="7" Grid.Column="0"/>
+            <TextBlock x:Name="criticalVoltText" Grid.Row="7" Grid.Column="1" Text="{Binding BattCriticalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Normal voltage [mV]:" Grid.Row="8" Grid.Column="0"/>
+            <TextBlock x:Name="normalVoltText" Grid.Row="8" Grid.Column="1" Text="{Binding BattNormalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Last Reset:" Grid.Row="9" Grid.Column="0"/>
+            <TextBlock x:Name="lastResetText" Grid.Row="9" Grid.Column="1" Text="{Binding LastResetCause, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="#Reboots:" Grid.Row="10" Grid.Column="0"/>
+            <TextBlock x:Name="numRebootText" Grid.Row="10" Grid.Column="1" Text="{Binding RebootCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="#Errors:" Grid.Row="11" Grid.Column="0"/>
+            <TextBlock x:Name="numErrorsText" Grid.Row="11" Grid.Column="1" Text="{Binding SwErrors, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Label Content="Configuration" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="444,433,0,0" VerticalAlignment="Top" Width="140" Height="41"/>
+        <Label Content="More Info" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="444,407,0,0" VerticalAlignment="Top" Width="140" Height="41"/>
         <Grid x:Name="wdtI2CGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="26,486,0,0" VerticalAlignment="Top" Width="149">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -430,9 +446,9 @@
         <Image x:Name="sunmoon3Pic" HorizontalAlignment="Left" Height="68" Margin="5,325,0,0" VerticalAlignment="Top" Width="66" Source="Images/moon.png"/>
         <Image HorizontalAlignment="Left" Height="64" Margin="55,329,0,0" VerticalAlignment="Top" Width="98" Source="Images/solar_panel.png" RenderTransformOrigin="0.429,0.493"/>
         <Button x:Name="panel3Button" Content="ON" HorizontalAlignment="Left" Margin="12,401,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Panel3Button_Click"/>
-        <Button x:Name="battHeaterButton" Content="ON" HorizontalAlignment="Left" Margin="565,365,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="BattHeaterButton_Click"/>
-        <Label Content="Kill Switch" Background="Yellow" HorizontalAlignment="Left" Margin="752,69,0,0" VerticalAlignment="Top" Height="47" Width="82"/>
-        <Button Content="ON" HorizontalAlignment="Left" Margin="772,128,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615"/>
+        <Button x:Name="battHeaterButton" Content="ON" HorizontalAlignment="Left" Margin="565,353,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="BattHeaterButton_Click"/>
+        <Label Content="Kill Switch" Background="Yellow" HorizontalAlignment="Left" Margin="774,67,0,0" VerticalAlignment="Top" Height="47" Width="82"/>
+        <!--<Button Content="ON" HorizontalAlignment="Left" Margin="794,126,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615"/>-->
         <Label Content="Power Conditioning&#xD;&#xA;3.3V" Background="Yellow" HorizontalAlignment="Left" Margin="899,66,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
         <Label Content="Power Conditioning&#xA;5V" Background="Yellow" HorizontalAlignment="Left" Margin="899,163,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
         <Button x:Name="ch1Button" Content="ON" HorizontalAlignment="Left" Margin="1189,39,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch1Button_Click"/>
@@ -447,7 +463,7 @@
         <Label Content="5V2" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1133,453,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
         <Button x:Name="ch6Button" Content="ON" HorizontalAlignment="Left" Margin="1189,553,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch6Button_Click"/>
         <Label Content="5V3" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1133,548,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
-        <Grid x:Name="channelQSGrid" HorizontalAlignment="Left" Background="White" Height="25" Margin="1133,674,-25.2,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channelQSGrid" HorizontalAlignment="Left" Background="White" Height="25" Margin="1133,674,-53.2,0" VerticalAlignment="Top" Width="209">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -456,12 +472,12 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label Content="Voltage:" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,41.2,-0.4" Grid.RowSpan="2"/>
+            <Label Content="Voltage:" Grid.Row="0" Grid.Column="0"/>
             <TextBlock x:Name="qsVoltText" Grid.Row="0" Grid.Column="1" Text="{Binding Volt, Mode=TwoWay, StringFormat=\{0\} mV, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Margin="1.2,0,40.2,-0.4" Grid.RowSpan="2"/>
         </Grid>
         <Button x:Name="qsButton" Content="ON" HorizontalAlignment="Left" Margin="1189,651,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QsButton_Click"/>
         <Label Content="QS" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1133,646,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
-        <Grid x:Name="channelQHGrid" HorizontalAlignment="Left" Background="White" Height="25" Margin="1133,732,-25.2,-40.2" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="channelQHGrid" HorizontalAlignment="Left" Background="White" Height="25" Margin="1133,732,-53.2,-40.2" VerticalAlignment="Top" Width="209">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -475,5 +491,8 @@
         </Grid>
         <Button x:Name="qhButton" Content="ON" HorizontalAlignment="Left" Margin="1189,709,0,-11.2" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QhButton_Click"/>
         <Label Content="QH" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1133,704,0,-19.2" VerticalAlignment="Top" Width="51" Height="32"/>
+        <Label Content="PV1" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,67,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
+        <Label Content="PV2" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,182,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
+        <Label Content="PV3" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,298,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
     </Grid>
 </UserControl>

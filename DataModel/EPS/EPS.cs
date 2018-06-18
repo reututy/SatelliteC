@@ -436,10 +436,10 @@ namespace DataModel.EPS
                 EPSStartValues.BattHeaterLow, EPSStartValues.BattHeaterHigh, output_normal_value, output_safe_value,
                 output_initial_on_delay, output_initial_off_delay, vboost);
 
-            CurrentConfig.BattSafeVoltage = EPSConstants.SAFE_VBAT;
-            CurrentConfig.BattNormalVoltage = EPSConstants.NORMAL_VBAT;
-            CurrentConfig.BattMaxVoltage = EPSConstants.MAX_VBAT;
-            CurrentConfig.BattCriticalVoltage = EPSConstants.CRITICAL_VBAT;
+            CurrentConfig.BattSafeVoltage = EPSStartValues.BattSafeVolt;
+            CurrentConfig.BattNormalVoltage = EPSStartValues.BattNormalVolt;
+            CurrentConfig.BattMaxVoltage = EPSStartValues.BattMaxVolt;
+            CurrentConfig.BattCriticalVoltage = EPSStartValues.BattCriticalVolt;
 
             BatteryHeaters = new BatteryHeater[2];
             BatteryHeaters[EPSConstants.ONBOARD_HEATER] = new BatteryHeater(HeaterType.ONBOARD, EPSStartValues.BattHeaterStatus);
@@ -614,8 +614,8 @@ namespace DataModel.EPS
             }
             ans.pc = photoCurrent;
             ans.temp[i] = OnboardBattery.Temperture;
-            ans.batt_temp[0] = OnboardBattery.Temperture; // external - need to change
-            ans.batt_temp[1] = OnboardBattery.Temperture; // external - need to change
+            ans.batt_temp[0] = 0; // external - need to change
+            ans.batt_temp[1] = 0; // external - need to change
             for (i = 0; i < 6; i++)
                 ans.latchup[i] = ((Channel)Outputs[i]).LatchupNum;
             ans.reset = LastResetCause;
@@ -625,7 +625,7 @@ namespace DataModel.EPS
             byte channel_status = 0; //Mask of output channel status, 1=on, 0=off
             for (i = 0; i < 8; i++)
             {
-                if (Outputs[i].Status == 1) //need to be changed to 'ON'
+                if (Outputs[i].Status == EPSConstants.ON) 
                 {
                     channel_status = (byte)(channel_status | (1 << i));
                 }
