@@ -14,6 +14,9 @@
         <Style x:Key="myCurrentStyle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="Red" />
         </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.Background>
@@ -31,8 +34,8 @@
         </DockPanel>
 
         <Button x:Name="chargeDischargeButton" Content="Charge" Foreground="White" Background="Green" FontSize="18" HorizontalAlignment="Left" Margin="70,607,0,0" VerticalAlignment="Top" Width="122" Height="43" Click="ChargeButton_Click"/>
-        <Label Content="Battery" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="499,28,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
-        <Grid x:Name="batteryGrid" HorizontalAlignment="Left" Background="White" Height="78" Margin="499,74,0,0" VerticalAlignment="Top" Width="181">
+        <Label Content="Battery" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="525,48,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
+        <Grid x:Name="batteryGrid" HorizontalAlignment="Left" Background="White" Height="78" Margin="525,94,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -49,9 +52,9 @@
             <Label Content="Battery State:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="battStateText" Grid.Row="2" Grid.Column="1" Text="{Binding BattState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <TextBlock x:Name="battCurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="444,101,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <TextBlock x:Name="battCurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="67" Margin="685,101,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" RenderTransformOrigin="0.344,0.63" />
-        <Grid x:Name="batteryHeaterGrid" HorizontalAlignment="Left" Background="White" Height="79" Margin="499,269,0,0" VerticalAlignment="Top" Width="181">
+        <TextBlock x:Name="battCurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="470,121,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <TextBlock x:Name="battCurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="67" Margin="711,121,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" RenderTransformOrigin="0.344,0.63" />
+        <Grid x:Name="batteryHeaterGrid" HorizontalAlignment="Left" Background="White" Height="79" Margin="525,289,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -209,9 +212,9 @@
             <Label Content="Vboost:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="pv1VboostText" Grid.Row="2" Grid.Column="1" Text="{Binding Vboost[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
         </Grid>
-        <TextBlock x:Name="pv1CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="133,101,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <TextBlock x:Name="pv1CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,101,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}"/>
-        <Grid x:Name="pv2Grid" HorizontalAlignment="Left" Background="White" Height="79" Margin="196,214,0,0" VerticalAlignment="Top" Width="181">
+        <TextBlock x:Name="pv1CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="143,125,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <TextBlock x:Name="pv1CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,125,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}"/>
+        <Grid x:Name="pv2Grid" HorizontalAlignment="Left" Background="White" Height="79" Margin="196,218,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -228,9 +231,9 @@
             <Label Content="Vboost:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="pv2VboostText" Grid.Row="2" Grid.Column="1" Text="{Binding Vboost[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
         </Grid>
-        <TextBlock x:Name="pv2CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="133,233,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <TextBlock x:Name="pv2CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,219,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <Grid x:Name="pv3Grid" HorizontalAlignment="Left" Background="White" Height="79" Margin="196,330,0,0" VerticalAlignment="Top" Width="181">
+        <TextBlock x:Name="pv2CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="143,237,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <TextBlock x:Name="pv2CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,237,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <Grid x:Name="pv3Grid" HorizontalAlignment="Left" Background="White" Height="79" Margin="196,336,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -247,14 +250,12 @@
             <Label Content="Vboost:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="pv3VboostText" Grid.Row="2" Grid.Column="1" Text="{Binding Vboost[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
         </Grid>
-        <TextBlock x:Name="pv3CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="133,329,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <TextBlock x:Name="pv3CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="383,329,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <Label Content="Battery Heater" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="499,221,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
+        <TextBlock x:Name="pv3CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="143,353,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <TextBlock x:Name="pv3CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,353,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <Label Content="Battery Heater" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="525,241,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
         <Label Content="Channels" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="1133,0,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
-        <Grid x:Name="confGrid" HorizontalAlignment="Left" Background="White" Margin="793,427,0,29.8" Width="181">
+        <Grid x:Name="confGrid" HorizontalAlignment="Left" Background="White" Margin="685,429,0,28" Width="181">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -383,15 +384,15 @@
             <TextBlock x:Name="criticalVoltText" Grid.Row="7" Grid.Column="1" Text="{Binding BattCriticalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Normal voltage [mV]:" Grid.Row="8" Grid.Column="0"/>
             <TextBlock x:Name="normalVoltText" Grid.Row="8" Grid.Column="1" Text="{Binding BattNormalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Last Reset:" Grid.Row="9" Grid.Column="0"/>
+            <Label Content="Last reset:" Grid.Row="9" Grid.Column="0"/>
             <TextBlock x:Name="lastResetText" Grid.Row="9" Grid.Column="1" Text="{Binding LastResetCause, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="#Reboots:" Grid.Row="10" Grid.Column="0"/>
             <TextBlock x:Name="numRebootText" Grid.Row="10" Grid.Column="1" Text="{Binding RebootCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="#Errors:" Grid.Row="11" Grid.Column="0"/>
             <TextBlock x:Name="numErrorsText" Grid.Row="11" Grid.Column="1" Text="{Binding SwErrors, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Label Content="More Info" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="793,388,0,0" VerticalAlignment="Top" Width="140" Height="41"/>
-        <Grid x:Name="wdtI2CGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="402,484,0,0" VerticalAlignment="Top" Width="149">
+        <Label Content="More Info" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="685,390,0,0" VerticalAlignment="Top" Width="140" Height="41"/>
+        <Grid x:Name="wdtI2CGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="294,492,0,0" VerticalAlignment="Top" Width="149">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -410,8 +411,8 @@
             <Label Content="Time left [sec]:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="i2cTimeText" Grid.Row="2" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Label Content="WDTs" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="402,431,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
-        <Grid x:Name="wdtGNDGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="580,484,0,0" VerticalAlignment="Top" Width="149">
+        <Label Content="WDTs" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="294,439,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
+        <Grid x:Name="wdtGNDGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="472,492,0,0" VerticalAlignment="Top" Width="149">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -430,7 +431,7 @@
             <Label Content="Time left [sec]:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="gndTimeText" Grid.Row="2" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="wdtCSP1Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="580,582,0,0" VerticalAlignment="Top" Width="149">
+        <Grid x:Name="wdtCSP1Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="472,590,0,0" VerticalAlignment="Top" Width="149">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -451,7 +452,7 @@
             <Label Content="Time to ping [sec]:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock x:Name="csp1TimeText" Grid.Row="3" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid x:Name="wdtCSP0Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="402,582,0,0" VerticalAlignment="Top" Width="149">
+        <Grid x:Name="wdtCSP0Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="294,590,0,0" VerticalAlignment="Top" Width="149">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -483,11 +484,11 @@
         <Image x:Name="sunmoon3Pic" HorizontalAlignment="Left" Height="68" Margin="5,325,0,0" VerticalAlignment="Top" Width="66" Source="Images/moon.png"/>
         <Image HorizontalAlignment="Left" Height="64" Margin="55,329,0,0" VerticalAlignment="Top" Width="98" Source="Images/solar_panel.png" RenderTransformOrigin="0.429,0.493"/>
         <Button x:Name="panel3Button" Content="ON" HorizontalAlignment="Left" Margin="12,401,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Panel3Button_Click"/>
-        <Button x:Name="battHeaterButton" Content="ON" HorizontalAlignment="Left" Margin="565,353,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="BattHeaterButton_Click"/>
-        <Label Content="Kill Switch" Background="Yellow" HorizontalAlignment="Left" Margin="802,81,0,0" VerticalAlignment="Top" Height="47" Width="82"/>
+        <Button x:Name="battHeaterButton" Content="ON" HorizontalAlignment="Left" Margin="591,373,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="BattHeaterButton_Click"/>
+        <Label Content="Kill Switch" Background="Yellow" HorizontalAlignment="Left" Margin="810,85,0,0" VerticalAlignment="Top" Height="47" Width="82"/>
         <!--<Button Content="ON" HorizontalAlignment="Left" Margin="794,126,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615"/>-->
-        <Label Content="Power Conditioning&#xD;&#xA;3.3V" Background="Yellow" HorizontalAlignment="Left" Margin="927,80,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
-        <Label Content="Power Conditioning&#xA;5V" Background="Yellow" HorizontalAlignment="Left" Margin="927,177,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
+        <Label Content="Power Conditioning&#xD;&#xA;3.3V" Background="Yellow" HorizontalAlignment="Left" Margin="935,84,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
+        <Label Content="Power Conditioning&#xA;5V" Background="Yellow" HorizontalAlignment="Left" Margin="935,181,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
         <Button x:Name="ch1Button" Content="ON" HorizontalAlignment="Left" Margin="1189,39,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch1Button_Click"/>
         <Label Content="3.3V1" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1133,34,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
         <Button x:Name="ch2Button" Content="ON" HorizontalAlignment="Left" Margin="1189,145,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch2Button_Click" />
@@ -541,8 +542,8 @@
         <Button x:Name="qhButton" Content="ON" HorizontalAlignment="Left" Margin="1189,709,0,-11.2" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QhButton_Click"/>
         <Label Content="QH" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1133,704,0,-19.2" VerticalAlignment="Top" Width="51" Height="32"/>
         <Label Content="PV1" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,67,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
-        <Label Content="PV2" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,182,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
-        <Label Content="PV3" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,298,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
+        <Label Content="PV2" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,186,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
+        <Label Content="PV3" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,304,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
         <TextBlock x:Name="ch1CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1347,77,-116.2,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock x:Name="ch2CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1347,182,-116.2,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock x:Name="ch3CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1347,298,-116.2,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
