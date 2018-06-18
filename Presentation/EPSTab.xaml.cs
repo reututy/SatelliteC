@@ -59,14 +59,19 @@ namespace Presentation
             pv1Grid.DataContext = converter1;
             pv1CurrInText.DataContext = converter1;
             pv1CurrOutText.DataContext = converter1;
+            pv1VboostText.DataContext = currConfig;
             pv2Grid.DataContext = converter2;
             pv2CurrInText.DataContext = converter2;
             pv2CurrOutText.DataContext = converter2;
+            pv2VboostText.DataContext = currConfig;
             pv3Grid.DataContext = converter3;
             pv3CurrInText.DataContext = converter3;
             pv3CurrOutText.DataContext = converter3;
+            pv3VboostText.DataContext = currConfig;
             //channels
             channel1Grid.DataContext = channel1;
+            ch1OnDelText.DataContext = currConfig;
+            ch1OffDelText.DataContext = currConfig;
             channel2Grid.DataContext = channel2;
             channel3Grid.DataContext = channel3;
             channel4Grid.DataContext = channel4;
@@ -79,6 +84,8 @@ namespace Presentation
             //battery heater
             batteryHeaterGrid.DataContext = heater;
             heaterModeText.DataContext = currConfig;
+            heatLowText.DataContext = currConfig;
+            heatHighText.DataContext = currConfig;
             //WDTs
             wdtI2CGrid.DataContext = i2c;
             wdtGNDGrid.DataContext = gnd;

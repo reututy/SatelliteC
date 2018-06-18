@@ -43,10 +43,10 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Label Content="Photovolatic converters" Grid.Row="0" Grid.Column="0"/>
-            <Label Content="Initial Temperture:" Grid.Row="1" Grid.Column="0"/>
+            <Label Content="Initial Temperature:" Grid.Row="1" Grid.Column="0"/>
             <TextBox x:Name="pvTempText" Grid.Row="1" Grid.Column="1" />
             <Label Content="PPTmode:" Grid.Row="2" Grid.Column="0"/>
-            <TextBox x:Name="pptModeText" Grid.Row="2" Grid.Column="1" Text="{Binding PPTmode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox x:Name="pptModeText" Grid.Row="2" Grid.Column="1"/>
 
         </Grid>
         <Button Content="UPDATE" HorizontalAlignment="Left" Margin="532,233,0,0" VerticalAlignment="Top" Width="96" Click="Update_Click" Height="42"/>
