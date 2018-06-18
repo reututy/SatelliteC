@@ -72,13 +72,40 @@ namespace Presentation
             channel1Grid.DataContext = channel1;
             ch1OnDelText.DataContext = currConfig;
             ch1OffDelText.DataContext = currConfig;
+            ch1CurrOutText.DataContext = channel1;
+
             channel2Grid.DataContext = channel2;
+            ch2OnDelText.DataContext = currConfig;
+            ch2OffDelText.DataContext = currConfig;
+            ch2CurrOutText.DataContext = channel2;
+
             channel3Grid.DataContext = channel3;
+            ch3OnDelText.DataContext = currConfig;
+            ch3OffDelText.DataContext = currConfig;
+            ch3CurrOutText.DataContext = channel3;
+
             channel4Grid.DataContext = channel4;
+            ch4OnDelText.DataContext = currConfig;
+            ch4OffDelText.DataContext = currConfig;
+            ch4CurrOutText.DataContext = channel4;
+
             channel5Grid.DataContext = channel5;
+            ch5OnDelText.DataContext = currConfig;
+            ch5OffDelText.DataContext = currConfig;
+            ch5CurrOutText.DataContext = channel5;
+
             channel6Grid.DataContext = channel6;
+            ch6OnDelText.DataContext = currConfig;
+            ch6OffDelText.DataContext = currConfig;
+            ch6CurrOutText.DataContext = channel6;
+
             channelQSGrid.DataContext = qs;
+            qsOnDelText.DataContext = currConfig;
+            qsOffDelText.DataContext = currConfig;
+
             channelQHGrid.DataContext = qh;
+            qhOnDelText.DataContext = currConfig;
+            qhOffDelText.DataContext = currConfig;
             //current config
             confGrid.DataContext = currConfig;
             //battery heater
@@ -118,18 +145,40 @@ namespace Presentation
 
         private void ChargeButton_Click(object sender, RoutedEventArgs e)
         {
-            eps.IsCharging = !eps.IsCharging;
+            //eps.IsCharging = !eps.IsCharging;
             if (chargeDischargeButton.Content.Equals("Charge"))
             {
                 chargeDischargeButton.Content = "Discharge";
                 chargeDischargeButton.Background = new SolidColorBrush(Colors.Red);
-                
+
+                panel1Button.Content = "OFF";
+                sunmoon1Pic.Source = new BitmapImage(new Uri("Images/sun.png", UriKind.Relative));
+                eps.BoostConverters[0].IsSun = true;
+
+                panel2Button.Content = "OFF";
+                sunmoon2Pic.Source = new BitmapImage(new Uri("Images/sun.png", UriKind.Relative));
+                eps.BoostConverters[1].IsSun = true;
+
+                panel3Button.Content = "OFF";
+                sunmoon3Pic.Source = new BitmapImage(new Uri("Images/sun.png", UriKind.Relative));
+                eps.BoostConverters[2].IsSun = true;
             }
             else
             {
                 chargeDischargeButton.Content = "Charge";
                 chargeDischargeButton.Background = new SolidColorBrush(Colors.Green);
-                
+
+                panel1Button.Content = "ON";
+                sunmoon1Pic.Source = new BitmapImage(new Uri("Images/moon.png", UriKind.Relative));
+                eps.BoostConverters[0].IsSun = false;
+
+                panel2Button.Content = "ON";
+                sunmoon2Pic.Source = new BitmapImage(new Uri("Images/moon.png", UriKind.Relative));
+                eps.BoostConverters[1].IsSun = false;
+
+                panel3Button.Content = "ON";
+                sunmoon3Pic.Source = new BitmapImage(new Uri("Images/moon.png", UriKind.Relative));
+                eps.BoostConverters[2].IsSun = false;
             }
 
             //eps.ChargingFlow();
