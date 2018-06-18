@@ -42,7 +42,10 @@ namespace DataModel.EPS
             }
             set
             {
-                _currentIn = value;
+                if (value>=0 && value <= EPSConstants.BAT_CONNECT_I_DISCHARGE_THRESHOLD)
+                {
+                    _currentIn = value;
+                }
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("CurrentIn"));
@@ -59,7 +62,10 @@ namespace DataModel.EPS
             }
             set
             {
-                _currentOut = value;
+                if (value >= 0)
+                {
+                    _currentOut = value;
+                } 
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("CurrentOut"));
