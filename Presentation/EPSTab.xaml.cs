@@ -73,39 +73,47 @@ namespace Presentation
             ch1OnDelText.DataContext = currConfig;
             ch1OffDelText.DataContext = currConfig;
             ch1CurrOutText.DataContext = channel1;
+            ch1Light.DataContext = channel1;
 
             channel2Grid.DataContext = channel2;
             ch2OnDelText.DataContext = currConfig;
             ch2OffDelText.DataContext = currConfig;
             ch2CurrOutText.DataContext = channel2;
+            ch2Light.DataContext = channel2;
 
             channel3Grid.DataContext = channel3;
             ch3OnDelText.DataContext = currConfig;
             ch3OffDelText.DataContext = currConfig;
             ch3CurrOutText.DataContext = channel3;
+            ch3Light.DataContext = channel3;
 
             channel4Grid.DataContext = channel4;
             ch4OnDelText.DataContext = currConfig;
             ch4OffDelText.DataContext = currConfig;
             ch4CurrOutText.DataContext = channel4;
+            ch4Light.DataContext = channel4;
 
             channel5Grid.DataContext = channel5;
             ch5OnDelText.DataContext = currConfig;
             ch5OffDelText.DataContext = currConfig;
             ch5CurrOutText.DataContext = channel5;
+            ch5Light.DataContext = channel5;
 
             channel6Grid.DataContext = channel6;
             ch6OnDelText.DataContext = currConfig;
             ch6OffDelText.DataContext = currConfig;
             ch6CurrOutText.DataContext = channel6;
+            ch6Light.DataContext = channel6;
 
             channelQSGrid.DataContext = qs;
             qsOnDelText.DataContext = currConfig;
             qsOffDelText.DataContext = currConfig;
+            qsLight.DataContext = qs;
 
             channelQHGrid.DataContext = qh;
             qhOnDelText.DataContext = currConfig;
             qhOffDelText.DataContext = currConfig;
+            qhLight.DataContext = qh;
             //current config
             confGrid.DataContext = currConfig;
             //battery heater
@@ -128,7 +136,7 @@ namespace Presentation
             // Create a timer
             myTimer = new System.Timers.Timer();
             // Tell the timer what to do when it elapses
-            myTimer.Elapsed += new ElapsedEventHandler(myEvent);
+            myTimer.Elapsed += new ElapsedEventHandler(MyEvent);
             // Set it to go off every five seconds
             myTimer.Interval = 1000;
             // And start it        
@@ -138,7 +146,7 @@ namespace Presentation
             
 
         }
-        private void myEvent(object source, ElapsedEventArgs e)
+        private void MyEvent(object source, ElapsedEventArgs e)
         {
             eps.RunEPS();
         }
@@ -254,11 +262,13 @@ namespace Presentation
             {
                 battHeaterButton.Content = "OFF";
                 eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = EPSConstants.ON;
+                battHeatBorder.BorderBrush = new SolidColorBrush(Colors.OrangeRed);
             }
             else
             {
                 battHeaterButton.Content = "ON";
                 eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = EPSConstants.OFF;
+                battHeatBorder.BorderBrush = new SolidColorBrush(Colors.DarkBlue);
             }
         }
 
@@ -369,6 +379,20 @@ namespace Presentation
             {
                 qhButton.Content = "ON";
                 eps.Outputs[(int)OutputType.T_QH].Status = EPSConstants.OFF;
+            }
+        }
+
+        private void KillSwitchButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (killSwitchButton.Content.Equals("ON"))
+            {
+                killSwitchButton.Content = "OFF";
+                eps.KillSwitchStatus = EPSConstants.ON;
+            }
+            else
+            {
+                killSwitchButton.Content = "ON";
+                eps.KillSwitchStatus = EPSConstants.OFF;
             }
         }
     }

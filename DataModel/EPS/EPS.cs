@@ -23,8 +23,9 @@ namespace DataModel.EPS
         //public EPSConfiguration DefaultConfig { get; set; }
         //public ushort[] curout { get; set; } //! Current out (switchable outputs) [mA]
         public byte KillSwitchStatus { get; set; } //ON or OFF
-        public bool IsCharging { get; set; } 
-        public bool IsFull { get; set; } 
+        public bool IsCharging { get; set; }
+        public bool IsFull { get; set; }
+        public byte LastOutputMask {get; set; }
 
         public EPS()
         {
@@ -39,7 +40,7 @@ namespace DataModel.EPS
             ChargingFlow();
             BatteryDrop();
             CheckBatteryState();
-            //CheckKillSwitch();
+            CheckKillSwitch();
             CheckBatteryHeater();
             RunWDTs();
         }
@@ -221,12 +222,30 @@ namespace DataModel.EPS
         {
             if (KillSwitchStatus == EPSConstants.OFF)
             {
-                SET_OUTPUT(0);
+                /*for (int i =0; i< 8; i++)
+                {
+                    Outputs[i].Status = EPSConstants.OFF;
+                }*/
+                SetAllOutputs(0);
             }
             else //KillSwitchStatus == EPSConstants.ON
             {
-                SET_OUTPUT(54);
+                LastOutputMask = SetAllOutputs(LastOutputMask);
             }
+        }
+
+        private byte SetAllOutputs(byte mask)
+        {
+            byte afterByte = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                if ((mask & (1 << i)) != 0)
+                    Outputs[i].Status = EPSConstants.ON;
+                else
+                    Outputs[i].Status = EPSConstants.OFF;
+                afterByte |= (byte)(Outputs[i].Status << i);
+            }
+            return afterByte;
         }
 
         public void CheckBatteryHeater()
@@ -352,35 +371,38 @@ namespace DataModel.EPS
         {
             Outputs = new Output[8];
             int i = 0;
+            byte status = EPSStartValues.OutputState;
             for (i = 0; i < 8; i++)
             {
                 switch (i)
                 {
                     case (int)OutputType.T_5V1:
-                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_5V1, EPSStartValues.OutputVolt5V, EPSStartValues.OutputCurrOut);
+                        Outputs[i] = new Channel(status, OutputType.T_5V1, EPSStartValues.OutputVolt5V, EPSStartValues.OutputCurrOut);
+                        
                         break;
                     case (int)OutputType.T_5V2:
-                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_5V2, EPSStartValues.OutputVolt5V, EPSStartValues.OutputCurrOut);
+                        Outputs[i] = new Channel(status, OutputType.T_5V2, EPSStartValues.OutputVolt5V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_5V3:
-                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_5V3, EPSStartValues.OutputVolt5V, EPSStartValues.OutputCurrOut);
+                        Outputs[i] = new Channel(status, OutputType.T_5V3, EPSStartValues.OutputVolt5V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_3_3V1:
-                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_3_3V1, EPSStartValues.OutputVolt3_3V, EPSStartValues.OutputCurrOut);
+                        Outputs[i] = new Channel(status, OutputType.T_3_3V1, EPSStartValues.OutputVolt3_3V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_3_3V2:
-                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_3_3V2, EPSStartValues.OutputVolt3_3V, EPSStartValues.OutputCurrOut);
+                        Outputs[i] = new Channel(status, OutputType.T_3_3V2, EPSStartValues.OutputVolt3_3V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_3_3V3:
-                        Outputs[i] = new Channel(EPSStartValues.OutputState, OutputType.T_3_3V3, EPSStartValues.OutputVolt3_3V, EPSStartValues.OutputCurrOut);
+                        Outputs[i] = new Channel(status, OutputType.T_3_3V3, EPSStartValues.OutputVolt3_3V, EPSStartValues.OutputCurrOut);
                         break;
                     case (int)OutputType.T_QS:
-                        Outputs[i] = new Output(EPSStartValues.OutputState, OutputType.T_QS, 0);
+                        Outputs[i] = new Output(status, OutputType.T_QS, 0);
                         break;
                     case (int)OutputType.T_QH:
-                        Outputs[i] = new Output(EPSStartValues.OutputState, OutputType.T_QH, 0);
+                        Outputs[i] = new Output(status, OutputType.T_QH, 0);
                         break;
                 }
+                LastOutputMask |= (byte)(status << i);
             }
             BoostConverters = new BoostConverter[3];
             for (i = 0; i < 3; i++)
@@ -787,27 +809,26 @@ namespace DataModel.EPS
          * controlled through this command) [NC NC 3.3V3 3.3V2 3.3V1 5V3 5V2 5V1] */
         public void SET_OUTPUT(byte output_byte) 
         {
-            //?? if less than 2 channels - invalid action
-            for (int i = 0; i< 8; i++)
-            {
-                if ((output_byte & (1 << i)) != 0)
-                    Outputs[i].Status = EPSConstants.ON;
-                else
-                    Outputs[i].Status = EPSConstants.OFF;
-            }
+            output_byte |= (byte)(Outputs[6].Status << 6); //QS
+            output_byte |= (byte)(Outputs[7].Status << 7); //HS
+            SetAllOutputs(output_byte);
+            LastOutputMask = output_byte;
         }
 
          /* Set output %channel% to value %value% with delay %dela%,
          * Channel (0-5), Quadbat  heater (6), Quadbat switch (7) Value 0 = Off, 1 = On Delay in seconds.*/
         public void SET_SINGLE_OUTPUT(byte channel, byte value, ushort delay)
         {
-            //?? if less than 2 channels - invalid action
-            //Task.Factory.StartNew(() => Thread.Sleep(delay * 1000))
-            //.ContinueWith((t) =>
-            //{
-                Outputs[channel].Status = value;
-            //}, TaskScheduler.FromCurrentSynchronizationContext());
-            
+            Outputs[channel].Status = value;
+            if (value == 0)
+            {
+                LastOutputMask &= (byte)~(1 << channel);
+            }
+            else
+            {
+                LastOutputMask |= (byte)(1 << channel);
+            }
+               
         }
 
         /*Set the voltage on the photo-voltaic inputs V1, V2, V3 in mV.
@@ -988,7 +1009,7 @@ namespace DataModel.EPS
 	         * This will switch off power to all systems, both internal and external for 100ms.*/
 	        KillSwitchStatus = EPSConstants.OFF;
 
-            SET_OUTPUT(0);
+            //SET_OUTPUT(0);
 
             //delay_sec(0.1);
             Thread.Sleep(100);

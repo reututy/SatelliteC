@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Presentation"
              mc:Ignorable="d">
     <UserControl.Resources>
+        <local:ChannelLightConverter x:Key="ChannelLightConverter" />
         <Style TargetType="Button">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Background" Value="LightSkyBlue"/>
@@ -74,7 +75,7 @@
             <TextBlock x:Name="heatHighText" Grid.Row="3" Grid.Column="1" Text="{Binding BattheaterHigh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
-        <Grid x:Name="channel1Grid" HorizontalAlignment="Left" Background="White" Height="57" Margin="1133,66,-53.2,0" VerticalAlignment="Top" Width="209">
+        <Grid x:Name="channel1Grid" HorizontalAlignment="Left" Background="White" Height="65" Margin="1133,66,-53.2,0" VerticalAlignment="Top" Width="209">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -486,7 +487,7 @@
         <Button x:Name="panel3Button" Content="ON" HorizontalAlignment="Left" Margin="12,401,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Panel3Button_Click"/>
         <Button x:Name="battHeaterButton" Content="ON" HorizontalAlignment="Left" Margin="591,373,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="BattHeaterButton_Click"/>
         <Label Content="Kill Switch" Background="Yellow" HorizontalAlignment="Left" Margin="810,85,0,0" VerticalAlignment="Top" Height="47" Width="82"/>
-        <!--<Button Content="ON" HorizontalAlignment="Left" Margin="794,126,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615"/>-->
+        <Button x:Name="killSwitchButton" Content="OFF" HorizontalAlignment="Left" Margin="829,145,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="KillSwitchButton_Click"/>
         <Label Content="Power Conditioning&#xD;&#xA;3.3V" Background="Yellow" HorizontalAlignment="Left" Margin="935,84,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
         <Label Content="Power Conditioning&#xA;5V" Background="Yellow" HorizontalAlignment="Left" Margin="935,181,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
         <Button x:Name="ch1Button" Content="ON" HorizontalAlignment="Left" Margin="1189,39,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch1Button_Click"/>
@@ -499,7 +500,7 @@
         <Label Content="5V1" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1133,353,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
         <Button x:Name="ch5Button" Content="ON" HorizontalAlignment="Left" Margin="1189,458,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch5Button_Click"/>
         <Label Content="5V2" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1133,453,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
-        <Button x:Name="ch6Button" Content="ON" HorizontalAlignment="Left" Margin="1189,553,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch6Button_Click"/>
+        <Button x:Name="ch6Button" Content="ON" HorizontalAlignment="Left" Margin="1189,549,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch6Button_Click"/>
         <Label Content="5V3" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1133,548,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
         <Grid x:Name="channelQSGrid" HorizontalAlignment="Left" Background="White" Height="25" Margin="1133,674,-53.2,0" VerticalAlignment="Top" Width="209">
             <Grid.RowDefinitions>
@@ -550,5 +551,25 @@
         <TextBlock x:Name="ch4CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1347,389,-116.2,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock x:Name="ch5CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1347,494,-116.2,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock x:Name="ch6CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1347,595,-116.2,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
+        <Border x:Name="battHeatBorder" BorderThickness="3" HorizontalAlignment="Left" Height="91" Margin="518,88,0,0" VerticalAlignment="Top" Width="193" BorderBrush="DarkBlue"/>
+        <Ellipse x:Name="ch1Light" HorizontalAlignment="Left" Height="20" Margin="1304,38,-35.2,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
+        <Ellipse x:Name="ch2Light" HorizontalAlignment="Left" Height="20" Margin="1304,144,-35.2,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
+        <Ellipse x:Name="ch3Light" HorizontalAlignment="Left" Height="20" Margin="1304,252,-35.2,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
+        <Ellipse x:Name="ch4Light" HorizontalAlignment="Left" Height="20" Margin="1304,356,-35.2,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
+        <Ellipse x:Name="ch5Light" HorizontalAlignment="Left" Height="20" Margin="1304,453,-35.2,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
+        <Ellipse x:Name="ch6Light" HorizontalAlignment="Left" Height="20" Margin="1304,548,-35.2,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" RenderTransformOrigin="0.62,3.06" />
+        <Ellipse x:Name="qsLight" HorizontalAlignment="Left" Height="20" Margin="1304,646,-35.2,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" RenderTransformOrigin="0.86,4.54" />
+        <Ellipse x:Name="qhLight" HorizontalAlignment="Left" Height="20" Margin="1304,706,-35.2,-6"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
+        <!--<Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FFF4F4F4" Offset="0.237"/>
+                    <GradientStop Color="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" Offset="0.783"/>
+                    "#FF308B0D"
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+            <Ellipse.Effect>
+                <DropShadowEffect/>
+            </Ellipse.Effect> -->
+
     </Grid>
 </UserControl>

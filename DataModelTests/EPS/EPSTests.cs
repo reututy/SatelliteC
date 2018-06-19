@@ -229,10 +229,19 @@ namespace DataModel.EPS.Tests
         public void SET_SINGLE_OUTPUTTest()
         {
             EPS eps = new EPS();
+            eps.SET_OUTPUT(0);
             eps.SET_SINGLE_OUTPUT(5, 0, 1);
             Assert.AreEqual(eps.Outputs[5].Status, 0);
-            eps.SET_SINGLE_OUTPUT(5, 1, 1);
-            Assert.AreEqual(eps.Outputs[5].Status, 1);
+            Assert.AreEqual(eps.LastOutputMask, 0);
+            eps.SET_SINGLE_OUTPUT(6, 1, 1);
+            Assert.AreEqual(eps.Outputs[6].Status, 1);
+            Assert.AreEqual(eps.LastOutputMask, 64);
+            eps.SET_SINGLE_OUTPUT(2, 1, 1);
+            Assert.AreEqual(eps.Outputs[2].Status, 1);
+            Assert.AreEqual(eps.LastOutputMask, 68);
+            eps.SET_SINGLE_OUTPUT(6, 0, 1);
+            Assert.AreEqual(eps.Outputs[6].Status, 0);
+            Assert.AreEqual(eps.LastOutputMask, 4);
         }
 
         [TestMethod()]

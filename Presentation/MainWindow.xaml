@@ -6,8 +6,14 @@
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
         Title="U1 Satellite Simulator">
-
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Background" Value="LightSkyBlue"/>
+            <Setter Property="BorderBrush" Value="White"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <WrapPanel  x:Name="activePanel" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <WrapPanel x:Name="activePanel" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </Window>
