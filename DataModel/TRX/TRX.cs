@@ -337,5 +337,14 @@ namespace DataModel.TRX
             telemetry.output = tl;
         }
 
+        public void IsisTrxvu_tcGetTelemetryAll(Output<ISIStrxvuTxTelemetry> telemetry)
+        {
+            ISIStrxvuTxTelemetry tl = new ISIStrxvuTxTelemetry();
+            tl.pa_temp = transmitter.Pa_temp;
+            tl.tx_current = transmitter.Tx_current;
+            tl.tx_fwrdpwr = transmitter.Tx_fwrdpwr;
+            tl.tx_reflpwr = transmitter.Tx_reflpwr;
+            telemetry.output = tl;
+        }
     }
 }

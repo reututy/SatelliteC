@@ -12,6 +12,7 @@ namespace Logic
     {
         public EPS[] eps_table;
         int eps_num; //number of EPSs
+        public static List<String> logs = new List<String>();
 
         /**
          * 	Initialize the GOMSpace EPS with the corresponding i2cAddress. This function can only be called once.
@@ -23,7 +24,7 @@ namespace Logic
 
         public int GomEpsInitialize(byte i2c_address, byte number)
         {
-            // TODO - what to do with the address?
+            logs.Add(DateTime.Now + " IsisTrxvu_initialize");
             if (eps_table == null)
             {
                 if (number > 0)

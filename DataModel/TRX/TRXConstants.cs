@@ -63,6 +63,10 @@ namespace DataModel.TRX
     {
         public byte addressVu_rc; ///< I2C address of the VU_RC.
         public byte addressVu_tc; ///< I2C address of the VU_TC.
+        public override string ToString()
+        {
+            return "ISIStrxvuI2CAddress {addressVu_rc: " + addressVu_rc + ", addressVu_tc: " + addressVu_tc + "}";
+        }
     }
 
     /**
@@ -91,17 +95,26 @@ namespace DataModel.TRX
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("maxAX25frameLengthRX"));
             }
         }
+        public override string ToString()
+        {
+            return "ISIStrxvuFrameLengths {maxAX25frameLengthRX: " + maxAX25frameLengthRX + ", maxAX25frameLengthTX: " + maxAX25frameLengthTX + "}";
+        }
+
     }
 
     /**
      *  Struct for the TRXVU reception frame.
      */
-     public struct ISIStrxvuRxFrame
+    public struct ISIStrxvuRxFrame
     {
         public ushort rx_length { get; set; } ///< Reception frame length.
         public ushort rx_doppler { get; set; } ///< Reception frame doppler measurement.
         public ushort rx_rssi { get; set; } ///< Reception frame rssi measurement.
         public byte[] rx_framedata { get; set; } ///< Reception frame data. //unsigned char*
+        public override string ToString()
+        {
+            return "ISIStrxvuRxFrame {rx_length: " + rx_length + ", rx_doppler: " + rx_doppler + ", rx_rssi: " + rx_rssi + ", rx_framedata: " + rx_framedata + "}";
+        }
     }
 
     public struct ISIStrxvuRxTelemetry
@@ -113,6 +126,10 @@ namespace DataModel.TRX
         public ushort board_temp; ///< Rx Telemetry board temperature.
         public ushort pa_temp; ///< Rx Telemetry power amplifier temperature.
         public ushort rx_rssi; ///< Rx Telemetry rssi measurement.
+        public override string ToString()
+        {
+            return "ISIStrxvuRxTelemetry {tx_current: " + tx_current + ", rx_doppler: " + rx_doppler + ", rx_current: " + rx_current + ", bus_volt: " + bus_volt + ", board_temp: " + board_temp + ", pa_temp: " + pa_temp + ", rx_rssi: " + rx_rssi + "}";
+        }
     }
 
     public struct ISIStrxvuTxTelemetry
@@ -121,6 +138,10 @@ namespace DataModel.TRX
         public ushort pa_temp; ///< Tx Telemetry power amplifier temperature.
         public ushort tx_fwrdpwr; ///< Tx Telemetry forward power.
         public ushort tx_current; ///< Tx Telemetry transmitter current.
+        public override string ToString()
+        {
+            return "ISIStrxvuTxTelemetry {tx_reflpwr: " + tx_reflpwr + ", pa_temp: " + pa_temp + ", tx_fwrdpwr: " + tx_fwrdpwr + ", tx_current: " + tx_current + "}";
+        }
     }
 
     public class ISIStrxvuTransmitterState
@@ -128,6 +149,10 @@ namespace DataModel.TRX
         public ISIStrxvuIdleState transmitter_idle_state = ISIStrxvuIdleState.trxvu_idle_state_on; ///< Transmitter current idle state.
         public ISIStrxvuBeacon transmitter_beacon  = ISIStrxvuBeacon.trxvu_beacon_active; ///< Transmitter beacon mode status.
         public ISIStrxvuBitrateStatus transmitter_bitrate  = ISIStrxvuBitrateStatus.trxvu_bitratestatus_2400; ///< Transmitter current bitrate.
+        public override string ToString()
+        {
+            return "ISIStrxvuTransmitterState {transmitter_idle_state: " + transmitter_idle_state + ", transmitter_beacon: " + transmitter_beacon + ", transmitter_bitrate: " + transmitter_bitrate + "}";
+        }
     }
 
     public class TRXConstants
@@ -135,6 +160,9 @@ namespace DataModel.TRX
         public static int TRXVU_UPTIME_SIZE = 4;  ///< Size for the up time buffer.
         public static int TRXVU_ALL_RXTELEMETRY_SIZE = 14;  ///< Size of the buffer for the complete telemetry read out from the receiver component.
         public static int TRXVU_ALL_TXTELEMETRY_SIZE = 8;  ///< Size of the buffer for the complete telemetry read out from the transmitter component.
-
+        public override string ToString()
+        {
+            return "TRXConstants {TRXVU_UPTIME_SIZE: " + TRXVU_UPTIME_SIZE + ", TRXVU_ALL_RXTELEMETRY_SIZE: " + TRXVU_ALL_RXTELEMETRY_SIZE + ", TRXVU_ALL_TXTELEMETRY_SIZE: " + TRXVU_ALL_TXTELEMETRY_SIZE + "}";
+        }
     }
 }

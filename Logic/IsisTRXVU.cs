@@ -17,7 +17,7 @@ namespace Logic
         
 
         private TRX[] tRXes;
-        public List<String> logs = new List<String>();
+        public static List<String> logs = new List<String>();
         public ObservableCollection<TRX> tRXesCollection = new ObservableCollection<TRX>();
 
         public IsisTRXVU()
@@ -190,7 +190,7 @@ namespace Logic
         public int IsisTrxvu_tcSetAx25BeaconDefClSign(byte index, byte[] data, byte length, ushort interval)
         {
             logs.Add(DateTime.Now + " IsisTrxvu_tcSendAX25OvrClSign");
-            logs.Add("index: " + ", data: " + data + " ,length: " + length + " ,interval: " + interval);
+            logs.Add("index: " + index +", data: " + data + " ,length: " + length + " ,interval: " + interval);
             if (index < tRXes.Length)
             {
                 int result = tRXes[index].IsisTrxvu_tcSetAx25BeaconDefClSign(data, length, interval);
@@ -213,11 +213,15 @@ namespace Logic
          */
         public int IsisTrxvu_tcSetAx25BeaconOvrClSign(byte index, char[] fromCallsign, char[] toCallsign, byte[] data, byte length, ushort interval)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcSetAx25BeaconOvrClSign");
+            logs.Add("index: " + index + ", fromCallsign" + fromCallsign + ", toCallsign" + toCallsign  + ", data: " + data + " ,length: " + length + " ,interval: " + interval);
             if (index < tRXes.Length)
             {
-                tRXes[index].IsisTrxvu_tcSetAx25BeaconOvrClSign(fromCallsign, toCallsign, data, length, interval);
-                return Constants.E_NO_SS_ERR;
+                int result = tRXes[index].IsisTrxvu_tcSetAx25BeaconOvrClSign(fromCallsign, toCallsign, data, length, interval);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[result]);
+                return result;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -228,11 +232,15 @@ namespace Logic
          */
         public int IsisTrxvu_tcClearBeacon(byte index)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcClearBeacon");
+            logs.Add("index: " + index);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_tcClearBeacon();
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR]);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -244,11 +252,15 @@ namespace Logic
          */
         public int IsisTrxvu_tcSetDefToClSign(byte index, char[] toCallsign)
         {
-            if(index < tRXes.Length)
+            logs.Add(DateTime.Now + " IsisTrxvu_tcClearBeacon");
+            logs.Add("index: " + index + ", toCallsign: " + toCallsign);
+            if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_tcSetDefToClSign(toCallsign);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR]);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -260,11 +272,15 @@ namespace Logic
          */
         public int IsisTrxvu_tcSetDefFromClSign(byte index, char[] fromCallsign)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcClearBeacon");
+            logs.Add("index: " + index + ", fromCallsign: " + fromCallsign);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_tcSetDefFromClSign(fromCallsign);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR]);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -276,11 +292,15 @@ namespace Logic
          */
         public int IsisTrxvu_tcSetIdlestate(byte index, ISIStrxvuIdleState state)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcSetIdlestate");
+            logs.Add("index: " + index + ", state: " + state);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_tcSetIdlestate(state);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR]);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -297,10 +317,10 @@ namespace Logic
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_tcSetAx25Bitrate(bitrate);
-                logs.Add(DateTime.Now + "Exit Status: " + "No Error");
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR]);
                 return Constants.E_NO_SS_ERR;
             }
-            logs.Add("Index Error");
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -312,11 +332,15 @@ namespace Logic
          */
         public int IsisTrxvu_tcGetUptime(byte index, Output<byte[]> uptime)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcSetIdlestate");
+            logs.Add("index: " + index);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_tcGetUptime(uptime);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR] + ", result: " + uptime.output);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -328,11 +352,15 @@ namespace Logic
          */
         public int IsisTrxvu_tcGetState(byte index, Output<ISIStrxvuTransmitterState> currentvutcState)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcGetState");
+            logs.Add("index: " + index + " ,currentvutcState: " + currentvutcState);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_tcGetState(currentvutcState);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR]);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -344,7 +372,16 @@ namespace Logic
          */
         public int IsisTrxvu_tcGetTelemetryAll(byte index, Output<ISIStrxvuTxTelemetry> telemetry)
         {
-            return 0;
+            logs.Add(DateTime.Now + " IsisTrxvu_tcGetTelemetryAll");
+            logs.Add("index: " + index);
+            if (index < tRXes.Length)
+            {
+                tRXes[index].IsisTrxvu_tcGetTelemetryAll(telemetry);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR] + ", Output: " + telemetry.output);
+                return Constants.E_NO_SS_ERR;
+            }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
+            return Constants.E_INDEX_ERROR;
         }
 
         /**
@@ -355,11 +392,15 @@ namespace Logic
          */
         public int IsisTrxvu_tcGetLastTxTelemetry(byte index, Output<ISIStrxvuTxTelemetry> last_telemetry)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcGetTelemetryAll");
+            logs.Add("index: " + index);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_tcGetLastTxTelemetry(last_telemetry);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR] + ", Output: " + last_telemetry.output);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -371,12 +412,15 @@ namespace Logic
          */
         public ushort IsisTrxvu_tcEstimateTransmissionTime(byte index, byte length)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_tcEstimateTransmissionTime");
+            logs.Add("index: " + index + ", length: " + length);
             if (index < tRXes.Length)
             {
-                return tRXes[index].IsisTrxvu_tcEstimateTransmissionTime(length);
-                //return Constants.E_NO_SS_ERR;
+                ushort result = tRXes[index].IsisTrxvu_tcEstimateTransmissionTime(length);
+                logs.Add(DateTime.Now + "Exit with result: " + result);
+                return result;
             }
-            //return Constants.E_INDEX_ERROR;
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return 0;
         }
 
@@ -388,8 +432,16 @@ namespace Logic
          */
         public int IsisTrxvu_rcGetFrameCount(byte index, Output<ushort> frameCount)
         {
-            tRXes[index].IsisTrxvu_rcGetFrameCount(frameCount);
-            return 0;
+            logs.Add(DateTime.Now + " IsisTrxvu_rcGetFrameCount");
+            logs.Add("index: " + index);
+            if (index < tRXes.Length)
+            {
+                tRXes[index].IsisTrxvu_rcGetFrameCount(frameCount);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR] + ", Output: " + frameCount.output);
+                return Constants.E_NO_SS_ERR;
+            }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
+            return Constants.E_INDEX_ERROR;
         }
 
         /**
@@ -400,11 +452,15 @@ namespace Logic
          */
         public int IsisTrxvu_rcGetCommandFrame(byte index, Output<ISIStrxvuRxFrame> rx_frame)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_rcGetCommandFrame");
+            logs.Add("index: " + index);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_rcGetCommandFrame(rx_frame);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR] + ", Output: " + rx_frame.output);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -416,11 +472,15 @@ namespace Logic
          */
         public int IsisTrxvu_rcGetTelemetryAll(byte index, Output<ISIStrxvuRxTelemetry> telemetry)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_rcGetTelemetryAll");
+            logs.Add("index: " + index);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_rcGetTelemetryAll(telemetry);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR] + ", Output: " + telemetry.output);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
 
@@ -432,11 +492,15 @@ namespace Logic
          */
         public int IsisTrxvu_rcGetUptime(byte index, Output<byte[]> uptime)
         {
+            logs.Add(DateTime.Now + " IsisTrxvu_rcGetUptime");
+            logs.Add("index: " + index);
             if (index < tRXes.Length)
             {
                 tRXes[index].IsisTrxvu_rcGetUptime(uptime);
+                logs.Add(DateTime.Now + "Exit Status: " + Constants.MapIdToError[Constants.E_NO_SS_ERR] + ", Output: " + uptime.output);
                 return Constants.E_NO_SS_ERR;
             }
+            logs.Add(DateTime.Now + " ERROR: E_INDEX_ERROR");
             return Constants.E_INDEX_ERROR;
         }
     }
