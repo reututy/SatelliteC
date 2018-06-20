@@ -28,7 +28,7 @@
                 <ImageBrush ImageSource="Images/button.png"/>
             </Button.Background>
         </Button>
-        <Grid x:Name="epsGrid" HorizontalAlignment="Left" Height="219" Margin="174,62,0,0" VerticalAlignment="Top" Width="244" Background="White">
+        <Grid x:Name="epsGrid" HorizontalAlignment="Left" Height="219" Margin="44,256,0,0" VerticalAlignment="Top" Width="244" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -54,10 +54,10 @@
             <Label Content="Battery" Grid.Row="4" Grid.Column="0" Margin="0,1,0,-27" FontWeight="Bold"/>
 
         </Grid>
-        <Button Content="UPDATE" HorizontalAlignment="Left" Margin="406,478,0,0" VerticalAlignment="Top" Width="96" Click="Update_Click" Height="42"/>
-        <Label Content="EPS Configuration" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="174,16,0,0" VerticalAlignment="Top" Width="184" Height="41"/>
-        <Label Content="TRX Configuration" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="502,16,0,0" VerticalAlignment="Top" Width="184" Height="41"/>
-        <Grid x:Name="epsGrid_Copy" HorizontalAlignment="Left" Height="120" Margin="502,62,0,0" VerticalAlignment="Top" Width="244" Background="White">
+        <Button Content="UPDATE" HorizontalAlignment="Left" Margin="520,433,0,0" VerticalAlignment="Top" Width="96" Click="Update_Click" Height="42"/>
+        <Label Content="EPS Configuration" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="44,210,0,0" VerticalAlignment="Top" Width="184" Height="41"/>
+        <Label Content="TRX Configuration" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="372,210,0,0" VerticalAlignment="Top" Width="184" Height="41"/>
+        <Grid x:Name="epsGrid_Copy" HorizontalAlignment="Left" Height="120" Margin="372,256,0,0" VerticalAlignment="Top" Width="244" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -77,9 +77,10 @@
             <TextBox x:Name="num_of_trx" Grid.Column="1" Text="1"/>
 
         </Grid>
-        <ComboBox x:Name="bitRateSelect"  HorizontalAlignment="Left" Margin="502,149,0,0" VerticalAlignment="Top" Width="244" Height="33"/>
-        <ComboBox x:Name="heater_mode"  HorizontalAlignment="Left" Margin="331,253,0,0" VerticalAlignment="Top" Width="87" Height="28"/>
-        <ComboBox x:Name="pptModeText"  HorizontalAlignment="Left" Margin="331,116,0,0" VerticalAlignment="Top" Width="87" Height="28"/>
+        <ComboBox x:Name="bitRateSelect"  HorizontalAlignment="Left" Margin="372,343,0,0" VerticalAlignment="Top" Width="244" Height="33"/>
+        <ComboBox x:Name="heater_mode"  HorizontalAlignment="Left" Margin="201,447,0,0" VerticalAlignment="Top" Width="87" Height="28"/>
+        <ComboBox x:Name="pptModeText"  HorizontalAlignment="Left" Margin="201,310,0,0" VerticalAlignment="Top" Width="87" Height="28"/>
+        <Label Content="SATELLITE SIMULATOR" FontFamily="Showcard Gothic" FontSize="70" Foreground="White" HorizontalAlignment="Left" Margin="44,48,0,0" VerticalAlignment="Top" Width="762" Height="108"/>
 
     </Grid>
 </UserControl>

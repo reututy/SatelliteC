@@ -15,7 +15,7 @@
             <Setter Property="BorderBrush" Value="White"/>
         </Style>
         <Style x:Key="myCurrentStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Red" />
+            <Setter Property="Foreground" Value="Yellow" />
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="TextAlignment" Value="Center" />
@@ -254,10 +254,10 @@
         <Image HorizontalAlignment="Left" Height="64" Margin="55,337,0,0" VerticalAlignment="Top" Width="98" Source="Images/solar_panel.png" RenderTransformOrigin="0.429,0.493"/>
         <Button x:Name="panel3Button" Content="ON" HorizontalAlignment="Left" Margin="12,409,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Panel3Button_Click"/>
         <Button x:Name="battHeaterButton" Content="ON" HorizontalAlignment="Left" Margin="575,343,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="BattHeaterButton_Click"/>
-        <Label Content="Kill Switch" Background="Yellow" HorizontalAlignment="Left" Margin="757,103,0,0" VerticalAlignment="Top" Height="47" Width="82"/>
+        <Label Content="Kill Switch" Background="LightYellow" FontWeight="Bold"  HorizontalAlignment="Left" Margin="757,103,0,0" VerticalAlignment="Top" Height="47" Width="82"/>
         <Button x:Name="killSwitchButton" Content="OFF" HorizontalAlignment="Left" Margin="772,163,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="KillSwitchButton_Click"/>
-        <Label Content="Power Conditioning&#xD;&#xA;3.3V" Background="Yellow" HorizontalAlignment="Left" Margin="927,103,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
-        <Label Content="Power Conditioning&#xA;5V" Background="Yellow" HorizontalAlignment="Left" Margin="927,343,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
+        <Label Content="Power Conditioning&#xD;&#xA;3.3V" FontWeight="Bold" Background="LightYellow" HorizontalAlignment="Left" Margin="927,103,0,0" VerticalAlignment="Top" Height="47" Width="123"/>
+        <Label Content="Power Conditioning&#xA;5V" Background="LightYellow" FontWeight="Bold"  HorizontalAlignment="Left" Margin="927,343,0,0" VerticalAlignment="Top" Height="47" Width="123"/>
         <Button x:Name="ch1Button" Content="OFF" HorizontalAlignment="Left" Margin="1202,87,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch1Button_Click"/>
         <Label Content="3.3V1" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,84,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
         <Button x:Name="ch2Button" Content="OFF" HorizontalAlignment="Left" Margin="1202,168,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch2Button_Click" />
@@ -271,8 +271,8 @@
         <Button x:Name="ch6Button" Content="OFF" HorizontalAlignment="Left" Margin="1202,483,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch6Button_Click"/>
         <Label Content="5V3" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,480,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.816,0.469"/>
 
-        <Button x:Name="qhButton" Content="OFF" HorizontalAlignment="Left" Margin="1202,663,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QhButton_Click"/>
-        <Label Content="QH" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,660,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
+        <Button x:Name="qhButton" Content="OFF" HorizontalAlignment="Left" Margin="1202,648,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QhButton_Click"/>
+        <Label Content="QH" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,645,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
         <Label Content="PV1" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,47,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
         <Label Content="PV2" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,165,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
         <Label Content="PV3" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,279,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
@@ -289,8 +289,8 @@
         <Ellipse x:Name="ch4Light" HorizontalAlignment="Left" Height="20" Margin="1257,327,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" RenderTransformOrigin="-0.447,0.587" />
         <Ellipse x:Name="ch5Light" HorizontalAlignment="Left" Height="20" Margin="1257,405,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
         <Ellipse x:Name="ch6Light" HorizontalAlignment="Left" Height="20" Margin="1257,483,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" RenderTransformOrigin="0.62,3.06" />
-        <Ellipse x:Name="qsLight" HorizontalAlignment="Left" Height="20" Margin="1257,593,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" RenderTransformOrigin="0.86,4.54" />
-        <Ellipse x:Name="qhLight" HorizontalAlignment="Left" Height="20" Margin="1257,663,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
+        <Ellipse x:Name="qsLight" HorizontalAlignment="Left" Height="20" Margin="1257,578,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" RenderTransformOrigin="0.86,4.54" />
+        <Ellipse x:Name="qhLight" HorizontalAlignment="Left" Height="20" Margin="1257,648,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
         <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="151,115,0,0" VerticalAlignment="Top" Width="33"/>
         <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="151,234,0,0" VerticalAlignment="Top" Width="33"/>
         <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="151,352,0,0" VerticalAlignment="Top" Width="33"/>
@@ -577,7 +577,7 @@
                 <TextBlock x:Name="ch6SafeText" Grid.Row="1" Grid.Column="5" Text="{Binding OutputSafeValue[5], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Expander>
-        <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,595,0,0" VerticalAlignment="Top" Width="Auto">
+        <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,580,0,0" VerticalAlignment="Top" Width="Auto">
             <Grid x:Name="channelQSGrid" HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Height="Auto" Width="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -603,9 +603,9 @@
                 <TextBlock x:Name="qsSafeText" Grid.Row="1" Grid.Column="5" Text="{Binding OutputSafeValue[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Expander>
-        <Button x:Name="qsButton" Content="OFF" HorizontalAlignment="Left" Margin="1202,593,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QsButton_Click"/>
-        <Label Content="QS" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,590,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.404,0.431"/>
-        <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,663,0,-21.8" VerticalAlignment="Top" Width="Auto">
+        <Button x:Name="qsButton" Content="OFF" HorizontalAlignment="Left" Margin="1202,578,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QsButton_Click"/>
+        <Label Content="QS" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,575,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.404,0.431"/>
+        <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,648,0,-6.8" VerticalAlignment="Top" Width="Auto">
             <Grid x:Name="channelQHGrid" HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Height="Auto" Width="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -695,8 +695,8 @@
 
 
 
-<Button Content="Extract Logs to file" HorizontalAlignment="Left" Margin="924,332,0,0" VerticalAlignment="Top" Width="161" Height="35" Click="Button_Click_11"/>
-        <TextBox x:Name="extract_file" HorizontalAlignment="Left" Height="33" Margin="757,293,0,0" Text="Enter file path to to extract logs" TextWrapping="Wrap" VerticalAlignment="Top" Width="328"/>
+        <Button Content="Extract Logs to file" HorizontalAlignment="Left" Margin="897,633,0,0" VerticalAlignment="Top" Width="161" Height="35" Click="Button_Click_11"/>
+        <TextBox x:Name="extract_file" HorizontalAlignment="Left" Height="33" Margin="833,595,0,0" Text="Enter file path to to extract logs" TextWrapping="Wrap" VerticalAlignment="Top" Width="225"/>
 
 
 
@@ -710,6 +710,6 @@
             <Ellipse.Effect>
                 <DropShadowEffect/>
             </Ellipse.Effect> -->
-       
+
     </Grid>
 </UserControl>
