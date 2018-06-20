@@ -41,7 +41,7 @@ namespace Logic
                 tRXes = new TRX[number];
                 for (int i = 0; i < number; i++)
                 {
-                    logs.Add("TRX -> address: " + address[i].ToString() + ", maxFrameLength: " + maxFrameLengths[i].ToString() + " ,default bitrates: " + default_bitrates + " ,index: " + i);
+                    logs.Add("address: " + address[i].ToString() + ", maxFrameLength: " + maxFrameLengths[i].ToString() + " ,default bitrates: " + default_bitrates + " ,index: " + i);
                     TRX trx = new TRX(i, address[i], maxFrameLengths[i], default_bitrates) { Name = i.ToString() };
                     tRXes[i] = trx;
                     tRXesCollection.Add(trx);
