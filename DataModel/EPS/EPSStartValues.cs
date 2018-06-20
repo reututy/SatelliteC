@@ -13,7 +13,7 @@ namespace DataModel.EPS
         public static byte OutputState = EPSConstants.ON; //TODO
         public static ushort OutputVolt5V = EPSConstants.OUT_LATCHUP_PROTEC_5V_TYP; 
         public static ushort OutputVolt3_3V = EPSConstants.OUT_LATCHUP_PROTEC_3_3V_TYP; 
-        public static ushort OutputCurrOut = EPSConstants.OUT_LATCHUP_PROTEC_I_MAX;
+        public static ushort OutputCurrOut = EPSConstants.OUT_LATCHUP_PROTEC_I_MIN;
         public static byte OutputSafe = EPSConstants.DEFAULT_CONFIG_OUTPUT_SAFE; //TODO
         public static byte OutputNormal = EPSConstants.DEFAULT_CONFIG_OUTPUT_NORMAL; //TODO
         public static ushort OutputInitialOffDelay = EPSConstants.DEFAULT_CONFIG_OUTPUT_OFF_DELAY; //TODO

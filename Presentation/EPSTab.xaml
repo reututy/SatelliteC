@@ -36,9 +36,9 @@
             </Image>
         </DockPanel>
 
-        <Button x:Name="chargeDischargeButton" Content="Charge" Foreground="White" Background="Green" FontSize="18" HorizontalAlignment="Left" Margin="70,607,0,0" VerticalAlignment="Top" Width="122" Height="43" Click="ChargeButton_Click"/>
-        <Label Content="Battery" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="509,18,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
-        <Grid x:Name="batteryGrid" HorizontalAlignment="Left" Background="White" Height="78" Margin="509,64,0,0" VerticalAlignment="Top" Width="181">
+        <Button x:Name="chargeDischargeButton" Content="Charge" Foreground="White" Background="Green" FontSize="18" HorizontalAlignment="Left" Margin="12,609,0,0" VerticalAlignment="Top" Width="122" Height="43" Click="ChargeButton_Click"/>
+        <Label Content="Battery" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="509,33,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
+        <Grid x:Name="batteryGrid" HorizontalAlignment="Left" Background="White" Height="Auto" Margin="509,79,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -56,8 +56,8 @@
             <TextBlock x:Name="battStateText" Grid.Row="2" Grid.Column="1" Text="{Binding BattState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <TextBlock x:Name="battCurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="454,95,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <TextBlock x:Name="battCurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="67" Margin="690,95,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" RenderTransformOrigin="0.344,0.63" />
-        <Grid x:Name="batteryHeaterGrid" HorizontalAlignment="Left" Background="White" Height="79" Margin="509,259,0,0" VerticalAlignment="Top" Width="181">
+        <TextBlock x:Name="battCurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="67" Margin="697,95,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" RenderTransformOrigin="0.344,0.63" />
+        <Grid x:Name="batteryHeaterGrid" HorizontalAlignment="Left" Background="White" Height="Auto" Margin="509,259,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -71,14 +71,14 @@
             </Grid.ColumnDefinitions>
             <Label Content="Mode:" Grid.Row="0" Grid.Column="0"/>
             <TextBlock x:Name="heaterModeText" Grid.Row="0" Grid.Column="1" Text="{Binding BattheaterMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Content="Heater low [degC]:" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock x:Name="heatLowText" Grid.Row="2" Grid.Column="1" Text="{Binding BattheaterLow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Heater high [degC]:" Grid.Row="3" Grid.Column="0"/>
-            <TextBlock x:Name="heatHighText" Grid.Row="3" Grid.Column="1" Text="{Binding BattheaterHigh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Heater Low:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="heatLowText" Grid.Row="2" Grid.Column="1" Text="{Binding BattheaterLow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} degC}"/>
+            <Label Content="Heater High:" Grid.Row="3" Grid.Column="0"/>
+            <TextBlock x:Name="heatHighText" Grid.Row="3" Grid.Column="1" Text="{Binding BattheaterHigh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} degC}"/>
         </Grid>
 
         <Label Content="Photovolatic Converters" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" Margin="196,18,0,0" VerticalAlignment="Top" Width="274" Height="60"/>
-        <Grid x:Name="pv1Grid" HorizontalAlignment="Left" Background="White" Height="80" Margin="196,80,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="pv1Grid" HorizontalAlignment="Left" Background="White" Height="Auto" Margin="196,80,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -97,7 +97,7 @@
         </Grid>
         <TextBlock x:Name="pv1CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="143,95,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
         <TextBlock x:Name="pv1CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,95,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}"/>
-        <Grid x:Name="pv2Grid" HorizontalAlignment="Left" Background="White" Height="79" Margin="196,197,0,0" VerticalAlignment="Top" Width="181">
+        <Grid x:Name="pv2Grid" HorizontalAlignment="Left" Background="White" Height="Auto" Margin="196,197,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -114,9 +114,9 @@
             <Label Content="Vboost:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="pv2VboostText" Grid.Row="2" Grid.Column="1" Text="{Binding Vboost[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
         </Grid>
-        <TextBlock x:Name="pv2CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="143,207,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <TextBlock x:Name="pv2CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,207,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <Grid x:Name="pv3Grid" HorizontalAlignment="Left" Background="White" Height="79" Margin="196,311,0,0" VerticalAlignment="Top" Width="181">
+        <TextBlock x:Name="pv2CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="143,211,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <TextBlock x:Name="pv2CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,211,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <Grid x:Name="pv3Grid" HorizontalAlignment="Left" Background="White" Height="Auto" Margin="196,311,0,0" VerticalAlignment="Top" Width="181">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -133,16 +133,12 @@
             <Label Content="Vboost:" Grid.Row="2" Grid.Column="0"/>
             <TextBlock x:Name="pv3VboostText" Grid.Row="2" Grid.Column="1" Text="{Binding Vboost[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mV}"/>
         </Grid>
-        <TextBlock x:Name="pv3CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="143,323,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
-        <TextBlock x:Name="pv3CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,323,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <TextBlock x:Name="pv3CurrInText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="143,328,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentIn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
+        <TextBlock x:Name="pv3CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="50" Margin="385,328,0,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} mA}" />
         <Label Content="Battery Heater" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="509,211,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
         <Label Content="Channels" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="1133,31,0,0" VerticalAlignment="Top" Width="105" Height="41"/>
-        <Grid x:Name="confGrid" HorizontalAlignment="Left" Background="White" Margin="685,433,0,70" Width="181">
+        <Grid x:Name="confGrid" HorizontalAlignment="Left" Background="White" Margin="597,451,0,52" Width="181" Height="Auto">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -158,253 +154,143 @@
             </Grid.ColumnDefinitions>
             <Label Content="PPT mode:" Grid.Row="0" Grid.Column="0"/>
             <TextBlock x:Name="pptModeText" Grid.Row="0" Grid.Column="1" Text="{Binding PptMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <!--<Label Content="Heater mode:" Grid.Row="1" Grid.Column="0"/>
-            <TextBlock x:Name="heatModeText" Grid.Row="1" Grid.Column="1" Text="{Binding BattheaterMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <<Label Content="Heater low [degC]:" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock x:Name="heatLowText" Grid.Row="2" Grid.Column="1" Text="{Binding BattheaterLow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Heater high [degC]:" Grid.Row="3" Grid.Column="0"/>
-            <TextBlock x:Name="heatHighText" Grid.Row="3" Grid.Column="1" Text="{Binding BattheaterHigh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
-            <!--<Label Content="Normal output:" Grid.Row="1" Grid.Column="0"/>
-            <Grid x:Name="normalOutGrid" Grid.Row="1" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding OutputNormalValue[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding OutputNormalValue[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding OutputNormalValue[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
-                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding OutputNormalValue[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
-                <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding OutputNormalValue[4], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
-                <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding OutputNormalValue[5], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
-                <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding OutputNormalValue[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
-                <TextBlock Grid.Row="0" Grid.Column="7" Text="{Binding OutputNormalValue[7], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} }"/>
-            </Grid>
-            <Label Content="Safe output:" Grid.Row="2" Grid.Column="0"/>
-            <Grid x:Name="safeOutGrid" Grid.Row="2" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding OutputSafeValue[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding OutputSafeValue[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding OutputSafeValue[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding OutputSafeValue[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding OutputSafeValue[4], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding OutputSafeValue[5], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding OutputSafeValue[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="7" Text="{Binding OutputSafeValue[7], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </Grid>-->
-            <!--<Label Content="On delays [sec]:" Grid.Row="3" Grid.Column="0"/>
-            <Grid x:Name="onDelaysGrid" Grid.Row="3" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding OutputInitialOnDelay[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding OutputInitialOnDelay[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding OutputInitialOnDelay[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding OutputInitialOnDelay[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding OutputInitialOnDelay[4], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding OutputInitialOnDelay[5], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding OutputInitialOnDelay[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="7" Text="{Binding OutputInitialOnDelay[7], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </Grid>
-            <Label Content="Off delays [sec]:" Grid.Row="4" Grid.Column="0"/>
-            <Grid x:Name="offDelaysGrid" Grid.Row="4" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding OutputInitialOffDelay[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding OutputInitialOffDelay[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding OutputInitialOffDelay[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding OutputInitialOffDelay[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding OutputInitialOffDelay[4], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="5" Text="{Binding OutputInitialOffDelay[5], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="6" Text="{Binding OutputInitialOffDelay[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="7" Text="{Binding OutputInitialOffDelay[7], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </Grid>-->
-            <!--<Label Content="Vboost [mV]:" Grid.Row="8" Grid.Column="0"/>
-            <Grid x:Name="vboostGrid" Grid.Row="8" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Vboost[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Vboost[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Vboost[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </Grid>-->
-            <Label Content="Max voltage [mV]:" Grid.Row="5" Grid.Column="0"/>
-            <TextBlock x:Name="maxVoltText" Grid.Row="5" Grid.Column="1" Text="{Binding BattMaxVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Safe voltage [mV]:" Grid.Row="6" Grid.Column="0"/>
-            <TextBlock x:Name="safeVoltText" Grid.Row="6" Grid.Column="1" Text="{Binding BattSafeVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Critical voltage [mV]:" Grid.Row="7" Grid.Column="0"/>
-            <TextBlock x:Name="criticalVoltText" Grid.Row="7" Grid.Column="1" Text="{Binding BattCriticalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Normal voltage [mV]:" Grid.Row="8" Grid.Column="0"/>
-            <TextBlock x:Name="normalVoltText" Grid.Row="8" Grid.Column="1" Text="{Binding BattNormalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Last reset:" Grid.Row="9" Grid.Column="0"/>
-            <TextBlock x:Name="lastResetText" Grid.Row="9" Grid.Column="1" Text="{Binding LastResetCause, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="#Reboots:" Grid.Row="10" Grid.Column="0"/>
-            <TextBlock x:Name="numRebootText" Grid.Row="10" Grid.Column="1" Text="{Binding RebootCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="#Errors:" Grid.Row="11" Grid.Column="0"/>
-            <TextBlock x:Name="numErrorsText" Grid.Row="11" Grid.Column="1" Text="{Binding SwErrors, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Max voltage [mV]:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="maxVoltText" Grid.Row="1" Grid.Column="1" Text="{Binding BattMaxVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Safe voltage [mV]:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="safeVoltText" Grid.Row="2" Grid.Column="1" Text="{Binding BattSafeVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Critical voltage [mV]:" Grid.Row="3" Grid.Column="0"/>
+            <TextBlock x:Name="criticalVoltText" Grid.Row="3" Grid.Column="1" Text="{Binding BattCriticalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Normal voltage [mV]:" Grid.Row="4" Grid.Column="0"/>
+            <TextBlock x:Name="normalVoltText" Grid.Row="4" Grid.Column="1" Text="{Binding BattNormalVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Last reset:" Grid.Row="5" Grid.Column="0"/>
+            <TextBlock x:Name="lastResetText" Grid.Row="5" Grid.Column="1" Text="{Binding LastResetCause, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="#Reboots:" Grid.Row="6" Grid.Column="0"/>
+            <TextBlock x:Name="numRebootText" Grid.Row="6" Grid.Column="1" Text="{Binding RebootCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="#Errors:" Grid.Row="7" Grid.Column="0"/>
+            <TextBlock x:Name="numErrorsText" Grid.Row="7" Grid.Column="1" Text="{Binding SwErrors, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Label Content="More Info" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="685,394,0,0" VerticalAlignment="Top" Width="140" Height="41"/>
-        <Grid x:Name="wdtI2CGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="294,486,0,0" VerticalAlignment="Top" Width="149">
+        <Label Content="More Info" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="597,412,0,0" VerticalAlignment="Top" Width="140" Height="41"/>
+        <Label Content="I2C" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="197,474,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
+        <Grid x:Name="wdtI2CGrid" HorizontalAlignment="Left" Background="White" Height="Auto" Margin="197,505,0,0" VerticalAlignment="Top" Width="149">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Label Content="Type:" Grid.Row="0" Grid.Column="0"/>
-            <TextBlock x:Name="i2cTypeText" Grid.Row="0" Grid.Column="1" Text="{Binding WdtType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Content="#Reboot:" Grid.Row="1" Grid.Column="0"/>
-            <TextBlock x:Name="i2cRebootText" Grid.Row="1" Grid.Column="1" Text="{Binding RebootCounter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Time left [sec]:" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock x:Name="i2cTimeText" Grid.Row="2" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
-        <Label Content="WDTs" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="294,433,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
-        <Grid x:Name="wdtGNDGrid" HorizontalAlignment="Left" Background="White" Height="82" Margin="472,486,0,0" VerticalAlignment="Top" Width="149">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Label Content="Type:" Grid.Row="0" Grid.Column="0"/>
-            <TextBlock x:Name="gndTypeText" Grid.Row="0" Grid.Column="1" Text="{Binding WdtType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Content="#Reboot:" Grid.Row="1" Grid.Column="0"/>
-            <TextBlock x:Name="gndRebootText" Grid.Row="1" Grid.Column="1" Text="{Binding RebootCounter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Time left [sec]:" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock x:Name="gndTimeText" Grid.Row="2" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
-        <Grid x:Name="wdtCSP1Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="472,590,0,0" VerticalAlignment="Top" Width="149">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Label Content="Type:" Grid.Row="0" Grid.Column="0"/>
-            <TextBlock x:Name="csp1TypeText" Grid.Row="0" Grid.Column="1" Text="{Binding WdtType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Content="#Reboot:" Grid.Row="1" Grid.Column="0"/>
-            <TextBlock x:Name="csp1RebootText" Grid.Row="1" Grid.Column="1" Text="{Binding RebootCounter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="#Ping left:" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock x:Name="csp1PingText" Grid.Row="2" Grid.Column="1" Text="{Binding PingLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Time to ping [sec]:" Grid.Row="3" Grid.Column="0"/>
-            <TextBlock x:Name="csp1TimeText" Grid.Row="3" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
-        <Grid x:Name="wdtCSP0Grid" HorizontalAlignment="Left" Background="White" Height="104" Margin="294,590,0,0" VerticalAlignment="Top" Width="149">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Label Content="Type:" Grid.Row="0" Grid.Column="0"/>
-            <TextBlock x:Name="csp0TypeText" Grid.Row="0" Grid.Column="1" Text="{Binding WdtType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Content="#Reboot:" Grid.Row="1" Grid.Column="0"/>
-            <TextBlock x:Name="csp0RebootText" Grid.Row="1" Grid.Column="1" Text="{Binding RebootCounter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="#Ping left:" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock x:Name="csp0pingText" Grid.Row="2" Grid.Column="1" Text="{Binding PingLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Content="Time to ping [sec]:" Grid.Row="3" Grid.Column="0"/>
-            <TextBlock x:Name="csp0TimeText" Grid.Row="3" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
-        <Button x:Name="pauseButton" Content="Pause" Foreground="White" Background="Orange" FontSize="18" HorizontalAlignment="Left" Margin="70,490,0,0" VerticalAlignment="Top" Width="122" Height="43" Click="PauseButton_Click"/>
-        <Image x:Name="sunmoon1Pic" HorizontalAlignment="Left" Height="68" Margin="3,47,0,0" VerticalAlignment="Top" Width="66" Source="Images/moon.png"/>
-        <Image HorizontalAlignment="Left" Height="64" Margin="53,58,0,0" VerticalAlignment="Top" Width="98" Source="Images/solar_panel.png" RenderTransformOrigin="0.429,0.493"/>
-        <Button x:Name="panel1Button" Content="ON" HorizontalAlignment="Left" Margin="10,132,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Panel1Button_Click"/>
 
-        <Image x:Name="sunmoon2Pic" HorizontalAlignment="Left" Height="68" Margin="3,177,0,0" VerticalAlignment="Top" Width="66" Source="Images/moon.png"/>
-        <Image HorizontalAlignment="Left" Height="64" Margin="53,181,0,0" VerticalAlignment="Top" Width="98" Source="Images/solar_panel.png" RenderTransformOrigin="0.429,0.493"/>
-        <Button x:Name="panel2Button" Content="ON" HorizontalAlignment="Left" Margin="10,253,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Panel2Button_Click"/>
-        <Image x:Name="sunmoon3Pic" HorizontalAlignment="Left" Height="68" Margin="5,295,0,0" VerticalAlignment="Top" Width="66" Source="Images/moon.png"/>
-        <Image HorizontalAlignment="Left" Height="64" Margin="55,299,0,0" VerticalAlignment="Top" Width="98" Source="Images/solar_panel.png" RenderTransformOrigin="0.429,0.493"/>
-        <Button x:Name="panel3Button" Content="ON" HorizontalAlignment="Left" Margin="12,371,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Panel3Button_Click"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Content="#Reboot:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="i2cRebootText" Grid.Row="0" Grid.Column="1" Text="{Binding RebootCounter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Time left [sec]:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="i2cTimeText" Grid.Row="1" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Label Content="WDTs" FontWeight="Bold" FontSize="20" Foreground="White" HorizontalAlignment="Left" Margin="197,444,0,0" VerticalAlignment="Top" Width="149" Height="41"/>
+        <Label Content="GND" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="383,474,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
+        <Grid x:Name="wdtGNDGrid" HorizontalAlignment="Left" Background="White" Height="Auto" Margin="383,505,0,0" VerticalAlignment="Top" Width="149">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="#Reboot:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="gndRebootText" Grid.Row="0" Grid.Column="1" Text="{Binding RebootCounter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Time left [sec]:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="gndTimeText" Grid.Row="1" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Label Content="CSP1" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="383,558,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
+        <Grid x:Name="wdtCSP1Grid" HorizontalAlignment="Left" Background="White" Height="Auto" Margin="383,591,0,0" VerticalAlignment="Top" Width="149">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Content="#Reboot:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="csp1RebootText" Grid.Row="0" Grid.Column="1" Text="{Binding RebootCounter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="#Ping left:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="csp1PingText" Grid.Row="1" Grid.Column="1" Text="{Binding PingLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Time to ping [sec]:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="csp1TimeText" Grid.Row="2" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Label Content="CSP0" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="197,558,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
+        <Grid x:Name="wdtCSP0Grid" HorizontalAlignment="Left" Background="White" Height="Auto" Margin="197,590,0,0" VerticalAlignment="Top" Width="149">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label Content="#Reboot:" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock x:Name="csp0RebootText" Grid.Row="0" Grid.Column="1" Text="{Binding RebootCounter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="#Ping left:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock x:Name="csp0pingText" Grid.Row="1" Grid.Column="1" Text="{Binding PingLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Time to ping [sec]:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock x:Name="csp0TimeText" Grid.Row="2" Grid.Column="1" Text="{Binding TimeLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Button x:Name="pauseButton" Content="Pause" Foreground="White" Background="Orange" FontSize="18" HorizontalAlignment="Left" Margin="12,492,0,0" VerticalAlignment="Top" Width="122" Height="43" Click="PauseButton_Click"/>
+        <Image x:Name="sunmoon1Pic" HorizontalAlignment="Left" Height="68" Margin="3,90,0,0" VerticalAlignment="Top" Width="66" Source="Images/moon.png"/>
+        <Image HorizontalAlignment="Left" Height="64" Margin="53,96,0,0" VerticalAlignment="Top" Width="98" Source="Images/solar_panel.png" RenderTransformOrigin="0.429,0.493"/>
+        <Button x:Name="panel1Button" Content="ON" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Panel1Button_Click"/>
+
+        <Image x:Name="sunmoon2Pic" HorizontalAlignment="Left" Height="68" Margin="3,215,0,0" VerticalAlignment="Top" Width="66" Source="Images/moon.png"/>
+        <Image HorizontalAlignment="Left" Height="64" Margin="53,219,0,0" VerticalAlignment="Top" Width="98" Source="Images/solar_panel.png" RenderTransformOrigin="0.429,0.493"/>
+        <Button x:Name="panel2Button" Content="ON" HorizontalAlignment="Left" Margin="10,291,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Panel2Button_Click"/>
+        <Image x:Name="sunmoon3Pic" HorizontalAlignment="Left" Height="68" Margin="5,333,0,0" VerticalAlignment="Top" Width="66" Source="Images/moon.png"/>
+        <Image HorizontalAlignment="Left" Height="64" Margin="55,337,0,0" VerticalAlignment="Top" Width="98" Source="Images/solar_panel.png" RenderTransformOrigin="0.429,0.493"/>
+        <Button x:Name="panel3Button" Content="ON" HorizontalAlignment="Left" Margin="12,409,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Panel3Button_Click"/>
         <Button x:Name="battHeaterButton" Content="ON" HorizontalAlignment="Left" Margin="575,343,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="BattHeaterButton_Click"/>
         <Label Content="Kill Switch" Background="Yellow" HorizontalAlignment="Left" Margin="757,103,0,0" VerticalAlignment="Top" Height="47" Width="82"/>
         <Button x:Name="killSwitchButton" Content="OFF" HorizontalAlignment="Left" Margin="772,163,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="KillSwitchButton_Click"/>
         <Label Content="Power Conditioning&#xD;&#xA;3.3V" Background="Yellow" HorizontalAlignment="Left" Margin="927,103,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
         <Label Content="Power Conditioning&#xA;5V" Background="Yellow" HorizontalAlignment="Left" Margin="927,343,0,0" VerticalAlignment="Top" Height="47" Width="120"/>
-        <Button x:Name="ch1Button" Content="ON" HorizontalAlignment="Left" Margin="1202,87,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch1Button_Click"/>
+        <Button x:Name="ch1Button" Content="OFF" HorizontalAlignment="Left" Margin="1202,87,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch1Button_Click"/>
         <Label Content="3.3V1" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,84,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
-        <Button x:Name="ch2Button" Content="ON" HorizontalAlignment="Left" Margin="1202,168,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch2Button_Click" />
+        <Button x:Name="ch2Button" Content="OFF" HorizontalAlignment="Left" Margin="1202,168,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch2Button_Click" />
         <Label Content="3.3V2" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,165,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
-        <Button x:Name="ch3Button" Content="ON" HorizontalAlignment="Left" Margin="1202,247,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch3Button_Click"/>
+        <Button x:Name="ch3Button" Content="OFF" HorizontalAlignment="Left" Margin="1202,247,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch3Button_Click"/>
         <Label Content="3.3V3" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,244,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
-        <Button x:Name="ch4Button" Content="ON" HorizontalAlignment="Left" Margin="1202,327,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch4Button_Click"/>
+        <Button x:Name="ch4Button" Content="OFF" HorizontalAlignment="Left" Margin="1202,327,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch4Button_Click"/>
         <Label Content="5V1" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,324,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
-        <Button x:Name="ch5Button" Content="ON" HorizontalAlignment="Left" Margin="1202,405,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch5Button_Click"/>
+        <Button x:Name="ch5Button" Content="OFF" HorizontalAlignment="Left" Margin="1202,405,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch5Button_Click"/>
         <Label Content="5V2" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,402,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.201,0.625"/>
-        <Button x:Name="ch6Button" Content="ON" HorizontalAlignment="Left" Margin="1202,483,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch6Button_Click"/>
+        <Button x:Name="ch6Button" Content="OFF" HorizontalAlignment="Left" Margin="1202,483,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="Ch6Button_Click"/>
         <Label Content="5V3" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,480,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.816,0.469"/>
 
-        <Button x:Name="qhButton" Content="ON" HorizontalAlignment="Left" Margin="1234,709,0,-12" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QhButton_Click"/>
-        <Label Content="QH" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1173,706,0,-18" VerticalAlignment="Top" Width="51" Height="32"/>
+        <Button x:Name="qhButton" Content="OFF" HorizontalAlignment="Left" Margin="1202,663,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QhButton_Click"/>
+        <Label Content="QH" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,660,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
         <Label Content="PV1" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,47,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
         <Label Content="PV2" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,165,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
         <Label Content="PV3" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="196,279,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.522,1.619"/>
-        <TextBlock x:Name="ch1CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,121,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock x:Name="ch2CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,202,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock x:Name="ch3CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,281,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock x:Name="ch4CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,361,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock x:Name="ch5CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,438,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock x:Name="ch6CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,515,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
-        <Border x:Name="battHeatBorder" BorderThickness="3" HorizontalAlignment="Left" Height="91" Margin="502,58,0,0" VerticalAlignment="Top" Width="193" BorderBrush="{Binding Path=Status, Converter={StaticResource HeatBorderConverter}}"/>
+        <TextBlock x:Name="ch1CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,121,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock x:Name="ch2CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,202,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock x:Name="ch3CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,281,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock x:Name="ch4CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,361,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock x:Name="ch5CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,438,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock x:Name="ch6CurrOutText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="58" Margin="1312,515,-26,0" TextWrapping="Wrap" Style="{StaticResource myCurrentStyle}" Text="{Binding Path=CurrentOut, Mode=TwoWay, StringFormat=\{0\} mA, UpdateSourceTrigger=PropertyChanged}" />
+        <Border x:Name="battHeatBorder" BorderThickness="3" HorizontalAlignment="Left" Height="91" Margin="502,73,0,0" VerticalAlignment="Top" Width="193" BorderBrush="{Binding Path=Status, Converter={StaticResource HeatBorderConverter}}"/>
         <Ellipse x:Name="ch1Light" HorizontalAlignment="Left" Height="20" Margin="1257,87,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
         <Ellipse x:Name="ch2Light" HorizontalAlignment="Left" Height="20" Margin="1257,168,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
         <Ellipse x:Name="ch3Light" HorizontalAlignment="Left" Height="20" Margin="1257,247,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
         <Ellipse x:Name="ch4Light" HorizontalAlignment="Left" Height="20" Margin="1257,327,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" RenderTransformOrigin="-0.447,0.587" />
         <Ellipse x:Name="ch5Light" HorizontalAlignment="Left" Height="20" Margin="1257,405,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
         <Ellipse x:Name="ch6Light" HorizontalAlignment="Left" Height="20" Margin="1257,483,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" RenderTransformOrigin="0.62,3.06" />
-        <Ellipse x:Name="qsLight" HorizontalAlignment="Left" Height="20" Margin="1304,646,-35.2,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" RenderTransformOrigin="0.86,4.54" />
-        <Ellipse x:Name="qhLight" HorizontalAlignment="Left" Height="20" Margin="1304,706,-35.2,-6"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
+        <Ellipse x:Name="qsLight" HorizontalAlignment="Left" Height="20" Margin="1257,593,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" RenderTransformOrigin="0.86,4.54" />
+        <Ellipse x:Name="qhLight" HorizontalAlignment="Left" Height="20" Margin="1257,663,0,0"  VerticalAlignment="Top" Width="20" Fill="{Binding Path=Status, Converter={StaticResource ChannelLightConverter}}" />
         <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="151,115,0,0" VerticalAlignment="Top" Width="33"/>
         <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="151,234,0,0" VerticalAlignment="Top" Width="33"/>
         <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="151,352,0,0" VerticalAlignment="Top" Width="33"/>
@@ -492,18 +378,6 @@
             </Image.RenderTransform>
         </Image>
         <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1055,355,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1133,197,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1179,197,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1227,197,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1274,197,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1133,276,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1179,276,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1227,276,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1274,276,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1133,355,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1179,355,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1227,355,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1274,355,0,0" VerticalAlignment="Top" Width="33"/>
         <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1096,381,0,0" VerticalAlignment="Top" Width="33" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>
@@ -534,17 +408,9 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1133,432,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1179,432,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1227,432,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1274,432,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1133,511,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1179,511,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1227,511,0,0" VerticalAlignment="Top" Width="33"/>
-        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1274,511,0,0" VerticalAlignment="Top" Width="33" RenderTransformOrigin="0.479,1.733"/>
 
         <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,89,0,0" VerticalAlignment="Top" Width="Auto">
-            <Grid x:Name="channel1Grid" HorizontalAlignment="Left" Background="White" Height="52" VerticalAlignment="Top" Width="299">
+            <Grid x:Name="channel1Grid" HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Height="Auto" Width="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -572,7 +438,7 @@
             </Grid>
         </Expander>
         <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,168,0,0" VerticalAlignment="Top" Width="Auto">
-            <Grid x:Name="channel2Grid" HorizontalAlignment="Left" Background="White" Height="55" VerticalAlignment="Top" Width="293">
+            <Grid x:Name="channel2Grid" HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Height="Auto" Width="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -600,7 +466,7 @@
             </Grid>
         </Expander>
         <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,248,0,0" VerticalAlignment="Top" Width="Auto">
-            <Grid x:Name="channel3Grid" HorizontalAlignment="Left" Background="White" Height="54" VerticalAlignment="Top" Width="209">
+            <Grid x:Name="channel3Grid" HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Height="Auto" Width="300" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -628,7 +494,7 @@
             </Grid>
         </Expander>
         <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,326,0,0" VerticalAlignment="Top" Width="Auto">
-            <Grid x:Name="channel4Grid" HorizontalAlignment="Left" Background="White" Height="55" VerticalAlignment="Top" Width="209">
+            <Grid x:Name="channel4Grid" HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Height="Auto" Width="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -656,7 +522,7 @@
             </Grid>
         </Expander>
         <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,406,0,0" VerticalAlignment="Top" Width="Auto">
-            <Grid x:Name="channel5Grid" HorizontalAlignment="Left" Background="White" Height="53" VerticalAlignment="Top" Width="209">
+            <Grid x:Name="channel5Grid" HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Height="Auto" Width="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -684,7 +550,7 @@
             </Grid>
         </Expander>
         <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,485,0,0" VerticalAlignment="Top" Width="Auto">
-            <Grid x:Name="channel6Grid" HorizontalAlignment="Left" Background="White" Height="55" VerticalAlignment="Top" Width="209">
+            <Grid x:Name="channel6Grid" HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Height="Auto" Width="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -711,8 +577,8 @@
                 <TextBlock x:Name="ch6SafeText" Grid.Row="1" Grid.Column="5" Text="{Binding OutputSafeValue[5], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Expander>
-        <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,654,0,0" VerticalAlignment="Top" Width="Auto">
-            <Grid x:Name="channelQSGrid" HorizontalAlignment="Left" Background="White" Height="54" VerticalAlignment="Top" Width="269">
+        <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,595,0,0" VerticalAlignment="Top" Width="Auto">
+            <Grid x:Name="channelQSGrid" HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Height="Auto" Width="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -737,10 +603,10 @@
                 <TextBlock x:Name="qsSafeText" Grid.Row="1" Grid.Column="5" Text="{Binding OutputSafeValue[6], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Expander>
-        <Button x:Name="qsButton" Content="ON" HorizontalAlignment="Left" Margin="1234,652,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QsButton_Click"/>
-        <Label Content="QS" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1173,646,0,0" VerticalAlignment="Top" Width="51" Height="32"/>
-        <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,710,0,-13.2" VerticalAlignment="Top" Width="Auto">
-            <Grid x:Name="channelQHGrid" HorizontalAlignment="Left" Background="White" Height="25" VerticalAlignment="Top" Width="209">
+        <Button x:Name="qsButton" Content="OFF" HorizontalAlignment="Left" Margin="1202,593,0,0" VerticalAlignment="Top" Width="50" RenderTransformOrigin="0.112,0.615" Click="QsButton_Click"/>
+        <Label Content="QS" FontSize="14" Foreground="White" HorizontalAlignment="Left" Margin="1151,590,0,0" VerticalAlignment="Top" Width="51" Height="32" RenderTransformOrigin="0.404,0.431"/>
+        <Expander HorizontalAlignment="Left" Height="Auto" Margin="1133,663,0,-21.8" VerticalAlignment="Top" Width="Auto">
+            <Grid x:Name="channelQHGrid" HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Height="Auto" Width="300">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -805,6 +671,30 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1133,197,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1182,197,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1234,197,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1283,197,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1133,277,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1182,277,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1234,277,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1283,277,0,0" VerticalAlignment="Top" Width="33" RenderTransformOrigin="0.564,2.958"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1133,357,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1182,357,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1234,357,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1283,357,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1133,433,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1182,433,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1234,433,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1283,433,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1133,508,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1182,508,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1234,508,0,0" VerticalAlignment="Top" Width="33"/>
+        <Image Source="Images/arrow.png" HorizontalAlignment="Left" Height="33" Margin="1283,508,0,0" VerticalAlignment="Top" Width="33"/>
+
+
+
+
 
 
 

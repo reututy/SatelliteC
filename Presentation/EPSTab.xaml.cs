@@ -74,46 +74,63 @@ namespace Presentation
             ch1OffDelText.DataContext = currConfig;
             ch1CurrOutText.DataContext = channel1;
             ch1Light.DataContext = channel1;
+            ch1NormalText.DataContext = currConfig;
+            ch1SafeText.DataContext = currConfig;
 
             channel2Grid.DataContext = channel2;
             ch2OnDelText.DataContext = currConfig;
             ch2OffDelText.DataContext = currConfig;
             ch2CurrOutText.DataContext = channel2;
             ch2Light.DataContext = channel2;
+            ch2NormalText.DataContext = currConfig;
+            ch2SafeText.DataContext = currConfig;
 
             channel3Grid.DataContext = channel3;
             ch3OnDelText.DataContext = currConfig;
             ch3OffDelText.DataContext = currConfig;
             ch3CurrOutText.DataContext = channel3;
             ch3Light.DataContext = channel3;
+            ch3NormalText.DataContext = currConfig;
+            ch3SafeText.DataContext = currConfig;
 
             channel4Grid.DataContext = channel4;
             ch4OnDelText.DataContext = currConfig;
             ch4OffDelText.DataContext = currConfig;
             ch4CurrOutText.DataContext = channel4;
             ch4Light.DataContext = channel4;
+            ch4NormalText.DataContext = currConfig;
+            ch4SafeText.DataContext = currConfig;
 
             channel5Grid.DataContext = channel5;
             ch5OnDelText.DataContext = currConfig;
             ch5OffDelText.DataContext = currConfig;
             ch5CurrOutText.DataContext = channel5;
             ch5Light.DataContext = channel5;
+            ch5NormalText.DataContext = currConfig;
+            ch5SafeText.DataContext = currConfig;
 
             channel6Grid.DataContext = channel6;
             ch6OnDelText.DataContext = currConfig;
             ch6OffDelText.DataContext = currConfig;
             ch6CurrOutText.DataContext = channel6;
             ch6Light.DataContext = channel6;
+            ch6NormalText.DataContext = currConfig;
+            ch6SafeText.DataContext = currConfig;
 
             channelQSGrid.DataContext = qs;
             qsOnDelText.DataContext = currConfig;
             qsOffDelText.DataContext = currConfig;
             qsLight.DataContext = qs;
+            qsNormalText.DataContext = currConfig;
+            qsSafeText.DataContext = currConfig;
 
             channelQHGrid.DataContext = qh;
             qhOnDelText.DataContext = currConfig;
             qhOffDelText.DataContext = currConfig;
             qhLight.DataContext = qh;
+            qhNormalText.DataContext = currConfig;
+            qhSafeText.DataContext = currConfig;
+
             //current config
             confGrid.DataContext = currConfig;
             //battery heater
@@ -121,12 +138,18 @@ namespace Presentation
             heaterModeText.DataContext = currConfig;
             heatLowText.DataContext = currConfig;
             heatHighText.DataContext = currConfig;
+
+            battHeatBorder.DataContext = heater;
             //WDTs
             wdtI2CGrid.DataContext = i2c;
             wdtGNDGrid.DataContext = gnd;
             wdtCSP0Grid.DataContext = csp0;
             wdtCSP1Grid.DataContext = csp1;
 
+            //other
+            lastResetText.DataContext = eps;
+            numRebootText.DataContext = eps;
+            numErrorsText.DataContext = eps;
             /*Task.Factory.StartNew(() => Thread.Sleep(1000))
             .ContinueWith((t) =>
             {
@@ -275,14 +298,15 @@ namespace Presentation
             if (ch1Button.Content.Equals("ON"))
             {
                 ch1Button.Content = "OFF";
-                eps.Outputs[(int)OutputType.T_3_3V1].Status = EPSConstants.ON;
+                eps.Outputs[(int)OutputType.T_3_3V1].Status = EPSConstants.ON;                
             }
             else
             {
                 ch1Button.Content = "ON";
                 eps.Outputs[(int)OutputType.T_3_3V1].Status = EPSConstants.OFF;
             }
-            
+            eps.UpdateLastOutputMask();
+
         }
 
         private void Ch2Button_Click(object sender, RoutedEventArgs e)
@@ -297,6 +321,7 @@ namespace Presentation
                 ch2Button.Content = "ON";
                 eps.Outputs[(int)OutputType.T_3_3V2].Status = EPSConstants.OFF;
             }
+            eps.UpdateLastOutputMask();
         }
         private void Ch3Button_Click(object sender, RoutedEventArgs e)
         {
@@ -310,6 +335,7 @@ namespace Presentation
                 ch3Button.Content = "ON";
                 eps.Outputs[(int)OutputType.T_3_3V3].Status = EPSConstants.OFF;
             }
+            eps.UpdateLastOutputMask();
         }
         private void Ch4Button_Click(object sender, RoutedEventArgs e)
         {
@@ -323,6 +349,7 @@ namespace Presentation
                 ch4Button.Content = "ON";
                 eps.Outputs[(int)OutputType.T_5V1].Status = EPSConstants.OFF;
             }
+            eps.UpdateLastOutputMask();
         }
         private void Ch5Button_Click(object sender, RoutedEventArgs e)
         {
@@ -336,6 +363,7 @@ namespace Presentation
                 ch5Button.Content = "ON";
                 eps.Outputs[(int)OutputType.T_5V2].Status = EPSConstants.OFF;
             }
+            eps.UpdateLastOutputMask();
         }
 
         private void Ch6Button_Click(object sender, RoutedEventArgs e)
@@ -350,6 +378,7 @@ namespace Presentation
                 ch6Button.Content = "ON";
                 eps.Outputs[(int)OutputType.T_5V3].Status = EPSConstants.OFF;
             }
+            eps.UpdateLastOutputMask();
         }
 
         private void QsButton_Click(object sender, RoutedEventArgs e)
@@ -364,6 +393,7 @@ namespace Presentation
                 qsButton.Content = "ON";
                 eps.Outputs[(int)OutputType.T_QS].Status = EPSConstants.OFF;
             }
+            eps.UpdateLastOutputMask();
         }
 
         private void QhButton_Click(object sender, RoutedEventArgs e)
@@ -378,6 +408,7 @@ namespace Presentation
                 qhButton.Content = "ON";
                 eps.Outputs[(int)OutputType.T_QH].Status = EPSConstants.OFF;
             }
+            eps.UpdateLastOutputMask();
         }
 
         private void KillSwitchButton_Click(object sender, RoutedEventArgs e)

@@ -16,11 +16,13 @@ namespace Presentation
             byte status = (byte)value;
             if (status == 0)
             {
-                return new SolidColorBrush(Colors.DarkBlue);
+                return Brushes.DarkBlue;
+               // return new SolidColorBrush(Colors.DarkBlue);
             }
             else
             {
-                return new SolidColorBrush(Colors.OrangeRed);
+                return Brushes.OrangeRed;
+                //return new SolidColorBrush(Colors.OrangeRed);
             }
         }
 

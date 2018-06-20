@@ -12,7 +12,7 @@ namespace DataModel.EPS
 
     public class Channel : Output
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChange;
 
         private ushort _currentOut;
         public ushort CurrentOut
@@ -23,11 +23,11 @@ namespace DataModel.EPS
             }
             set
             {
-                _currentOut = value;
-                if (PropertyChanged != null)
+                if (value >= EPSConstants.OUT_LATCHUP_PROTEC_I_MIN &&  value<= EPSConstants.OUT_LATCHUP_PROTEC_I_MAX)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("CurrentOut"));
+                    _currentOut = value;
                 }
+                NotifyPropertyChanged("CurrentOut");
             }
         }
 
@@ -41,10 +41,7 @@ namespace DataModel.EPS
             set
             {
                 _latchupNum = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("LatchupNum"));
-                }
+                NotifyPropertyChanged("LatchupNum");
             }
         }
 
