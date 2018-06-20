@@ -110,11 +110,8 @@ namespace DataModel.EPS
 
         public BatteryHeater(HeaterType type, byte status)
         {
-            //Mode = mod;
             Type = type;
             Status = status;
-            //BattHeaterLow = low;
-            //BattHeaterHigh = high;
         }
     }
 }

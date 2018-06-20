@@ -24,10 +24,7 @@ namespace DataModel.EPS
             set
             {
                 _status = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("Status"));
-                }
+                NotifyPropertyChanged("Status");
             }
         }
 
@@ -41,10 +38,7 @@ namespace DataModel.EPS
             set
             {
                 _channelType = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("ChannelType"));
-                }
+                NotifyPropertyChanged("ChannelType");
             }
         }
 
@@ -58,10 +52,16 @@ namespace DataModel.EPS
             set
             {
                 _volt = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("Volt"));
-                }
+                NotifyPropertyChanged("Volt");
+            }
+        }
+
+        protected void NotifyPropertyChanged(String propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
