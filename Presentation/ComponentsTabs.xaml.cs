@@ -31,10 +31,6 @@ namespace Presentation
             epspanel.Children.Add(ePXTab);
             ePXTab.Visibility = Visibility.Visible;
 
-            OBCTab oBCTab = new OBCTab();
-            obcpanel.Children.Add(oBCTab);
-            oBCTab.Visibility = Visibility.Visible;
-
         }
     }
 }

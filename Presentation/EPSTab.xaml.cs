@@ -371,6 +371,20 @@ namespace Presentation
                 eps.Outputs[(int)OutputType.T_QH].Status = EPSConstants.OFF;
             }
         }
+
+        private void Button_Click_11(object sender, RoutedEventArgs e)
+        {
+            string path = extract_file.Text;
+            String[] toWrite = GomEPS.logs.ToArray<String>();
+            try
+            {
+                System.IO.File.WriteAllLines(path, toWrite);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Illegal file path");
+            }
+        }
     }
 
 }

@@ -37,6 +37,7 @@ namespace Presentation
             this.isisTRXVU = isisTRXVU;
             rxBitRateSelect.ItemsSource = Enum.GetValues(typeof(ISIStrxvuBitrateStatus)).Cast<ISIStrxvuBitrateStatus>();
             txBitRateSelect.ItemsSource = Enum.GetValues(typeof(ISIStrxvuBitrateStatus)).Cast<ISIStrxvuBitrateStatus>();
+            logs.ItemsSource = IsisTRXVU.logs;
 
             var logThread = new Thread(() =>
             {
@@ -454,13 +455,14 @@ namespace Presentation
         private void Button_Click_11(object sender, RoutedEventArgs e)
         {
             string path = extract_file.Text;
+            String[] toWrite = IsisTRXVU.logs.ToArray<String>();
             try
             {
-                System.IO.File.WriteAllLines(path, isisTRXVU.logs.ToArray<String>());
+                System.IO.File.WriteAllLines(path, toWrite);
             }
-            catch(Exception)
+            catch (Exception)
             {
-                MessageBox.Show("File does not exist");
+                MessageBox.Show("Illegal file path");
             }
         }
     }
