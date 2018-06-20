@@ -261,14 +261,12 @@ namespace Presentation
             if (battHeaterButton.Content.Equals("ON"))
             {
                 battHeaterButton.Content = "OFF";
-                eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = EPSConstants.ON;
-                battHeatBorder.BorderBrush = new SolidColorBrush(Colors.OrangeRed);
+                eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = EPSConstants.ON; 
             }
             else
             {
                 battHeaterButton.Content = "ON";
                 eps.BatteryHeaters[EPSConstants.ONBOARD_HEATER].Status = EPSConstants.OFF;
-                battHeatBorder.BorderBrush = new SolidColorBrush(Colors.DarkBlue);
             }
         }
 
