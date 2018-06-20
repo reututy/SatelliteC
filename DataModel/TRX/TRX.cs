@@ -184,7 +184,6 @@ namespace DataModel.TRX
                 return Constants.E_TRXUV_FRAME_LENGTH;
             }
             ISIStrxvuBeaconOn = ISIStrxvuBeacon.trxvu_beacon_active;
-            this.Beacon = new AX25Frame(TRXConfiguration.FromDefClSign, TRXConfiguration.ToDefClSign, data);
             this.beaconInterval = interval;
             if (beaconThread != null)
             {
@@ -194,10 +193,12 @@ namespace DataModel.TRX
             {
                 while (true)
                 {
+                    this.Beacon = new AX25Frame(TRXConfiguration.FromDefClSign, TRXConfiguration.ToDefClSign, data);
                     System.Threading.Thread.Sleep(interval);
                     transmitter.SendFrame(this.Beacon);
                 }
             });
+            beaconThread.Start();
             return Constants.E_NO_SS_ERR;
         }
 
