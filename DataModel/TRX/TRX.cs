@@ -198,7 +198,6 @@ namespace DataModel.TRX
                     transmitter.SendFrame(this.Beacon);
                 }
             });
-            beaconThread.Start();
             return Constants.E_NO_SS_ERR;
         }
 
