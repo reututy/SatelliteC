@@ -695,7 +695,8 @@
 
 
 
-
+<Button Content="Extract Logs to file" HorizontalAlignment="Left" Margin="924,332,0,0" VerticalAlignment="Top" Width="161" Height="35" Click="Button_Click_11"/>
+        <TextBox x:Name="extract_file" HorizontalAlignment="Left" Height="33" Margin="757,293,0,0" Text="Enter file path to to extract logs" TextWrapping="Wrap" VerticalAlignment="Top" Width="328"/>
 
 
 
@@ -709,6 +710,6 @@
             <Ellipse.Effect>
                 <DropShadowEffect/>
             </Ellipse.Effect> -->
-
+       
     </Grid>
 </UserControl>
