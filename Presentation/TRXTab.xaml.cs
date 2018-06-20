@@ -38,6 +38,7 @@ namespace Presentation
             rxBitRateSelect.ItemsSource = Enum.GetValues(typeof(ISIStrxvuBitrateStatus)).Cast<ISIStrxvuBitrateStatus>();
             txBitRateSelect.ItemsSource = Enum.GetValues(typeof(ISIStrxvuBitrateStatus)).Cast<ISIStrxvuBitrateStatus>();
             logs.ItemsSource = IsisTRXVU.logs;
+            //isisTRXVU.IsisTrxvu_tcSetAx25BeaconDefClSign(0, Encoding.ASCII.GetBytes("abc"), 3, 2000);
 
             var logThread = new Thread(() =>
             {

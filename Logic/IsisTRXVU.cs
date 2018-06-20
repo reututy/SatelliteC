@@ -189,7 +189,7 @@ namespace Logic
          */
         public int IsisTrxvu_tcSetAx25BeaconDefClSign(byte index, byte[] data, byte length, ushort interval)
         {
-            logs.Add(DateTime.Now + " IsisTrxvu_tcSendAX25OvrClSign");
+            logs.Add(DateTime.Now + " IsisTrxvu_tcSetAx25BeaconDefClSign");
             logs.Add("index: " + index +", data: " + data + " ,length: " + length + " ,interval: " + interval);
             if (index < tRXes.Length)
             {
