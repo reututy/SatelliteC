@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DataModel.TRX
 {
@@ -15,13 +16,20 @@ namespace DataModel.TRX
         public void enqueue(Frame frame)
         {
             queue.Enqueue(frame);
-            queueCollection.Add(frame);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                queueCollection.Add(frame);
+            });
+            
         }
 
         public Frame dequeue()
         {
             Frame frame = queue.Dequeue();
-            queueCollection.Remove(frame);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                queueCollection.Remove(frame);
+            });
             return frame;
         }
 
@@ -38,7 +46,11 @@ namespace DataModel.TRX
         public void clear()
         {
             queue.Clear();
-            queueCollection.Clear();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                queueCollection.Clear();
+            });
+            
         }
     }
 }

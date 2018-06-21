@@ -185,6 +185,9 @@ namespace DataModel.TRX
             }
             ISIStrxvuBeaconOn = ISIStrxvuBeacon.trxvu_beacon_active;
             this.beaconInterval = interval;
+
+            this.Beacon = new AX25Frame(TRXConfiguration.FromDefClSign, TRXConfiguration.ToDefClSign, data);
+            transmitter.SendFrame(this.Beacon);
             if (beaconThread != null)
             {
                 beaconThread.Abort();
