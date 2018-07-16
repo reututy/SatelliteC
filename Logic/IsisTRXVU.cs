@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataModel;
 using DataModel.TRX;
-using static System.Net.Mime.MediaTypeNames;
+//using static System.Net.Mime.MediaTypeNames;
 
 namespace Logic
 {

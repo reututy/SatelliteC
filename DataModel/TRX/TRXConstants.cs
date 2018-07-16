@@ -82,7 +82,10 @@ namespace DataModel.TRX
             set
             {
                 _maxAX25frameLengthTX = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("maxAX25frameLengthTX"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("maxAX25frameLengthTX"));
+                }
             }
         }
         public uint _maxAX25frameLengthRX; ///< AX25 maximum frame size for reception.
@@ -92,7 +95,10 @@ namespace DataModel.TRX
             set
             {
                 _maxAX25frameLengthRX = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("maxAX25frameLengthRX"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("maxAX25frameLengthRX"));
+                }
             }
         }
         public override string ToString()

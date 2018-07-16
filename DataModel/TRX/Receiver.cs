@@ -18,7 +18,10 @@ namespace DataModel.TRX
             set
             {
                 bitrate = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RxBitrate"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("RxBitrate"));
+                }
             }
         }
 
@@ -26,8 +29,14 @@ namespace DataModel.TRX
         private ushort tx_current; ///< Rx Telemetry transmitter current.
         public ushort Tx_current {
             get { return tx_current;}
-            set { tx_current = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tx_current"));}
+            set 
+            { 
+                tx_current = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Tx_current"));
+                }
+            }
         }
 
         private ushort rx_doppler; ///< Rx Telemetry receiver doppler.
@@ -37,7 +46,10 @@ namespace DataModel.TRX
             set
             {
                 rx_doppler = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rx_doppler"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Rx_doppler"));
+                }
             }
         }
 
@@ -48,7 +60,10 @@ namespace DataModel.TRX
             set
             {
                 rx_current = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rx_current"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Rx_current"));
+                }
             }
         }
         private ushort bus_volt; ///< Rx Telemetry bus voltage.
@@ -58,7 +73,10 @@ namespace DataModel.TRX
             set
             {
                 bus_volt = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Bus_volt"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Bus_volt"));
+                }
             }
         }
         private ushort board_temp; ///< Rx Telemetry board temperature.
@@ -68,7 +86,10 @@ namespace DataModel.TRX
             set
             {
                 board_temp = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Board_temp"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Board_temp"));
+                }
             }
         }
         private ushort pa_temp; ///< Rx Telemetry power amplifier temperature.
@@ -78,7 +99,10 @@ namespace DataModel.TRX
             set
             {
                 pa_temp = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Pa_temp"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Pa_temp"));
+                }
             }
         }
         private ushort rx_rssi; ///< Rx Telemetry rssi measurement.
@@ -88,7 +112,10 @@ namespace DataModel.TRX
             set
             {
                 rx_rssi = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Rx_rssi"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Rx_rssi"));
+                }
             }
         }
 

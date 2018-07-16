@@ -18,7 +18,10 @@ namespace DataModel.TRX
             set
             {
                 state = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IdleState"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("IdleState"));
+                }
             }
         }
 
@@ -29,7 +32,10 @@ namespace DataModel.TRX
             set
             {
                 bitrate = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TxBitrate"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("TxBitrate"));
+                }
             }
         }
 
@@ -40,7 +46,10 @@ namespace DataModel.TRX
             set
             {
                 tx_reflpwr = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tx_reflpwr"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Tx_reflpwr"));
+                }
             }
         }
         private ushort pa_temp; ///< Tx Telemetry power amplifier temperature.
@@ -50,7 +59,10 @@ namespace DataModel.TRX
             set
             {
                 pa_temp = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Pa_temp"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Pa_temp"));
+                }
             }
         }
         private ushort tx_fwrdpwr; ///< Tx Telemetry forward power.
@@ -60,7 +72,10 @@ namespace DataModel.TRX
             set
             {
                 tx_fwrdpwr = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tx_fwrdpwr"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Tx_fwrdpwr"));
+                }
             }
         }
         private ushort tx_current; ///< Tx Telemetry transmitter current.
@@ -70,7 +85,10 @@ namespace DataModel.TRX
             set
             {
                 tx_current = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tx_current"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Tx_current"));
+                }
             }
         }
 

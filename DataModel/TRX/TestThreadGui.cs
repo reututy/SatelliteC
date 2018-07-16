@@ -23,7 +23,10 @@ namespace DataModel.TRX
             set
             {
                 _testt = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Testt"));
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("Testt"));
+                }
             }
         }
 

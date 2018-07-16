@@ -10,7 +10,7 @@ namespace DataModel.TRX
     {
         int counter;
         public ObservableQueue<Frame> frames;
-        private int MAX_FRAMES { get; }
+        private int MAX_FRAMES { get; set; }
 
         public FrameBuffer(int maxFrames)
         {

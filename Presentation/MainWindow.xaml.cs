@@ -33,7 +33,7 @@ namespace Presentation
             ChangePanel(new StartPage());         
         }
 
-        public static Panel Panel { get => panel; set => panel = value; }
+        public static Panel Panel { get { return panel; } set { panel = value; } }
 
         public static void ChangePanel(UserControl u)
         {

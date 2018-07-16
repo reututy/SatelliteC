@@ -25,7 +25,10 @@ namespace DataModel.TRX
                 if (this.frameId != value)
                 {
                     this.frameId = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FrameId"));
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs("FrameId"));
+                    }
                 }
             }
         }
